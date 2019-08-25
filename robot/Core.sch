@@ -4,7 +4,7 @@ EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 4
+Sheet 3 5
 Title "Core"
 Date "2019-06-29"
 Rev ""
@@ -51,4 +51,112 @@ F 3 "" H 5650 5600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5650 5350 5650 5600
+Text HLabel 6450 2850 2    50   Input ~ 0
+TXD
+Text HLabel 6450 3050 2    50   Input ~ 0
+RXD
+Wire Wire Line
+	6250 2850 6450 2850
+Wire Wire Line
+	6250 3050 6450 3050
+Text HLabel 6450 2750 2    50   Input ~ 0
+GPIO0
+Text HLabel 3400 2750 0    50   Input ~ 0
+EN
+Wire Wire Line
+	3400 2750 3650 2750
+Wire Wire Line
+	6250 2750 6450 2750
+$Comp
+L Device:C C?
+U 1 1 5D6294B0
+P 4200 3050
+F 0 "C?" H 4315 3096 50  0000 L CNN
+F 1 "1µ" H 4315 3005 50  0000 L CNN
+F 2 "" H 4238 2900 50  0001 C CNN
+F 3 "~" H 4200 3050 50  0001 C CNN
+	1    4200 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW?
+U 1 1 5D62C889
+P 3650 3100
+F 0 "SW?" V 3750 2950 50  0000 C CNN
+F 1 "SW_Push" V 3600 2850 50  0000 C CNN
+F 2 "" H 3650 3300 50  0001 C CNN
+F 3 "~" H 3650 3300 50  0001 C CNN
+	1    3650 3100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5D62DCB0
+P 3650 2450
+F 0 "R?" H 3720 2496 50  0000 L CNN
+F 1 "10k" H 3720 2405 50  0000 L CNN
+F 2 "" V 3580 2450 50  0001 C CNN
+F 3 "~" H 3650 2450 50  0001 C CNN
+	1    3650 2450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5D62E308
+P 3650 2200
+F 0 "#PWR?" H 3650 2050 50  0001 C CNN
+F 1 "+3V3" H 3665 2373 50  0000 C CNN
+F 2 "" H 3650 2200 50  0001 C CNN
+F 3 "" H 3650 2200 50  0001 C CNN
+	1    3650 2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D62E7C3
+P 3650 3400
+F 0 "#PWR?" H 3650 3150 50  0001 C CNN
+F 1 "GND" H 3655 3227 50  0000 C CNN
+F 2 "" H 3650 3400 50  0001 C CNN
+F 3 "" H 3650 3400 50  0001 C CNN
+	1    3650 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D62EDF6
+P 4200 3300
+F 0 "#PWR?" H 4200 3050 50  0001 C CNN
+F 1 "GND" H 4205 3127 50  0000 C CNN
+F 2 "" H 4200 3300 50  0001 C CNN
+F 3 "" H 4200 3300 50  0001 C CNN
+	1    4200 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3650 2200 3650 2300
+Wire Wire Line
+	3650 2600 3650 2750
+Connection ~ 3650 2750
+Wire Wire Line
+	3650 2750 4200 2750
+Wire Wire Line
+	3650 2900 3650 2750
+Wire Wire Line
+	3650 3400 3650 3300
+Wire Wire Line
+	4200 3300 4200 3200
+Wire Wire Line
+	4200 2900 4200 2750
+Connection ~ 4200 2750
+Wire Wire Line
+	4200 2750 5050 2750
+Text HLabel 4850 3950 0    50   BiDi ~ 0
+SDA_1
+Text HLabel 4850 4050 0    50   Output ~ 0
+SCL_1
+Wire Wire Line
+	4850 3950 5050 3950
+Wire Wire Line
+	4850 4050 5050 4050
 $EndSCHEMATC
