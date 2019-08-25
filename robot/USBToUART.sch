@@ -4,7 +4,7 @@ EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 4 5
+Sheet 4 7
 Title "USB To UART"
 Date "2019-06-29"
 Rev ""
@@ -150,7 +150,7 @@ NoConn ~ 3850 3650
 NoConn ~ 3850 3750
 NoConn ~ 3850 3850
 NoConn ~ 3850 3950
-Text HLabel 4100 3450 2    50   Output ~ 0
+Text HLabel 4100 3450 2    50   Input ~ 0
 RXD
 Text HLabel 4100 3350 2    50   Output ~ 0
 TXD

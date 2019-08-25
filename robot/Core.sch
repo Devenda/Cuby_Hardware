@@ -4,7 +4,7 @@ EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 5
+Sheet 3 7
 Title "Core"
 Date "2019-06-29"
 Rev ""
@@ -51,7 +51,7 @@ F 3 "" H 5650 5600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5650 5350 5650 5600
-Text HLabel 6450 2850 2    50   Input ~ 0
+Text HLabel 6450 2850 2    50   Output ~ 0
 TXD
 Text HLabel 6450 3050 2    50   Input ~ 0
 RXD
