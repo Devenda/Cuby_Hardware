@@ -1,0 +1,286 @@
+EESchema Schematic File Version 4
+LIBS:robot-cache
+EELAYER 29 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 8 8
+Title "User Interface"
+Date "2019-08-30"
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:LED D?
+U 1 1 5D6EDE25
+P 8150 4050
+F 0 "D?" V 8189 3933 50  0000 R CNN
+F 1 "BLUE" V 8098 3933 50  0000 R CNN
+F 2 "" H 8150 4050 50  0001 C CNN
+F 3 "~" H 8150 4050 50  0001 C CNN
+	1    8150 4050
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5D6EE4EA
+P 8150 3500
+F 0 "R?" H 8080 3454 50  0000 R CNN
+F 1 "150" H 8080 3545 50  0000 R CNN
+F 2 "" V 8080 3500 50  0001 C CNN
+F 3 "~" H 8150 3500 50  0001 C CNN
+	1    8150 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L Custom:SSD1306 U?
+U 1 1 5D6EEDF2
+P 5550 2850
+F 0 "U?" H 5450 2950 50  0000 L CNN
+F 1 "SSD1306" H 5350 2850 50  0000 L CNN
+F 2 "" H 5550 2850 50  0001 C CNN
+F 3 "" H 5550 2850 50  0001 C CNN
+	1    5550 2850
+	1    0    0    -1  
+$EndComp
+Text Notes 4600 2600 0    50   ~ 0
+OLED 128x32
+$Comp
+L Device:C C?
+U 1 1 5D6F2625
+P 4500 2950
+F 0 "C?" V 4450 2850 50  0000 C CNN
+F 1 "1µ" V 4550 3050 50  0000 C CNN
+F 2 "" H 4538 2800 50  0001 C CNN
+F 3 "~" H 4500 2950 50  0001 C CNN
+	1    4500 2950
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5D6F2A4C
+P 4500 3250
+F 0 "C?" V 4450 3150 50  0000 C CNN
+F 1 "1µ" V 4550 3350 50  0000 C CNN
+F 2 "" H 4538 3100 50  0001 C CNN
+F 3 "~" H 4500 3250 50  0001 C CNN
+	1    4500 3250
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5D6F3108
+P 4500 3550
+F 0 "C?" V 4450 3450 50  0000 C CNN
+F 1 "1µ" V 4550 3650 50  0000 C CNN
+F 2 "" H 4538 3400 50  0001 C CNN
+F 3 "~" H 4500 3550 50  0001 C CNN
+	1    4500 3550
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5D6F3CE1
+P 4500 4750
+F 0 "C?" V 4450 4650 50  0000 C CNN
+F 1 "4.7µ" V 4550 4900 50  0000 C CNN
+F 2 "" H 4538 4600 50  0001 C CNN
+F 3 "~" H 4500 4750 50  0001 C CNN
+	1    4500 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5D6F35D1
+P 4500 5000
+F 0 "C?" V 4550 5100 50  0000 C CNN
+F 1 "4.7µ" V 4450 4850 50  0000 C CNN
+F 2 "" H 4538 4850 50  0001 C CNN
+F 3 "~" H 4500 5000 50  0001 C CNN
+	1    4500 5000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5D6F69C8
+P 4500 4550
+F 0 "R?" V 4550 4700 50  0000 C CNN
+F 1 "330k" V 4450 4350 50  0000 C CNN
+F 2 "" V 4430 4550 50  0001 C CNN
+F 3 "~" H 4500 4550 50  0001 C CNN
+	1    4500 4550
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4650 4550 4850 4550
+Wire Wire Line
+	4850 4550 4850 4600
+Wire Wire Line
+	4850 4600 5050 4600
+Wire Wire Line
+	4650 4750 5050 4750
+Wire Wire Line
+	4650 5000 4850 5000
+Wire Wire Line
+	4850 5000 4850 4900
+Wire Wire Line
+	4850 4900 5050 4900
+Wire Wire Line
+	4650 2950 5050 2950
+Wire Wire Line
+	4350 2950 4250 2950
+Wire Wire Line
+	4250 2950 4250 3100
+Wire Wire Line
+	4250 3100 5050 3100
+Wire Wire Line
+	5050 3250 4650 3250
+Wire Wire Line
+	4350 3250 4250 3250
+Wire Wire Line
+	4250 3250 4250 3400
+Wire Wire Line
+	4250 3400 5050 3400
+Wire Wire Line
+	5050 3550 4800 3550
+Wire Wire Line
+	4350 3550 4050 3550
+Wire Wire Line
+	4050 3550 4050 3850
+Wire Wire Line
+	4350 5000 4050 5000
+Connection ~ 4050 5000
+Wire Wire Line
+	4050 5000 4050 5200
+Wire Wire Line
+	4350 4750 4050 4750
+Connection ~ 4050 4750
+Wire Wire Line
+	4050 4750 4050 5000
+Wire Wire Line
+	4350 4550 4050 4550
+Connection ~ 4050 4550
+Wire Wire Line
+	4050 4550 4050 4750
+Wire Wire Line
+	5050 3850 4050 3850
+Connection ~ 4050 3850
+Wire Wire Line
+	4050 3850 4050 4550
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5D6FA4C9
+P 3750 3900
+F 0 "#PWR?" H 3750 3750 50  0001 C CNN
+F 1 "+3V3" H 3765 4073 50  0000 C CNN
+F 2 "" H 3750 3900 50  0001 C CNN
+F 3 "" H 3750 3900 50  0001 C CNN
+	1    3750 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 3900 3750 4000
+Wire Wire Line
+	3750 4000 4800 4000
+$Comp
+L power:GND #PWR?
+U 1 1 5D6FB5BB
+P 4050 5200
+F 0 "#PWR?" H 4050 4950 50  0001 C CNN
+F 1 "GND" H 4055 5027 50  0000 C CNN
+F 2 "" H 4050 5200 50  0001 C CNN
+F 3 "" H 4050 5200 50  0001 C CNN
+	1    4050 5200
+	1    0    0    -1  
+$EndComp
+Text HLabel 4900 4150 0    50   Input ~ 0
+OLED_~RES
+Text HLabel 4900 4300 0    50   Input ~ 0
+OLED_SCL
+Text HLabel 4900 4450 0    50   BiDi ~ 0
+OLED_SDA
+Wire Wire Line
+	4900 4150 5050 4150
+Wire Wire Line
+	4900 4300 5050 4300
+Wire Wire Line
+	4900 4450 5050 4450
+Wire Wire Line
+	4800 3550 4800 4000
+Connection ~ 4800 3550
+Wire Wire Line
+	4800 3550 4650 3550
+Connection ~ 4800 4000
+Wire Wire Line
+	4800 4000 5050 4000
+$Comp
+L power:GND #PWR?
+U 1 1 5D6FEF4B
+P 8150 4400
+F 0 "#PWR?" H 8150 4150 50  0001 C CNN
+F 1 "GND" H 8155 4227 50  0000 C CNN
+F 2 "" H 8150 4400 50  0001 C CNN
+F 3 "" H 8150 4400 50  0001 C CNN
+	1    8150 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8150 3650 8150 3900
+Wire Wire Line
+	8150 4200 8150 4400
+Wire Wire Line
+	8150 3350 8150 3150
+Wire Wire Line
+	8150 3150 8100 3150
+Text HLabel 8100 3150 0    50   Input ~ 0
+STATUS_LED_BLUE
+Text Notes 8200 2600 0    50   ~ 0
+Status LEDS
+$Comp
+L Device:LED D?
+U 1 1 5D760843
+P 8900 4050
+F 0 "D?" V 8939 3932 50  0000 R CNN
+F 1 "GREEN" V 8848 3932 50  0000 R CNN
+F 2 "" H 8900 4050 50  0001 C CNN
+F 3 "~" H 8900 4050 50  0001 C CNN
+	1    8900 4050
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5D76084D
+P 8900 3500
+F 0 "R?" H 8830 3454 50  0000 R CNN
+F 1 "150" H 8830 3545 50  0000 R CNN
+F 2 "" V 8830 3500 50  0001 C CNN
+F 3 "~" H 8900 3500 50  0001 C CNN
+	1    8900 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D760857
+P 8900 4400
+F 0 "#PWR?" H 8900 4150 50  0001 C CNN
+F 1 "GND" H 8905 4227 50  0000 C CNN
+F 2 "" H 8900 4400 50  0001 C CNN
+F 3 "" H 8900 4400 50  0001 C CNN
+	1    8900 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8900 3650 8900 3900
+Wire Wire Line
+	8900 4200 8900 4400
+Wire Wire Line
+	8900 3350 8900 3150
+Wire Wire Line
+	8900 3150 8850 3150
+Text HLabel 8850 3150 0    50   Input ~ 0
+STATUS_LED_GRN
+$EndSCHEMATC

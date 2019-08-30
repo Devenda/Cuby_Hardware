@@ -4,7 +4,7 @@ EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 4 7
+Sheet 3 8
 Title "USB To UART"
 Date "2019-06-29"
 Rev ""
@@ -207,7 +207,7 @@ Wire Wire Line
 Wire Wire Line
 	5000 4450 5100 4450
 Text HLabel 5550 3450 2    50   Output ~ 0
-nRST
+~RST
 Text HLabel 5550 4800 2    50   Output ~ 0
 GPIO0
 Wire Wire Line

@@ -4,7 +4,7 @@ EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 7
+Sheet 8 8
 Title "Core"
 Date "2019-06-29"
 Rev ""
@@ -151,12 +151,88 @@ Wire Wire Line
 Connection ~ 4200 2750
 Wire Wire Line
 	4200 2750 5050 2750
-Text HLabel 4850 3950 0    50   BiDi ~ 0
+Text HLabel 6450 4150 2    50   BiDi ~ 0
 SDA_1
-Text HLabel 4850 4050 0    50   Output ~ 0
+Text HLabel 6450 4250 2    50   Output ~ 0
 SCL_1
+Text HLabel 6450 3350 2    50   Output ~ 0
+SCL_2
+Text HLabel 6450 3550 2    50   BiDi ~ 0
+SDA_2
+Text HLabel 6450 3450 2    50   Output ~ 0
+M2_BOUT2
+Text HLabel 4850 4150 0    50   Output ~ 0
+M2_BOUT1
+Wire Wire Line
+	6250 3350 6450 3350
+Wire Wire Line
+	6250 3550 6450 3550
+Text HLabel 4850 4250 0    50   Output ~ 0
+M2_AOUT2
+Text HLabel 4850 4450 0    50   Output ~ 0
+M2_AOUT1
+Text HLabel 4850 4350 0    50   Output ~ 0
+M1_AOUT1
+Text HLabel 4850 3950 0    50   Output ~ 0
+M1_AOUT2
+Wire Wire Line
+	6250 4250 6450 4250
+Wire Wire Line
+	6450 4150 6250 4150
+Text HLabel 4850 4050 0    50   Output ~ 0
+M1_BOUT1
+Text HLabel 6450 3650 2    50   Output ~ 0
+M1_BOUT2
+Text HLabel 6450 2950 2    50   Output ~ 0
+M1_M2_~SLEEP
 Wire Wire Line
 	4850 3950 5050 3950
 Wire Wire Line
 	4850 4050 5050 4050
+Wire Wire Line
+	4850 4150 5050 4150
+Wire Wire Line
+	4850 4250 5050 4250
+Wire Wire Line
+	4850 4350 5050 4350
+Wire Wire Line
+	4850 4450 5050 4450
+Wire Wire Line
+	6450 2950 6250 2950
+Wire Wire Line
+	6450 3450 6250 3450
+Wire Wire Line
+	6450 3650 6250 3650
+Text HLabel 6450 4950 2    50   Input ~ 0
+ED_IN1
+Text HLabel 6450 5050 2    50   Input ~ 0
+ED_IN2
+Wire Wire Line
+	6250 5050 6450 5050
+Wire Wire Line
+	6250 4950 6450 4950
+Text HLabel 6450 4450 2    50   Input ~ 0
+BAT_MON
+Text HLabel 6450 4750 2    50   Input ~ 0
+OD_INTERRUPT
+Text HLabel 6450 4850 2    50   Output ~ 0
+OD_SHUT
+Wire Wire Line
+	6250 4750 6450 4750
+Wire Wire Line
+	6250 4850 6450 4850
+Wire Wire Line
+	6250 4450 6450 4450
+Text HLabel 6450 3950 2    50   Output ~ 0
+STS_LED_BLUE
+Text HLabel 6450 4050 2    50   Output ~ 0
+STS_LED_BRN
+Wire Wire Line
+	6250 4050 6450 4050
+Wire Wire Line
+	6250 3950 6450 3950
+Text HLabel 6450 4350 2    50   Output ~ 0
+OLED_~RES
+Wire Wire Line
+	6250 4350 6450 4350
 $EndSCHEMATC

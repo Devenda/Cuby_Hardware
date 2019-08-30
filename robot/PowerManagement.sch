@@ -4,7 +4,7 @@ EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 7
+Sheet 2 8
 Title "Micro Sumo: Power Management"
 Date "2019-06-28"
 Rev ""
@@ -211,7 +211,7 @@ Wire Wire Line
 Text HLabel 8000 2100 2    50   Output ~ 0
 BAT_MON
 Text Notes 3500 3850 2    50   ~ 0
-BATTERY CHARGE & MONITOR
+BATTERY CHARGER & MONITOR
 $Comp
 L dk_PMIC-Voltage-Regulators-Linear:LD1117S33CTR U?
 U 1 1 5D1793ED
