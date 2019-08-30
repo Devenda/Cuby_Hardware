@@ -15,23 +15,487 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L dk_PMIC-Motor-Drivers-Controllers:A4988SETTR-T U?
-U 1 1 5D6404D9
-P 2550 2250
-F 0 "U?" H 3194 2253 60  0000 L CNN
-F 1 "A4988SETTR-T" H 3194 2147 60  0000 L CNN
-F 2 "digikey-footprints:VFQFN-28-1EP_5x5mm" H 2750 2450 60  0001 L CNN
-F 3 "http://www.allegromicro.com/~/media/Files/Datasheets/A4988-Datasheet.ashx" H 2750 2550 60  0001 L CNN
-F 4 "620-1343-1-ND" H 2750 2650 60  0001 L CNN "Digi-Key_PN"
-F 5 "A4988SETTR-T" H 2750 2750 60  0001 L CNN "MPN"
-F 6 "Integrated Circuits (ICs)" H 2750 2850 60  0001 L CNN "Category"
-F 7 "PMIC - Motor Drivers, Controllers" H 2750 2950 60  0001 L CNN "Family"
-F 8 "http://www.allegromicro.com/~/media/Files/Datasheets/A4988-Datasheet.ashx" H 2750 3050 60  0001 L CNN "DK_Datasheet_Link"
-F 9 "/product-detail/en/allegro-microsystems-llc/A4988SETTR-T/620-1343-1-ND/2238004" H 2750 3150 60  0001 L CNN "DK_Detail_Page"
-F 10 "IC MOTOR DRIVER PAR 28QFN" H 2750 3250 60  0001 L CNN "Description"
-F 11 "Allegro MicroSystems, LLC" H 2750 3350 60  0001 L CNN "Manufacturer"
-F 12 "Active" H 2750 3450 60  0001 L CNN "Status"
-	1    2550 2250
+L Driver_Motor:DRV8833PWP U?
+U 1 1 5D6819C7
+P 5550 2650
+F 0 "U?" H 6250 3100 50  0000 C CNN
+F 1 "DRV8833PWP" H 6250 2950 50  0000 C CNN
+F 2 "Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias" H 6000 3100 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/drv8833.pdf" H 5400 3200 50  0001 C CNN
+	1    5550 2650
 	1    0    0    -1  
 $EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D6829B3
+P 5500 3550
+F 0 "#PWR?" H 5500 3300 50  0001 C CNN
+F 1 "GND" H 5505 3377 50  0000 C CNN
+F 2 "" H 5500 3550 50  0001 C CNN
+F 3 "" H 5500 3550 50  0001 C CNN
+	1    5500 3550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5450 3350 5450 3450
+Wire Wire Line
+	5450 3450 5500 3450
+Wire Wire Line
+	5500 3450 5500 3550
+Wire Wire Line
+	5500 3450 5550 3450
+Wire Wire Line
+	5550 3450 5550 3350
+Connection ~ 5500 3450
+$Comp
+L Motor:Stepper_Motor_bipolar M?
+U 1 1 5D673CFA
+P 7650 2800
+F 0 "M?" H 7838 2924 50  0000 L CNN
+F 1 "Stepper_Motor_bipolar" H 7838 2833 50  0000 L CNN
+F 2 "" H 7660 2790 50  0001 C CNN
+F 3 "http://www.infineon.com/dgdl/Application-Note-TLE8110EE_driving_UniPolarStepperMotor_V1.1.pdf?fileId=db3a30431be39b97011be5d0aa0a00b0" H 7660 2790 50  0001 C CNN
+	1    7650 2800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 2750 6900 2750
+Wire Wire Line
+	6900 2750 6900 2350
+Wire Wire Line
+	6900 2350 7550 2350
+Wire Wire Line
+	7550 2350 7550 2500
+Wire Wire Line
+	7750 2500 7750 2250
+Wire Wire Line
+	7750 2250 7000 2250
+Wire Wire Line
+	7000 2250 7000 2850
+Wire Wire Line
+	7000 2850 6150 2850
+Wire Wire Line
+	6150 2950 7150 2950
+Wire Wire Line
+	7150 2950 7150 2700
+Wire Wire Line
+	7150 2700 7350 2700
+Wire Wire Line
+	7350 2900 7250 2900
+Wire Wire Line
+	7250 2900 7250 3050
+Wire Wire Line
+	7250 3050 6150 3050
+$Comp
+L Device:C C?
+U 1 1 5D684384
+P 5300 1700
+F 0 "C?" H 5415 1746 50  0000 L CNN
+F 1 "2.2µ" H 5415 1655 50  0000 L CNN
+F 2 "" H 5338 1550 50  0001 C CNN
+F 3 "~" H 5300 1700 50  0001 C CNN
+	1    5300 1700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D68634E
+P 5300 1900
+F 0 "#PWR?" H 5300 1650 50  0001 C CNN
+F 1 "GND" H 5305 1727 50  0000 C CNN
+F 2 "" H 5300 1900 50  0001 C CNN
+F 3 "" H 5300 1900 50  0001 C CNN
+	1    5300 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 1950 5750 1450
+Wire Wire Line
+	5750 1450 5300 1450
+Wire Wire Line
+	5300 1450 5300 1550
+Wire Wire Line
+	5300 1850 5300 1900
+$Comp
+L Device:C C?
+U 1 1 5D6907BC
+P 4300 1700
+F 0 "C?" H 4415 1746 50  0000 L CNN
+F 1 "0.01µ" H 4415 1655 50  0000 L CNN
+F 2 "" H 4338 1550 50  0001 C CNN
+F 3 "~" H 4300 1700 50  0001 C CNN
+	1    4300 1700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 1350 4300 1350
+Wire Wire Line
+	4300 1350 4300 1550
+Wire Wire Line
+	4300 1850 4300 2350
+Wire Wire Line
+	4300 2350 4950 2350
+$Comp
+L Device:C C?
+U 1 1 5D694F60
+P 6250 1700
+F 0 "C?" H 6365 1746 50  0000 L CNN
+F 1 "10µ" H 6365 1655 50  0000 L CNN
+F 2 "" H 6288 1550 50  0001 C CNN
+F 3 "~" H 6250 1700 50  0001 C CNN
+	1    6250 1700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6250 1850 6250 1900
+$Comp
+L power:GND #PWR?
+U 1 1 5D6965F5
+P 6250 1900
+F 0 "#PWR?" H 6250 1650 50  0001 C CNN
+F 1 "GND" H 6255 1727 50  0000 C CNN
+F 2 "" H 6250 1900 50  0001 C CNN
+F 3 "" H 6250 1900 50  0001 C CNN
+	1    6250 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 1350 5850 1950
+Wire Wire Line
+	6250 1350 5850 1350
+Wire Wire Line
+	6250 1350 6250 1550
+Connection ~ 5850 1350
+Wire Wire Line
+	5850 1350 5850 1250
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5D69785B
+P 5850 1250
+F 0 "#PWR?" H 5850 1100 50  0001 C CNN
+F 1 "+3V3" H 5865 1423 50  0000 C CNN
+F 2 "" H 5850 1250 50  0001 C CNN
+F 3 "" H 5850 1250 50  0001 C CNN
+	1    5850 1250
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6150 2550
+$Comp
+L Device:R R?
+U 1 1 5D699455
+P 3850 2800
+F 0 "R?" H 3920 2846 50  0000 L CNN
+F 1 "0.8" H 3920 2755 50  0000 L CNN
+F 2 "" V 3780 2800 50  0001 C CNN
+F 3 "~" H 3850 2800 50  0001 C CNN
+	1    3850 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5D699C1A
+P 4200 2800
+F 0 "R?" H 4270 2846 50  0000 L CNN
+F 1 "0.8" H 4270 2755 50  0000 L CNN
+F 2 "" V 4130 2800 50  0001 C CNN
+F 3 "~" H 4200 2800 50  0001 C CNN
+	1    4200 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D699FF9
+P 3850 3050
+F 0 "#PWR?" H 3850 2800 50  0001 C CNN
+F 1 "GND" H 3855 2877 50  0000 C CNN
+F 2 "" H 3850 3050 50  0001 C CNN
+F 3 "" H 3850 3050 50  0001 C CNN
+	1    3850 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D69A37B
+P 4200 3050
+F 0 "#PWR?" H 4200 2800 50  0001 C CNN
+F 1 "GND" H 4205 2877 50  0000 C CNN
+F 2 "" H 4200 3050 50  0001 C CNN
+F 3 "" H 4200 3050 50  0001 C CNN
+	1    4200 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3850 2650 3850 2450
+Wire Wire Line
+	3850 2450 4950 2450
+Wire Wire Line
+	4950 2550 4200 2550
+Wire Wire Line
+	4200 2550 4200 2650
+Wire Wire Line
+	3850 2950 3850 3050
+Wire Wire Line
+	4200 2950 4200 3050
+Text HLabel 4850 2750 0    50   Input ~ 0
+M1_AIN1
+Text HLabel 4850 2850 0    50   Input ~ 0
+M1_AIN2
+Text HLabel 4850 2950 0    50   Input ~ 0
+M1_BIN1
+Text HLabel 4850 3050 0    50   Input ~ 0
+M1_BIN2
+Wire Wire Line
+	4850 3050 4950 3050
+Wire Wire Line
+	4850 2950 4950 2950
+Wire Wire Line
+	4850 2850 4950 2850
+Wire Wire Line
+	4850 2750 4950 2750
+Text HLabel 4800 2250 0    50   Input ~ 0
+M1_SLEEP
+Wire Wire Line
+	4800 2250 4950 2250
+$Comp
+L Driver_Motor:DRV8833PWP U?
+U 1 1 5D6ABDA4
+P 5550 5250
+F 0 "U?" H 6250 5700 50  0000 C CNN
+F 1 "DRV8833PWP" H 6250 5550 50  0000 C CNN
+F 2 "Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias" H 6000 5700 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/drv8833.pdf" H 5400 5800 50  0001 C CNN
+	1    5550 5250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D6ABDAE
+P 5500 6150
+F 0 "#PWR?" H 5500 5900 50  0001 C CNN
+F 1 "GND" H 5505 5977 50  0000 C CNN
+F 2 "" H 5500 6150 50  0001 C CNN
+F 3 "" H 5500 6150 50  0001 C CNN
+	1    5500 6150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5450 5950 5450 6050
+Wire Wire Line
+	5450 6050 5500 6050
+Wire Wire Line
+	5500 6050 5500 6150
+Wire Wire Line
+	5500 6050 5550 6050
+Wire Wire Line
+	5550 6050 5550 5950
+Connection ~ 5500 6050
+$Comp
+L Motor:Stepper_Motor_bipolar M?
+U 1 1 5D6ABDBE
+P 7650 5400
+F 0 "M?" H 7838 5524 50  0000 L CNN
+F 1 "Stepper_Motor_bipolar" H 7838 5433 50  0000 L CNN
+F 2 "" H 7660 5390 50  0001 C CNN
+F 3 "http://www.infineon.com/dgdl/Application-Note-TLE8110EE_driving_UniPolarStepperMotor_V1.1.pdf?fileId=db3a30431be39b97011be5d0aa0a00b0" H 7660 5390 50  0001 C CNN
+	1    7650 5400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 5350 6900 5350
+Wire Wire Line
+	6900 5350 6900 4950
+Wire Wire Line
+	6900 4950 7550 4950
+Wire Wire Line
+	7550 4950 7550 5100
+Wire Wire Line
+	7750 5100 7750 4850
+Wire Wire Line
+	7750 4850 7000 4850
+Wire Wire Line
+	7000 4850 7000 5450
+Wire Wire Line
+	7000 5450 6150 5450
+Wire Wire Line
+	6150 5550 7150 5550
+Wire Wire Line
+	7150 5550 7150 5300
+Wire Wire Line
+	7150 5300 7350 5300
+Wire Wire Line
+	7350 5500 7250 5500
+Wire Wire Line
+	7250 5500 7250 5650
+Wire Wire Line
+	7250 5650 6150 5650
+$Comp
+L Device:C C?
+U 1 1 5D6ABDD6
+P 5300 4300
+F 0 "C?" H 5415 4346 50  0000 L CNN
+F 1 "2.2µ" H 5415 4255 50  0000 L CNN
+F 2 "" H 5338 4150 50  0001 C CNN
+F 3 "~" H 5300 4300 50  0001 C CNN
+	1    5300 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D6ABDE0
+P 5300 4500
+F 0 "#PWR?" H 5300 4250 50  0001 C CNN
+F 1 "GND" H 5305 4327 50  0000 C CNN
+F 2 "" H 5300 4500 50  0001 C CNN
+F 3 "" H 5300 4500 50  0001 C CNN
+	1    5300 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 4550 5750 4050
+Wire Wire Line
+	5750 4050 5300 4050
+Wire Wire Line
+	5300 4050 5300 4150
+Wire Wire Line
+	5300 4450 5300 4500
+$Comp
+L Device:C C?
+U 1 1 5D6ABDEE
+P 4300 4300
+F 0 "C?" H 4415 4346 50  0000 L CNN
+F 1 "0.01µ" H 4415 4255 50  0000 L CNN
+F 2 "" H 4338 4150 50  0001 C CNN
+F 3 "~" H 4300 4300 50  0001 C CNN
+	1    4300 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 3950 4300 3950
+Wire Wire Line
+	4300 3950 4300 4150
+Wire Wire Line
+	4300 4450 4300 4950
+Wire Wire Line
+	4300 4950 4950 4950
+$Comp
+L Device:C C?
+U 1 1 5D6ABDFC
+P 6250 4300
+F 0 "C?" H 6365 4346 50  0000 L CNN
+F 1 "10µ" H 6365 4255 50  0000 L CNN
+F 2 "" H 6288 4150 50  0001 C CNN
+F 3 "~" H 6250 4300 50  0001 C CNN
+	1    6250 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6250 4450 6250 4500
+$Comp
+L power:GND #PWR?
+U 1 1 5D6ABE07
+P 6250 4500
+F 0 "#PWR?" H 6250 4250 50  0001 C CNN
+F 1 "GND" H 6255 4327 50  0000 C CNN
+F 2 "" H 6250 4500 50  0001 C CNN
+F 3 "" H 6250 4500 50  0001 C CNN
+	1    6250 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 3950 5850 4550
+Wire Wire Line
+	6250 3950 5850 3950
+Wire Wire Line
+	6250 3950 6250 4150
+Connection ~ 5850 3950
+Wire Wire Line
+	5850 3950 5850 3850
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5D6ABE16
+P 5850 3850
+F 0 "#PWR?" H 5850 3700 50  0001 C CNN
+F 1 "+3V3" H 5865 4023 50  0000 C CNN
+F 2 "" H 5850 3850 50  0001 C CNN
+F 3 "" H 5850 3850 50  0001 C CNN
+	1    5850 3850
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6150 5150
+$Comp
+L Device:R R?
+U 1 1 5D6ABE21
+P 3850 5400
+F 0 "R?" H 3920 5446 50  0000 L CNN
+F 1 "0.8" H 3920 5355 50  0000 L CNN
+F 2 "" V 3780 5400 50  0001 C CNN
+F 3 "~" H 3850 5400 50  0001 C CNN
+	1    3850 5400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5D6ABE2B
+P 4200 5400
+F 0 "R?" H 4270 5446 50  0000 L CNN
+F 1 "0.8" H 4270 5355 50  0000 L CNN
+F 2 "" V 4130 5400 50  0001 C CNN
+F 3 "~" H 4200 5400 50  0001 C CNN
+	1    4200 5400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D6ABE35
+P 3850 5650
+F 0 "#PWR?" H 3850 5400 50  0001 C CNN
+F 1 "GND" H 3855 5477 50  0000 C CNN
+F 2 "" H 3850 5650 50  0001 C CNN
+F 3 "" H 3850 5650 50  0001 C CNN
+	1    3850 5650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5D6ABE3F
+P 4200 5650
+F 0 "#PWR?" H 4200 5400 50  0001 C CNN
+F 1 "GND" H 4205 5477 50  0000 C CNN
+F 2 "" H 4200 5650 50  0001 C CNN
+F 3 "" H 4200 5650 50  0001 C CNN
+	1    4200 5650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3850 5250 3850 5050
+Wire Wire Line
+	3850 5050 4950 5050
+Wire Wire Line
+	4950 5150 4200 5150
+Wire Wire Line
+	4200 5150 4200 5250
+Wire Wire Line
+	3850 5550 3850 5650
+Wire Wire Line
+	4200 5550 4200 5650
+Text HLabel 4850 5350 0    50   Input ~ 0
+M2_AIN1
+Text HLabel 4850 5450 0    50   Input ~ 0
+M2_AIN2
+Text HLabel 4850 5550 0    50   Input ~ 0
+M2_BIN1
+Text HLabel 4850 5650 0    50   Input ~ 0
+M2_BIN2
+Wire Wire Line
+	4850 5650 4950 5650
+Wire Wire Line
+	4850 5550 4950 5550
+Wire Wire Line
+	4850 5450 4950 5450
+Wire Wire Line
+	4850 5350 4950 5350
+Text HLabel 4800 4850 0    50   Input ~ 0
+M2_SLEEP
+Wire Wire Line
+	4800 4850 4950 4850
 $EndSCHEMATC
