@@ -15,10 +15,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L RF_Module:ESP32-WROOM-32 U?
+L RF_Module:ESP32-WROOM-32 U10
 U 1 1 5D2E3B23
 P 5650 3950
-F 0 "U?" H 6050 5300 50  0000 C CNN
+F 0 "U10" H 6050 5300 50  0000 C CNN
 F 1 "ESP32-WROOM-32" H 5150 5300 50  0000 C CNN
 F 2 "RF_Module:ESP32-WROOM-32" H 5650 2450 50  0001 C CNN
 F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf" H 5350 4000 50  0001 C CNN
@@ -68,10 +68,10 @@ Wire Wire Line
 Wire Wire Line
 	6250 2750 6450 2750
 $Comp
-L Device:C C?
+L Device:C C19
 U 1 1 5D6294B0
 P 4200 3050
-F 0 "C?" H 4315 3096 50  0000 L CNN
+F 0 "C19" H 4315 3096 50  0000 L CNN
 F 1 "1µ" H 4315 3005 50  0000 L CNN
 F 2 "" H 4238 2900 50  0001 C CNN
 F 3 "~" H 4200 3050 50  0001 C CNN
@@ -79,10 +79,10 @@ F 3 "~" H 4200 3050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Switch:SW_Push SW?
+L Switch:SW_Push SW1
 U 1 1 5D62C889
 P 3650 3100
-F 0 "SW?" V 3750 2950 50  0000 C CNN
+F 0 "SW1" V 3750 2950 50  0000 C CNN
 F 1 "SW_Push" V 3600 2850 50  0000 C CNN
 F 2 "" H 3650 3300 50  0001 C CNN
 F 3 "~" H 3650 3300 50  0001 C CNN
@@ -90,10 +90,10 @@ F 3 "~" H 3650 3300 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:R R?
+L Device:R R18
 U 1 1 5D62DCB0
 P 3650 2450
-F 0 "R?" H 3720 2496 50  0000 L CNN
+F 0 "R18" H 3720 2496 50  0000 L CNN
 F 1 "10k" H 3720 2405 50  0000 L CNN
 F 2 "" V 3580 2450 50  0001 C CNN
 F 3 "~" H 3650 2450 50  0001 C CNN
@@ -235,4 +235,12 @@ Text HLabel 6450 4350 2    50   Output ~ 0
 OLED_~RES
 Wire Wire Line
 	6250 4350 6450 4350
+NoConn ~ 6250 3150
+NoConn ~ 6250 3250
+NoConn ~ 6250 3750
+NoConn ~ 6250 3850
+NoConn ~ 6250 4550
+NoConn ~ 6250 4650
+NoConn ~ 5050 3050
+NoConn ~ 5050 2950
 $EndSCHEMATC
