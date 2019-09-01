@@ -47,7 +47,7 @@ Wire Wire Line
 Wire Wire Line
 	5250 4850 5250 4800
 Connection ~ 5050 4850
-Text HLabel 4750 3900 0    50   Output ~ 0
+Text HLabel 4300 3900 0    50   Output ~ 0
 ED_OUT1
 $Comp
 L Device:R R8
@@ -72,7 +72,7 @@ F 3 "~" H 4850 3650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4750 3900 4850 3900
+	4300 3900 4400 3900
 Wire Wire Line
 	4850 3900 4850 3800
 Wire Wire Line
@@ -135,7 +135,7 @@ Wire Wire Line
 Wire Wire Line
 	7050 4850 7050 4800
 Connection ~ 6850 4850
-Text HLabel 6550 3900 0    50   Output ~ 0
+Text HLabel 6100 3900 0    50   Output ~ 0
 ED_OUT2
 $Comp
 L Device:R R10
@@ -159,8 +159,6 @@ F 3 "~" H 6650 3650 50  0001 C CNN
 	1    6650 3650
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	6550 3900 6650 3900
 Wire Wire Line
 	6650 3900 6650 3800
 Wire Wire Line
@@ -190,4 +188,38 @@ F 3 "" H 6850 3200 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	6850 3200 6850 3400
+$Comp
+L Connector:TestPoint TP?
+U 1 1 5D78614B
+P 4400 3850
+F 0 "TP?" H 4458 3968 50  0000 L CNN
+F 1 "TestPoint" H 4458 3877 50  0000 L CNN
+F 2 "" H 4600 3850 50  0001 C CNN
+F 3 "~" H 4600 3850 50  0001 C CNN
+	1    4400 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP?
+U 1 1 5D787562
+P 6200 3850
+F 0 "TP?" H 6258 3968 50  0000 L CNN
+F 1 "TestPoint" H 6258 3877 50  0000 L CNN
+F 2 "" H 6400 3850 50  0001 C CNN
+F 3 "~" H 6400 3850 50  0001 C CNN
+	1    6200 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 3900 6200 3900
+Wire Wire Line
+	6200 3850 6200 3900
+Connection ~ 6200 3900
+Wire Wire Line
+	6200 3900 6650 3900
+Wire Wire Line
+	4400 3850 4400 3900
+Connection ~ 4400 3900
+Wire Wire Line
+	4400 3900 4850 3900
 $EndSCHEMATC
