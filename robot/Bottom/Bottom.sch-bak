@@ -53,7 +53,7 @@ U 1 1 5D673CFA
 P 5100 2750
 F 0 "M1" H 5288 2874 50  0000 L CNN
 F 1 "Stepper_Motor_bipolar" H 5288 2783 50  0000 L CNN
-F 2 "Custom:K976_Stepper" H 5110 2740 50  0001 C CNN
+F 2 "" H 5110 2740 50  0001 C CNN
 F 3 "http://www.infineon.com/dgdl/Application-Note-TLE8110EE_driving_UniPolarStepperMotor_V1.1.pdf?fileId=db3a30431be39b97011be5d0aa0a00b0" H 5110 2740 50  0001 C CNN
 	1    5100 2750
 	1    0    0    -1  
@@ -285,7 +285,7 @@ U 1 1 5D6ABDBE
 P 5100 5350
 F 0 "M2" H 5288 5474 50  0000 L CNN
 F 1 "Stepper_Motor_bipolar" H 5288 5383 50  0000 L CNN
-F 2 "Custom:K976_Stepper" H 5110 5340 50  0001 C CNN
+F 2 "" H 5110 5340 50  0001 C CNN
 F 3 "http://www.infineon.com/dgdl/Application-Note-TLE8110EE_driving_UniPolarStepperMotor_V1.1.pdf?fileId=db3a30431be39b97011be5d0aa0a00b0" H 5110 5340 50  0001 C CNN
 	1    5100 5350
 	1    0    0    -1  
