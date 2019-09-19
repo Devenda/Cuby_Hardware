@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "C:\\Users\\Tinus\\Documents\\Projects_on_GitHub\\Sumo Bot Hardware\\robot\\Bottom\\Bottom.sch")
-    (date "18/09/2019 20:15:40")
+    (date "18/09/2019 21:17:18")
     (tool "Eeschema (5.1.2)-1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -24,7 +24,7 @@
       (tstamp 5D6819C7))
     (comp (ref M1)
       (value Stepper_Motor_bipolar)
-      (footprint Custom:K976_Stepper)
+      (footprint Custom:Medium_Stepper)
       (datasheet http://www.infineon.com/dgdl/Application-Note-TLE8110EE_driving_UniPolarStepperMotor_V1.1.pdf?fileId=db3a30431be39b97011be5d0aa0a00b0)
       (libsource (lib Motor) (part Stepper_Motor_bipolar) (description "4-wire bipolar stepper motor"))
       (sheetpath (names /) (tstamps /))
@@ -73,7 +73,7 @@
       (tstamp 5D6ABDA4))
     (comp (ref M2)
       (value Stepper_Motor_bipolar)
-      (footprint Custom:K976_Stepper)
+      (footprint Custom:Medium_Stepper)
       (datasheet http://www.infineon.com/dgdl/Application-Note-TLE8110EE_driving_UniPolarStepperMotor_V1.1.pdf?fileId=db3a30431be39b97011be5d0aa0a00b0)
       (libsource (lib Motor) (part Stepper_Motor_bipolar) (description "4-wire bipolar stepper motor"))
       (sheetpath (names /) (tstamps /))
