@@ -579,7 +579,7 @@ U 1 1 5D78A6C2
 P 1800 3100
 F 0 "H2" H 1700 3050 50  0000 R CNN
 F 1 "VBAT_SWITCH" H 1700 3150 50  0000 R CNN
-F 2 "Custom:Mounting_Pad_Signal" H 1800 3250 50  0001 C CNN
+F 2 "Custom:Mounting_Pad_Power" H 1800 3250 50  0001 C CNN
 F 3 "" H 1800 3250 50  0001 C CNN
 	1    1800 3100
 	-1   0    0    1   
@@ -625,28 +625,6 @@ F 3 "" H 2500 5600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Custom:MountingPad H9
-U 1 1 5D7C2BBE
-P 3400 6000
-F 0 "H9" H 3550 5950 50  0000 R CNN
-F 1 "VBUS" H 3650 6050 50  0000 R CNN
-F 2 "Custom:Mounting_Pad_Power" H 3400 6150 50  0001 C CNN
-F 3 "" H 3400 6150 50  0001 C CNN
-	1    3400 6000
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:VBUS #PWR07
-U 1 1 5D7C2D9A
-P 3400 5600
-F 0 "#PWR07" H 3400 5450 50  0001 C CNN
-F 1 "VBUS" H 3415 5773 50  0000 C CNN
-F 2 "" H 3400 5600 50  0001 C CNN
-F 3 "" H 3400 5600 50  0001 C CNN
-	1    3400 5600
-	1    0    0    -1  
-$EndComp
-$Comp
 L Custom:MountingPad H8
 U 1 1 5D7C32E1
 P 2800 6000
@@ -670,8 +648,6 @@ F 3 "" H 2800 6400 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2500 5600 2500 5700
-Wire Wire Line
-	3400 5600 3400 5700
 Wire Wire Line
 	2800 6300 2800 6400
 Wire Wire Line

@@ -524,11 +524,11 @@ Text Label 10050 3350 0    50   ~ 0
 ED_IN1
 Text Label 10050 3650 0    50   ~ 0
 BAT_MON
-Text Label 10050 3050 0    50   ~ 0
+Text Label 10050 2850 0    50   ~ 0
 OLED_~RES
 Text Label 10050 2950 0    50   ~ 0
 OLED_SCL
-Text Label 10050 2850 0    50   ~ 0
+Text Label 10050 3050 0    50   ~ 0
 OLED_SDA
 Text Label 10050 2350 0    50   ~ 0
 M2_BOUT2

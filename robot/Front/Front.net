@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "C:\\Users\\Tinus\\Documents\\Projects_on_GitHub\\Sumo Bot Hardware\\robot\\Front\\Front.sch")
-    (date "21/09/2019 20:26:14")
+    (date "22/09/2019 15:22:37")
     (tool "Eeschema (5.1.2)-1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -556,10 +556,10 @@
       (node (ref H15) (pin 1))
       (node (ref U10) (pin 36)))
     (net (code 10) (name /OLED_~RES)
-      (node (ref U10) (pin 37))
+      (node (ref U10) (pin 33))
       (node (ref H16) (pin 1)))
     (net (code 11) (name /OLED_SDA)
-      (node (ref U10) (pin 33))
+      (node (ref U10) (pin 37))
       (node (ref H14) (pin 1)))
     (net (code 12) (name /ED_IN2)
       (node (ref H13) (pin 1))
