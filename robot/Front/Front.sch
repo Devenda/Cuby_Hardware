@@ -15,17 +15,6 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L RF_Module:ESP32-WROOM-32 U10
-U 1 1 5D72A796
-P 9250 2650
-F 0 "U10" H 9650 4000 50  0000 C CNN
-F 1 "ESP32-WROOM-32" H 8750 4000 50  0000 C CNN
-F 2 "RF_Module:ESP32-WROOM-32" H 9250 1150 50  0001 C CNN
-F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf" H 8950 2700 50  0001 C CNN
-	1    9250 2650
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:+3V3 #PWR047
 U 1 1 5D72A797
 P 9250 950
@@ -56,66 +45,62 @@ Wire Wire Line
 Wire Wire Line
 	9850 1750 10050 1750
 Wire Wire Line
-	7750 1450 8000 1450
+	7450 1450 7700 1450
 Wire Wire Line
 	9850 1450 10050 1450
 $Comp
 L Switch:SW_Push SW2
 U 1 1 5D62C889
-P 8000 1800
-F 0 "SW2" V 8100 1650 50  0000 C CNN
-F 1 "SW_Push" V 7950 1550 50  0000 C CNN
-F 2 "Button_Switch_SMD:Panasonic_EVQPUJ_EVQPUA" H 8000 2000 50  0001 C CNN
-F 3 "~" H 8000 2000 50  0001 C CNN
-	1    8000 1800
+P 7700 1800
+F 0 "SW2" V 7800 1650 50  0000 C CNN
+F 1 "SW_Push" V 7650 1550 50  0000 C CNN
+F 2 "Button_Switch_SMD:Panasonic_EVQPUJ_EVQPUA" H 7700 2000 50  0001 C CNN
+F 3 "~" H 7700 2000 50  0001 C CNN
+	1    7700 1800
 	0    -1   -1   0   
 $EndComp
 $Comp
 L Device:R R18
 U 1 1 5D62DCB0
-P 8000 1150
-F 0 "R18" H 8070 1196 50  0000 L CNN
-F 1 "10k" H 8070 1105 50  0000 L CNN
-F 2 "Resistors_SMD:R_0805" V 7930 1150 50  0001 C CNN
-F 3 "~" H 8000 1150 50  0001 C CNN
-	1    8000 1150
+P 7700 1150
+F 0 "R18" H 7770 1196 50  0000 L CNN
+F 1 "10k" H 7770 1105 50  0000 L CNN
+F 2 "Resistors_SMD:R_0805" V 7630 1150 50  0001 C CNN
+F 3 "~" H 7700 1150 50  0001 C CNN
+	1    7700 1150
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:+3V3 #PWR046
 U 1 1 5D62E308
-P 8000 900
-F 0 "#PWR046" H 8000 750 50  0001 C CNN
-F 1 "+3V3" H 8015 1073 50  0000 C CNN
-F 2 "" H 8000 900 50  0001 C CNN
-F 3 "" H 8000 900 50  0001 C CNN
-	1    8000 900 
+P 7700 900
+F 0 "#PWR046" H 7700 750 50  0001 C CNN
+F 1 "+3V3" H 7715 1073 50  0000 C CNN
+F 2 "" H 7700 900 50  0001 C CNN
+F 3 "" H 7700 900 50  0001 C CNN
+	1    7700 900 
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR049
 U 1 1 5D62E7C3
-P 8000 2100
-F 0 "#PWR049" H 8000 1850 50  0001 C CNN
-F 1 "GND" H 8005 1927 50  0000 C CNN
-F 2 "" H 8000 2100 50  0001 C CNN
-F 3 "" H 8000 2100 50  0001 C CNN
-	1    8000 2100
+P 7700 2100
+F 0 "#PWR049" H 7700 1850 50  0001 C CNN
+F 1 "GND" H 7705 1927 50  0000 C CNN
+F 2 "" H 7700 2100 50  0001 C CNN
+F 3 "" H 7700 2100 50  0001 C CNN
+	1    7700 2100
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8000 900  8000 1000
+	7700 900  7700 1000
 Wire Wire Line
-	8000 1300 8000 1450
-Connection ~ 8000 1450
+	7700 1300 7700 1450
+Connection ~ 7700 1450
 Wire Wire Line
-	8000 1600 8000 1450
+	7700 1600 7700 1450
 Wire Wire Line
-	8000 2100 8000 2000
-Wire Wire Line
-	9850 2050 10050 2050
-Wire Wire Line
-	9850 2250 10050 2250
+	7700 2100 7700 2000
 Wire Wire Line
 	9850 2950 10050 2950
 Wire Wire Line
@@ -139,29 +124,13 @@ Wire Wire Line
 Wire Wire Line
 	10050 2350 9850 2350
 Wire Wire Line
-	9850 3750 10050 3750
-Wire Wire Line
-	9850 3650 10050 3650
-Wire Wire Line
-	9850 3450 10050 3450
-Wire Wire Line
-	9850 3550 10050 3550
-Wire Wire Line
-	9850 3150 10050 3150
-Wire Wire Line
 	9850 2750 10050 2750
 Wire Wire Line
 	9850 2650 10050 2650
 Wire Wire Line
 	9850 3050 10050 3050
 NoConn ~ 9850 1850
-NoConn ~ 9850 1950
-NoConn ~ 9850 2450
-NoConn ~ 9850 2550
 NoConn ~ 9850 3250
-NoConn ~ 9850 3350
-NoConn ~ 8650 1750
-NoConn ~ 8650 1650
 $Comp
 L Device:C C?
 U 1 1 5D72A7A0
@@ -221,7 +190,7 @@ AR Path="/5D17B31F/5D72A7A5" Ref="C?"  Part="1"
 AR Path="/5D179377/5D72A7A5" Ref="C?"  Part="1" 
 AR Path="/5D72A7A5" Ref="C2"  Part="1" 
 F 0 "C2" H 4165 1896 50  0000 L CNN
-F 1 "10µ" H 4165 1805 50  0000 L CNN
+F 1 "22µ" H 4165 1805 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 4088 1700 50  0001 C CNN
 F 3 "~" H 4050 1850 50  0001 C CNN
 	1    4050 1850
@@ -360,7 +329,7 @@ Wire Wire Line
 	3150 2950 3650 2950
 Wire Wire Line
 	3150 3050 3650 3050
-Text Notes 8300 850  0    50   ~ 0
+Text Notes 8000 850  0    50   ~ 0
 ESP32-WROOM
 Text Notes 2600 950  0    50   ~ 0
 USB to UART
@@ -517,7 +486,7 @@ Text Label 9650 5000 2    50   ~ 0
 STATUS_LED_BLUE
 Text Label 10650 5000 2    50   ~ 0
 STATUS_LED_GRN
-Text Label 7750 1450 2    50   ~ 0
+Text Label 7450 1450 2    50   ~ 0
 ~RST
 Text Label 10050 1450 0    50   ~ 0
 GPIO0
@@ -525,17 +494,17 @@ Text Label 10050 1750 0    50   ~ 0
 TXD-RXD
 Text Label 10050 1550 0    50   ~ 0
 RXD-TXD
-Text Label 10050 2650 0    50   ~ 0
-STATUS_LED_BLUE
-Text Label 10050 2750 0    50   ~ 0
-STATUS_LED_GRN
-Text Label 10050 2050 0    50   ~ 0
-OD_SCL
-Text Label 10050 2250 0    50   ~ 0
-OD_SDA
 Text Label 10050 3450 0    50   ~ 0
+STATUS_LED_BLUE
+Text Label 10050 3750 0    50   ~ 0
+STATUS_LED_GRN
+Text Label 10050 2550 0    50   ~ 0
+OD_SCL
+Text Label 10050 1950 0    50   ~ 0
+OD_SDA
+Text Label 10050 2750 0    50   ~ 0
 OD_INTERRUPT
-Text Label 10050 3550 0    50   ~ 0
+Text Label 10050 2650 0    50   ~ 0
 OD_SHUT
 Text Label 8450 2650 2    50   ~ 0
 M2_AOUT2
@@ -549,11 +518,11 @@ Text Label 8450 3050 2    50   ~ 0
 M2_AOUT1
 Text Label 8450 3150 2    50   ~ 0
 M1_AOUT1
-Text Label 10050 3750 0    50   ~ 0
+Text Label 10050 2450 0    50   ~ 0
 ED_IN2
-Text Label 10050 3650 0    50   ~ 0
+Text Label 10050 3350 0    50   ~ 0
 ED_IN1
-Text Label 10050 3150 0    50   ~ 0
+Text Label 10050 3650 0    50   ~ 0
 BAT_MON
 Text Label 10050 3050 0    50   ~ 0
 OLED_~RES
@@ -567,8 +536,6 @@ Text Label 10050 2150 0    50   ~ 0
 M1_BOUT2
 Text Label 10050 1650 0    50   ~ 0
 M1_M2_~SLEEP
-Wire Wire Line
-	1350 5850 1550 5850
 Connection ~ 1350 5850
 Wire Wire Line
 	950  5850 1350 5850
@@ -586,56 +553,7 @@ F 3 "" H 950 5700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2050 6350 2050 6250
-Wire Wire Line
-	2000 6350 2050 6350
-Wire Wire Line
-	1950 6250 1950 6350
-Wire Wire Line
-	2000 6350 2000 6400
-Connection ~ 2000 6350
-Wire Wire Line
-	1950 6350 2000 6350
-$Comp
-L power:GND #PWR022
-U 1 1 5D7374A2
-P 2000 6400
-F 0 "#PWR022" H 2000 6150 50  0001 C CNN
-F 1 "GND" H 2005 6227 50  0000 C CNN
-F 2 "" H 2000 6400 50  0001 C CNN
-F 3 "" H 2000 6400 50  0001 C CNN
-	1    2000 6400
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
 	2650 5500 2650 5850
-Wire Wire Line
-	2650 6200 2650 6250
-Connection ~ 2650 5850
-Wire Wire Line
-	2650 5850 2650 5900
-$Comp
-L Device:C C6
-U 1 1 5D7374B6
-P 2650 6050
-F 0 "C6" H 2765 6096 50  0000 L CNN
-F 1 "10µ" H 2765 6005 50  0000 L CNN
-F 2 "Capacitors_SMD:C_0805" H 2688 5900 50  0001 C CNN
-F 3 "~" H 2650 6050 50  0001 C CNN
-	1    2650 6050
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR021
-U 1 1 5D7374BC
-P 2650 6250
-F 0 "#PWR021" H 2650 6000 50  0001 C CNN
-F 1 "GND" H 2655 6077 50  0000 C CNN
-F 2 "" H 2650 6250 50  0001 C CNN
-F 3 "" H 2650 6250 50  0001 C CNN
-	1    2650 6250
-	1    0    0    -1  
-$EndComp
 $Comp
 L power:+3V3 #PWR015
 U 1 1 5D7374C2
@@ -645,26 +563,6 @@ F 1 "+3V3" H 2665 5673 50  0000 C CNN
 F 2 "" H 2650 5500 50  0001 C CNN
 F 3 "" H 2650 5500 50  0001 C CNN
 	1    2650 5500
-	1    0    0    -1  
-$EndComp
-$Comp
-L dk_PMIC-Voltage-Regulators-Linear:LD1117S33CTR U3
-U 1 1 5D7374D1
-P 1950 5850
-F 0 "U3" H 2000 6137 60  0000 C CNN
-F 1 "LD1117S33CTR" H 2000 6031 60  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-223" H 2150 6050 60  0001 L CNN
-F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/99/3b/7d/91/91/51/4b/be/CD00000544.pdf/files/CD00000544.pdf/jcr:content/translations/en.CD00000544.pdf" H 2150 6150 60  0001 L CNN
-F 4 "497-1241-1-ND" H 2150 6250 60  0001 L CNN "Digi-Key_PN"
-F 5 "LD1117S33CTR" H 2150 6350 60  0001 L CNN "MPN"
-F 6 "Integrated Circuits (ICs)" H 2150 6450 60  0001 L CNN "Category"
-F 7 "PMIC - Voltage Regulators - Linear" H 2150 6550 60  0001 L CNN "Family"
-F 8 "http://www.st.com/content/ccc/resource/technical/document/datasheet/99/3b/7d/91/91/51/4b/be/CD00000544.pdf/files/CD00000544.pdf/jcr:content/translations/en.CD00000544.pdf" H 2150 6650 60  0001 L CNN "DK_Datasheet_Link"
-F 9 "/product-detail/en/stmicroelectronics/LD1117S33CTR/497-1241-1-ND/586241" H 2150 6750 60  0001 L CNN "DK_Detail_Page"
-F 10 "IC REG LINEAR 3.3V 800MA SOT223" H 2150 6850 60  0001 L CNN "Description"
-F 11 "STMicroelectronics" H 2150 6950 60  0001 L CNN "Manufacturer"
-F 12 "Active" H 2150 7050 60  0001 L CNN "Status"
-	1    1950 5850
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -883,8 +781,6 @@ F 3 "" H 5000 5800 50  0001 C CNN
 $EndComp
 Text Notes 4600 4800 0    50   ~ 0
 PADS TOP
-Wire Wire Line
-	2450 5850 2650 5850
 $Comp
 L Custom:MountingPad H1
 U 1 1 5D867781
@@ -1142,8 +1038,6 @@ F 3 "http://www.datasheet5.com/pdf-local-2195953" H 2400 3450 50  0001 C CNN
 $EndComp
 NoConn ~ 2350 2850
 NoConn ~ 2350 3050
-Wire Wire Line
-	8000 1450 8650 1450
 $Comp
 L Custom:MountingPad H24
 U 1 1 5D7A096E
@@ -1183,4 +1077,73 @@ Text Label 1500 2100 0    50   ~ 0
 D+
 Text Label 1500 2200 0    50   ~ 0
 D-
+$Comp
+L power:GND #PWR022
+U 1 1 5D7374A2
+P 1950 6350
+F 0 "#PWR022" H 1950 6100 50  0001 C CNN
+F 1 "GND" H 1955 6177 50  0000 C CNN
+F 2 "" H 1950 6350 50  0001 C CNN
+F 3 "" H 1950 6350 50  0001 C CNN
+	1    1950 6350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 6250 1950 6350
+Wire Wire Line
+	1350 5850 1550 5850
+Wire Wire Line
+	1550 5850 1550 5950
+Wire Wire Line
+	1550 5950 1650 5950
+Connection ~ 1550 5850
+Wire Wire Line
+	1550 5850 1650 5850
+Wire Wire Line
+	2250 5850 2650 5850
+NoConn ~ 2250 5950
+$Comp
+L Regulator_Linear:SPX3819M5-L-3-3 U3
+U 1 1 5D92E82C
+P 1950 5950
+F 0 "U3" H 1950 6292 50  0000 C CNN
+F 1 "SPX3819M5-L-3-3" H 1950 6201 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5" H 1950 6275 50  0001 C CNN
+F 3 "https://www.exar.com/content/document.ashx?id=22106&languageid=1033&type=Datasheet&partnumber=SPX3819&filename=SPX3819.pdf&part=SPX3819" H 1950 5950 50  0001 C CNN
+	1    1950 5950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9850 3350 10050 3350
+Wire Wire Line
+	9850 2450 10050 2450
+$Comp
+L RF_Module:ESP32-WROOM-32 U10
+U 1 1 5D72A796
+P 9250 2650
+F 0 "U10" H 9650 4000 50  0000 C CNN
+F 1 "ESP32-WROOM-32" H 8750 4000 50  0000 C CNN
+F 2 "RF_Module:ESP32-WROOM-32" H 9250 1150 50  0001 C CNN
+F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf" H 8950 2700 50  0001 C CNN
+	1    9250 2650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7700 1450 8650 1450
+Wire Wire Line
+	9850 1950 10050 1950
+Wire Wire Line
+	10050 2550 9850 2550
+NoConn ~ 9850 2050
+NoConn ~ 9850 2250
+NoConn ~ 9850 3550
+Wire Wire Line
+	9850 3750 10050 3750
+Wire Wire Line
+	10050 3450 9850 3450
+NoConn ~ 8650 1650
+NoConn ~ 8650 1750
+Wire Wire Line
+	10050 3650 9850 3650
+NoConn ~ 9850 3150
 $EndSCHEMATC
