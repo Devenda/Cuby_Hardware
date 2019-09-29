@@ -1,0 +1,104 @@
+EESchema Schematic File Version 4
+LIBS:Side-cache
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Side"
+Date "2019-09-29"
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector_Generic:Conn_01x01 J1
+U 1 1 5D908506
+P 3100 2400
+F 0 "J1" H 3180 2442 50  0000 L CNN
+F 1 "Conn_01x01" H 3180 2351 50  0000 L CNN
+F 2 "Custom:Axis" H 3100 2400 50  0001 C CNN
+F 3 "~" H 3100 2400 50  0001 C CNN
+	1    3100 2400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2900 2400 2650 2400
+Text Label 2650 2400 0    50   ~ 0
+VBUS
+$Comp
+L power:GND #PWR0101
+U 1 1 5D90DE5B
+P 3100 3200
+F 0 "#PWR0101" H 3100 2950 50  0001 C CNN
+F 1 "GND" H 3105 3027 50  0000 C CNN
+F 2 "" H 3100 3200 50  0001 C CNN
+F 3 "" H 3100 3200 50  0001 C CNN
+	1    3100 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5D90E330
+P 3100 3050
+F 0 "#FLG0101" H 3100 3125 50  0001 C CNN
+F 1 "PWR_FLAG" H 3100 3200 50  0000 C CNN
+F 2 "" H 3100 3050 50  0001 C CNN
+F 3 "~" H 3100 3050 50  0001 C CNN
+	1    3100 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3100 3050 3100 3200
+$Comp
+L Custom:MountingPad H1
+U 1 1 5D90F927
+P 2800 2850
+F 0 "H1" H 2600 2800 50  0000 L CNN
+F 1 "GND" H 2550 2700 50  0000 L CNN
+F 2 "Custom:Mounting_Pad_Power" H 2800 3000 50  0001 C CNN
+F 3 "" H 2800 3000 50  0001 C CNN
+	1    2800 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5D910E48
+P 2800 3200
+F 0 "#PWR0103" H 2800 2950 50  0001 C CNN
+F 1 "GND" H 2805 3027 50  0000 C CNN
+F 2 "" H 2800 3200 50  0001 C CNN
+F 3 "" H 2800 3200 50  0001 C CNN
+	1    2800 3200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2800 3150 2800 3200
+Wire Wire Line
+	3400 3150 3400 3200
+$Comp
+L power:GND #PWR0102
+U 1 1 5D910A58
+P 3400 3200
+F 0 "#PWR0102" H 3400 2950 50  0001 C CNN
+F 1 "GND" H 3405 3027 50  0000 C CNN
+F 2 "" H 3400 3200 50  0001 C CNN
+F 3 "" H 3400 3200 50  0001 C CNN
+	1    3400 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Custom:MountingPad H2
+U 1 1 5D90E7EF
+P 3400 2850
+F 0 "H2" H 3488 2788 50  0000 L CNN
+F 1 "GND" H 3488 2697 50  0000 L CNN
+F 2 "Custom:Mounting_Pad_Power" H 3400 3000 50  0001 C CNN
+F 3 "" H 3400 3000 50  0001 C CNN
+	1    3400 2850
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC

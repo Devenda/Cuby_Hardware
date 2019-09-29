@@ -1,0 +1,35 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# CJVL53L0XV2_NoMountingHoles-Custom
+#
+DEF CJVL53L0XV2_NoMountingHoles-Custom U 0 40 Y Y 1 F N
+F0 "U" -500 500 50 H V C CNN
+F1 "CJVL53L0XV2_NoMountingHoles-Custom" 300 500 50 H V C CNN
+F2 "" 0 200 50 H I C CNN
+F3 "" 0 200 50 H I C CNN
+DRAW
+S -600 -400 600 400 0 1 0 N
+X VCC 1 -500 -600 200 U 50 50 1 1 I
+X GND 2 -300 -600 200 U 50 50 1 1 I
+X SCL 3 -100 -600 200 U 50 50 1 1 I
+X SDA 4 100 -600 200 U 50 50 1 1 I
+X GPIO1 5 300 -600 200 U 50 50 1 1 O
+X XSHUT 6 500 -600 200 U 50 50 1 1 I
+ENDDRAW
+ENDDEF
+#
+# MountingPad-Custom
+#
+DEF MountingPad-Custom H 0 0 Y Y 1 F N
+F0 "H" 0 200 50 H V C CNN
+F1 "MountingPad-Custom" 0 150 50 H V C CNN
+F2 "" 0 150 50 H I C CNN
+F3 "" 0 150 50 H I C CNN
+DRAW
+S -50 100 50 -100 0 1 0 F
+X Pin 1 0 -300 200 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+#End Library
