@@ -1,8 +1,8 @@
 (export (version D)
   (design
-    (source "C:\\Users\\Tinus\\Documents\\Projects_on_GitHub\\Sumo Bot Hardware\\robot\\Bottom\\Bottom.sch")
-    (date "22/09/2019 17:56:39")
-    (tool "Eeschema (5.1.2)-1")
+    (source C:\Users\tinus\Documents\Projects_on_GitHub\robothardware\robot\Bottom\Bottom.sch)
+    (date "01/10/2019 12:49:07")
+    (tool "Eeschema (5.1.4)-1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title "Motor and Edge detection")
@@ -349,7 +349,7 @@
         (pin (num 4) (name ~) (type passive)))))
   (libraries
     (library (logical Custom)
-      (uri C:/Users/Tinus/Documents/Projects_on_GitHub/Kicad_Custom_Libraries/Custom.lib))
+      (uri C:/Users/tinus/Documents/Projects_on_GitHub/kicad_custom_libraries/Custom.lib))
     (library (logical Device)
       (uri "C:\\Program Files\\KiCad\\share\\kicad\\library/Device.lib"))
     (library (logical Driver_Motor)

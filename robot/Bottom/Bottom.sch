@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:Bottom-cache
-EELAYER 29 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -1116,4 +1116,69 @@ Wire Wire Line
 	4800 7350 4800 7450
 Wire Wire Line
 	5000 7350 5000 7450
+NoConn ~ 9150 5150
+NoConn ~ 9050 5150
+NoConn ~ 8750 5150
+NoConn ~ 8650 5150
+NoConn ~ 8350 5150
+NoConn ~ 8250 5150
+NoConn ~ 8350 6000
+NoConn ~ 8350 5750
+$Comp
+L Connector_Generic:Conn_01x01 J3
+U 1 1 5D93F861
+P 8550 6000
+F 0 "J3" H 8630 6042 50  0000 L CNN
+F 1 "Conn_01x01" H 8630 5951 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Horizontal" H 8550 6000 50  0001 C CNN
+F 3 "~" H 8550 6000 50  0001 C CNN
+	1    8550 6000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J2
+U 1 1 5D93EA93
+P 8550 5750
+F 0 "J2" H 8630 5792 50  0000 L CNN
+F 1 "Conn_01x01" H 8630 5701 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Horizontal" H 8550 5750 50  0001 C CNN
+F 3 "~" H 8550 5750 50  0001 C CNN
+	1    8550 5750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J5
+U 1 1 5D93E328
+P 9150 5350
+F 0 "J5" V 9022 5430 50  0000 L CNN
+F 1 "Conn_01x02" V 9250 5100 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Horizontal" H 9150 5350 50  0001 C CNN
+F 3 "~" H 9150 5350 50  0001 C CNN
+	1    9150 5350
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J4
+U 1 1 5D93DC92
+P 8750 5350
+F 0 "J4" V 8622 5430 50  0000 L CNN
+F 1 "Conn_01x02" V 8950 5100 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Horizontal" H 8750 5350 50  0001 C CNN
+F 3 "~" H 8750 5350 50  0001 C CNN
+	1    8750 5350
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J1
+U 1 1 5D9381E5
+P 8350 5350
+F 0 "J1" V 8222 5430 50  0000 L CNN
+F 1 "Conn_01x02" V 8450 5100 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Horizontal" H 8350 5350 50  0001 C CNN
+F 3 "~" H 8350 5350 50  0001 C CNN
+	1    8350 5350
+	0    1    1    0   
+$EndComp
+Text Notes 8550 5000 0    50   ~ 0
+Assembly
 $EndSCHEMATC
