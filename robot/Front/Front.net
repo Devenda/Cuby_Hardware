@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source C:\Users\tinus\Documents\Projects_on_GitHub\robothardware\robot\Front\Front.sch)
-    (date "11/10/2019 11:22:40")
+    (date "11/10/2019 14:33:54")
     (tool "Eeschema (5.1.4)-1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -29,7 +29,8 @@
       (footprint Resistor_SMD:R_0805_2012Metric)
       (datasheet ~)
       (fields
-        (field (name LCSC) C38522))
+        (field (name LCSC) C38522)
+        (field (name "Manufacturer Nbr") 0805W8F1002T5E))
       (libsource (lib Device) (part R) (description Resistor))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D62DCB0))
@@ -38,7 +39,8 @@
       (footprint Capacitor_SMD:C_0805_2012Metric)
       (datasheet ~)
       (fields
-        (field (name LCSC) C282732))
+        (field (name LCSC) C282732)
+        (field (name "Manufacturer Nbr") TCC0805X7R104K500DT))
       (libsource (lib Device) (part C) (description "Unpolarized capacitor"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D72A7A0))
@@ -47,7 +49,8 @@
       (footprint Capacitor_SMD:C_0805_2012Metric)
       (datasheet ~)
       (fields
-        (field (name LCSC) C5674))
+        (field (name LCSC) C5674)
+        (field (name "Manufacturer Nbr") CL21A226MQQNNNE))
       (libsource (lib Device) (part C) (description "Unpolarized capacitor"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D72A7A5))
@@ -56,7 +59,8 @@
       (footprint Package_TO_SOT_SMD:SOT-23)
       (datasheet http://www.infineon.com/dgdl/Infineon-BC847SERIES_BC848SERIES_BC849SERIES_BC850SERIES-DS-v01_01-en.pdf?fileId=db3a304314dca389011541d4630a1657)
       (fields
-        (field (name LCSC) C163753))
+        (field (name LCSC) C163753)
+        (field (name "Manufacturer Nbr") 2SC1623))
       (libsource (lib Transistor_BJT) (part BC849) (description "0.1A Ic, 30V Vce, NPN Transistor, SOT-23"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D727732))
@@ -65,7 +69,8 @@
       (footprint Package_TO_SOT_SMD:SOT-23)
       (datasheet http://www.infineon.com/dgdl/Infineon-BC847SERIES_BC848SERIES_BC849SERIES_BC850SERIES-DS-v01_01-en.pdf?fileId=db3a304314dca389011541d4630a1657)
       (fields
-        (field (name LCSC) C163753))
+        (field (name LCSC) C163753)
+        (field (name "Manufacturer Nbr") 2SC1623))
       (libsource (lib Transistor_BJT) (part BC849) (description "0.1A Ic, 30V Vce, NPN Transistor, SOT-23"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D727738))
@@ -74,7 +79,8 @@
       (footprint Resistor_SMD:R_0805_2012Metric)
       (datasheet ~)
       (fields
-        (field (name LCSC) C38522))
+        (field (name LCSC) C38522)
+        (field (name "Manufacturer Nbr") 0805W8F1002T5E))
       (libsource (lib Device) (part R) (description Resistor))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D72773E))
@@ -83,7 +89,8 @@
       (footprint Resistor_SMD:R_0805_2012Metric)
       (datasheet ~)
       (fields
-        (field (name LCSC) C38522))
+        (field (name LCSC) C38522)
+        (field (name "Manufacturer Nbr") 0805W8F1002T5E))
       (libsource (lib Device) (part R) (description Resistor))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D727744))
@@ -92,7 +99,8 @@
       (footprint LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder)
       (datasheet ~)
       (fields
-        (field (name LCSC) C84259))
+        (field (name LCSC) C84259)
+        (field (name "Manufacturer Nbr") FC-A2012BK-470H2))
       (libsource (lib Device) (part LED) (description "Light emitting diode"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D764F8C))
@@ -101,7 +109,8 @@
       (footprint Resistor_SMD:R_0805_2012Metric)
       (datasheet ~)
       (fields
-        (field (name LCSC) C25283))
+        (field (name LCSC) C25283)
+        (field (name "Manufacturer Nbr") 0805W8J0151T5E))
       (libsource (lib Device) (part R) (description Resistor))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D72A7B6))
@@ -110,7 +119,8 @@
       (footprint LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder)
       (datasheet ~)
       (fields
-        (field (name LCSC) C84260))
+        (field (name LCSC) C84260)
+        (field (name "Manufacturer Nbr") FC-2012UGK-520D5))
       (libsource (lib Device) (part LED) (description "Light emitting diode"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D765006))
@@ -119,7 +129,8 @@
       (footprint Resistor_SMD:R_0805_2012Metric)
       (datasheet ~)
       (fields
-        (field (name LCSC) C25283))
+        (field (name LCSC) C25283)
+        (field (name "Manufacturer Nbr") 0805W8J0151T5E))
       (libsource (lib Device) (part R) (description Resistor))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D76500C))
@@ -135,7 +146,8 @@
       (datasheet ~)
       (fields
         (field (name Farnell) 2782045)
-        (field (name LCSC) C40942))
+        (field (name LCSC) C40942)
+        (field (name "Manufacturer Nbr") C40942))
       (libsource (lib Connector) (part USB_B_Micro) (description "USB Micro Type B connector"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D7374D7))
@@ -282,7 +294,8 @@
       (footprint Package_SO:SOIC-16_3.9x9.9mm_P1.27mm)
       (datasheet http://www.datasheet5.com/pdf-local-2195953)
       (fields
-        (field (name LCSC) C84681))
+        (field (name LCSC) C84681)
+        (field (name "Manufacturer Nbr") CH340C))
       (libsource (lib Interface_USB) (part CH340G) (description "USB serial converter, UART, SOIC-16"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D72A79F))
@@ -297,7 +310,8 @@
       (footprint Package_TO_SOT_SMD:SOT-23-5)
       (datasheet https://www.exar.com/content/document.ashx?id=22106&languageid=1033&type=Datasheet&partnumber=SPX3819&filename=SPX3819.pdf&part=SPX3819)
       (fields
-        (field (name LCSC) C9055))
+        (field (name LCSC) C9055)
+        (field (name "Manufacturer Nbr") SPX3819M5-L-3-3/TR))
       (libsource (lib Regulator_Linear) (part SPX3819M5-L-3-3) (description "500mA Low drop-out regulator, Fixed Output 3.3V, SOT-23-5"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D92E82C))

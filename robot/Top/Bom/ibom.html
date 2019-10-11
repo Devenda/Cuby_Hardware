@@ -1,0 +1,2819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive BOM for KiCAD</title>
+  <style type="text/css">
+:root {
+  --pcb-edge-color: black;
+  --pad-color: #878787;
+  --pad-color-highlight: #D04040;
+  --pin1-outline-color: #ffb629;
+  --pin1-outline-color-highlight: #b4ff03;
+  --silkscreen-edge-color: #aa4;
+  --silkscreen-polygon-color: #4aa;
+  --silkscreen-text-color: #4aa;
+  --fabrication-edge-color: #907651;
+  --fabrication-polygon-color: #907651;
+  --fabrication-text-color: #a27c24;
+}
+
+html, body {
+  margin: 0px;
+  height: 100%;
+  font-family: Verdana, sans-serif;
+}
+
+.dark {
+  --pcb-edge-color: #eee;
+  --pad-color: #808080;
+  --pin1-outline-color: #ffa800;
+  --pin1-outline-color-highlight: #ccff00;
+  background-color: #252c30;
+  color: #eee;
+}
+
+button {
+  background-color: #eee;
+  border: 1px solid #888;
+  color: black;
+  height: 44px;
+  width: 44px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bolder;
+}
+
+.dark button {
+  /* This will be inverted */
+  background-color: #c3b7b5;
+}
+
+button.depressed {
+  background-color: #0a0;
+  color: white;
+}
+
+.dark button.depressed {
+  /* This will be inverted */
+  background-color: #b3b;
+}
+
+button:focus {
+  outline: 0;
+}
+
+button#tb-btn {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8.47 8.47'%3E%3Crect transform='translate(0 -288.53)' ry='1.17' y='288.8' x='.27' height='7.94' width='7.94' fill='%23f9f9f9'/%3E%3Cg transform='translate(0 -288.53)'%3E%3Crect width='7.94' height='7.94' x='.27' y='288.8' ry='1.17' fill='none' stroke='%23000' stroke-width='.4' stroke-linejoin='round'/%3E%3Cpath d='M1.32 290.12h5.82M1.32 291.45h5.82' fill='none' stroke='%23000' stroke-width='.4'/%3E%3Cpath d='M4.37 292.5v4.23M.26 292.63H8.2' fill='none' stroke='%23000' stroke-width='.3'/%3E%3Ctext font-weight='700' font-size='3.17' font-family='sans-serif'%3E%3Ctspan x='1.35' y='295.73'%3EF%3C/tspan%3E%3Ctspan x='5.03' y='295.68'%3EB%3C/tspan%3E%3C/text%3E%3C/g%3E%3C/svg%3E%0A");
+  background-size: 32px 32px;
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+}
+
+button#lr-btn {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8.47 8.47'%3E%3Crect transform='translate(0 -288.53)' ry='1.17' y='288.8' x='.27' height='7.94' width='7.94' fill='%23f9f9f9'/%3E%3Cg transform='translate(0 -288.53)'%3E%3Crect width='7.94' height='7.94' x='.27' y='288.8' ry='1.17' fill='none' stroke='%23000' stroke-width='.4' stroke-linejoin='round'/%3E%3Cpath d='M1.06 290.12H3.7m-2.64 1.33H3.7m-2.64 1.32H3.7m-2.64 1.3H3.7m-2.64 1.33H3.7' fill='none' stroke='%23000' stroke-width='.4'/%3E%3Cpath d='M4.37 288.8v7.94m0-4.11h3.96' fill='none' stroke='%23000' stroke-width='.3'/%3E%3Ctext font-weight='700' font-size='3.17' font-family='sans-serif'%3E%3Ctspan x='5.11' y='291.96'%3EF%3C/tspan%3E%3Ctspan x='5.03' y='295.68'%3EB%3C/tspan%3E%3C/text%3E%3C/g%3E%3C/svg%3E%0A");
+  background-size: 32px 32px;
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+}
+
+button#bom-btn {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8.47 8.47'%3E%3Crect transform='translate(0 -288.53)' ry='1.17' y='288.8' x='.27' height='7.94' width='7.94' fill='%23f9f9f9'/%3E%3Cg transform='translate(0 -288.53)' fill='none' stroke='%23000' stroke-width='.4'%3E%3Crect width='7.94' height='7.94' x='.27' y='288.8' ry='1.17' stroke-linejoin='round'/%3E%3Cpath d='M1.59 290.12h5.29M1.59 291.45h5.33M1.59 292.75h5.33M1.59 294.09h5.33M1.59 295.41h5.33'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 32px 32px;
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+}
+
+button#copy {
+  background-image: url("data:image/svg+xml,%3Csvg height='48' viewBox='0 0 48 48' width='48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h48v48h-48z' fill='none'/%3E%3Cpath d='M32 2h-24c-2.21 0-4 1.79-4 4v28h4v-28h24v-4zm6 8h-22c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h22c2.21 0 4-1.79 4-4v-28c0-2.21-1.79-4-4-4zm0 32h-22v-28h22v28z'/%3E%3C/svg%3E");
+  background-position: 6px 6px;
+  background-repeat: no-repeat;
+  background-size: 26px 26px;
+  border-radius: 6px;
+  height: 40px;
+  width: 40px;
+  margin: 10px 5px;
+}
+
+button#copy:active {
+    box-shadow: inset 0px 0px 5px #6c6c6c;
+}
+
+textarea.clipboard-temp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  border: None;
+  outline: None;
+  box-shadow: None;
+  background: transparent;
+}
+
+.left-most-button {
+  border-right: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.middle-button {
+  border-right: 0;
+}
+
+.right-most-button {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.button-container {
+  font-size: 0;
+}
+
+.dark .button-container {
+  filter: invert(1);
+}
+
+@media print {
+  .hideonprint {
+    display: none;
+  }
+}
+
+canvas {
+  cursor: crosshair;
+}
+
+canvas:active {
+  cursor: grabbing;
+}
+
+.fileinfo {
+  width: 100%;
+  max-width: 1000px;
+  border: none;
+  padding: 5px;
+}
+
+.fileinfo .title {
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+.fileinfo td {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 1px;
+  width: 50%;
+  text-overflow: ellipsis;
+}
+
+.bom {
+  border-collapse: collapse;
+  font-family: Consolas, "DejaVu Sans Mono", Monaco, monospace;
+  font-size: 10pt;
+  table-layout: fixed;
+  width: 100%;
+  margin-top: 1px;
+}
+
+.bom th, .bom td {
+  border: 1px solid black;
+  padding: 5px;
+  word-wrap: break-word;
+  text-align: center;
+  position: relative;
+}
+
+.dark .bom th, .dark .bom td {
+  border: 1px solid #777;
+}
+
+.bom th {
+  background-color: #CCCCCC;
+  background-clip: padding-box;
+}
+
+.dark .bom th {
+  background-color: #3b4749;
+}
+
+.bom tr.highlighted:nth-child(n) {
+  background-color: #cfc;
+}
+
+.dark .bom tr.highlighted:nth-child(n) {
+  background-color: #226022;
+}
+
+.bom tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.dark .bom tr:nth-child(even) {
+  background-color: #313b40;
+}
+
+.bom tr {
+  transition: background-color 0.2s;
+}
+
+.bom .numCol {
+  width: 25px;
+}
+
+.bom .Description {
+  width: 10%;
+}
+
+.bom .Part {
+  width: 10%;
+}
+
+.bom .Value {
+  width: 15%;
+}
+
+.bom .Quantity {
+  width: 65px;
+}
+
+.bom th .sortmark {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #221 transparent;
+  transform-origin: 50% 85%;
+  transition: opacity 0.2s, transform 0.4s;
+}
+
+.dark .bom th .sortmark {
+  filter: invert(1);
+}
+
+.bom th .sortmark.none {
+  opacity: 0;
+}
+
+.bom th .sortmark.desc {
+  transform: rotate(180deg);
+}
+
+.bom th:hover .sortmark.none {
+  opacity: 0.5;
+}
+
+.bom .bom-checkbox {
+  width: 30px;
+  position: relative;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.bom .bom-checkbox:before {
+  content: "";
+  position: absolute;
+  border-width: 15px;
+  border-style: solid;
+  border-color: #51829f transparent transparent transparent;
+  visibility: hidden;
+  top: -15px;
+}
+
+.bom .bom-checkbox:after {
+  content: "Double click to set/unset all";
+  position: absolute;
+  color: white;
+  top: -35px;
+  left: -26px;
+  background: #51829f;
+  padding: 5px 15px;
+  border-radius: 8px;
+  white-space: nowrap;
+  visibility: hidden;
+}
+
+.bom .bom-checkbox:hover:before, .bom .bom-checkbox:hover:after {
+  visibility: visible;
+  transition: visibility 0.2s linear 1s;
+}
+
+.split {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: inherit;
+}
+
+.split.split-horizontal, .gutter.gutter-horizontal {
+  height: 100%;
+  float: left;
+}
+
+.gutter {
+  background-color: #ddd;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transition: background-color 0.3s;
+}
+
+.dark .gutter {
+  background-color: #777;
+}
+
+.gutter.gutter-horizontal {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+  cursor: ew-resize;
+  width: 5px;
+}
+
+.gutter.gutter-vertical {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+  cursor: ns-resize;
+  height: 5px;
+}
+
+.searchbox {
+  float: left;
+  height: 40px;
+  margin: 10px 5px;
+  padding: 12px 32px;
+  font-family: Consolas, "DejaVu Sans Mono", Monaco, monospace;
+  font-size: 18px;
+  box-sizing: border-box;
+  border: 1px solid #888;
+  border-radius: 6px;
+  outline: none;
+  background-color: #eee;
+  transition: background-color 0.2s, border 0.2s;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABNklEQVQ4T8XSMUvDQBQH8P/LElFa/AIZHcTBQSz0I/gFstTBRR2KUC4ldDxw7h0Bl3RRUATxi4iiODgoiLNrbQYp5J6cpJJqomkX33Z37/14d/dIa33MzDuYI4johOI4XhyNRteO46zNYjDzAxE1yBZprVeZ+QbAUhXEGJMA2Ox2u4+fQIa0mPmsCgCgJYQ4t7lfgF0opQYAdv9ABkKI/UnOFCClXKjX61cA1osQY8x9kiRNKeV7IWA3oyhaSdP0FkAtjxhj3hzH2RBCPOf3pzqYHCilfAAX+URm9oMguPzeWSGQvUcMYC8rOBJCHBRdqxTo9/vbRHRqi8bj8XKv1xvODbiuW2u32/bvf0SlDv4XYOY7z/Mavu+nM1+BmQ+NMc0wDF/LprP0DbTWW0T00ul0nn4b7Q87+X4Qmfiq2wAAAABJRU5ErkJggg==');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+}
+
+.dark .searchbox {
+  background-color: #111;
+  color: #eee;
+}
+
+.searchbox::placeholder {
+  color: #ccc;
+}
+
+.dark .searchbox::placeholder {
+  color: #666;
+}
+
+.filter {
+  width: calc(60% - 64px);
+}
+
+.reflookup {
+  width: calc(40% - 10px);
+}
+
+input[type=text]:focus {
+  background-color: white;
+  border: 1px solid #333;
+}
+
+.dark input[type=text]:focus {
+  background-color: #333;
+  border: 1px solid #ccc;
+}
+
+mark.highlight {
+  background-color: #5050ff;
+  color: #fff;
+  padding: 2px;
+  border-radius: 6px;
+}
+
+.dark mark.highlight {
+  background-color: #76a6da;
+  color: #111;
+}
+
+.menubtn {
+  background-color: white;
+  border: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 20 20'%3E%3Cpath fill='none' d='M0 0h20v20H0V0z'/%3E%3Cpath d='M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z'/%3E%3C/svg%3E%0A");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.statsbtn {
+  background-color: white;
+  border: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9.52 9.53'%3E%3Cg fill='none' stroke-width='.53'%3E%3Cpath d='M.8.8h7.4v7.67H.8z' stroke='%23666'/%3E%3Cpath d='M8.73 1.06V9H1.06' stroke='%23ccc'/%3E%3Cpath d='M1.85 2.12H3.7M4.5 2.12h1.06M6.09 2.12h1.05M1.85 3.44H3.7M4.5 3.44h1.06M6.09 3.44h1.05M1.85 5.3h1.33M1.85 6.88h1.32M3.97 6.88H6.6M3.97 5.3h3.17' stroke='%23000'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.dark .statsbtn {
+  filter: invert(1);
+}
+
+.stats {
+  border-collapse: collapse;
+  font-size: 12pt;
+  table-layout: fixed;
+  width: 100%;
+  min-width: 450px;
+}
+
+.dark .stats td {
+  border: 1px solid #bbb;
+}
+
+.stats td {
+  border: 1px solid black;
+  padding: 5px;
+  word-wrap: break-word;
+  text-align: center;
+  position: relative;
+}
+
+#checkbox-stats div {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#checkbox-stats .bar {
+  background-color: rgba(28, 251, 0, 0.6);
+}
+
+.dark .menubtn {
+  filter: invert(1);
+}
+
+.menu {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  right: 0;
+  min-width: 300px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  padding: 8px;
+}
+
+.dark .menu-content {
+  background-color: #111;
+}
+
+.menu:hover .menu-content {
+  display: block;
+}
+
+.menu:hover .menubtn {
+  background-color: #eee;
+}
+
+.dark .menu:hover .menubtn {}
+
+.menu-label {
+  display: inline-block;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-top: 0;
+  width: calc(100% - 18px);
+}
+
+.menu-label-top {
+  border-top: 1px solid #ccc;
+}
+
+.menu-textbox {
+  float: left;
+  height: 24px;
+  margin: 10px 5px;
+  padding: 5px 5px;
+  font-family: Consolas, "DejaVu Sans Mono", Monaco, monospace;
+  font-size: 14px;
+  box-sizing: border-box;
+  border: 1px solid #888;
+  border-radius: 4px;
+  outline: none;
+  background-color: #eee;
+  transition: background-color 0.2s, border 0.2s;
+  width: calc(100% - 10px);
+}
+
+.dark .menu-textbox {
+  background-color: #222;
+  color: #eee;
+}
+
+#topmostdiv {
+  transition: background-color 0.3s;
+}
+
+#top {
+  height: 78px;
+  border-bottom: 2px solid black;
+}
+
+.dark #top {
+  border-bottom: 2px solid #ccc;
+}
+
+#dbg {
+  display: block;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #aaa;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 3px 0;
+  padding: 0;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-radius: 3px;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider:focus {
+  outline: none;
+}
+
+.slider::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #d3d3d3;
+  border-radius: 3px;
+  border: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #0a0;
+  cursor: pointer;
+  margin-top: -4px;
+}
+
+.dark .slider::-webkit-slider-thumb {
+  background: #3d3;
+}
+
+.slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #0a0;
+  cursor: pointer;
+}
+
+.slider::-moz-range-track {
+  height: 8px;
+  background: #d3d3d3;
+  border-radius: 3px;
+}
+
+.dark .slider::-moz-range-thumb {
+  background: #3d3;
+}
+
+.slider::-ms-track {
+  width: 100%;
+  height: 8px;
+  border-width: 3px 0;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+  transition: opacity .2s;
+}
+
+.slider::-ms-fill-lower {
+  background: #d3d3d3;
+  border: none;
+  border-radius: 3px;
+}
+
+.slider::-ms-fill-upper {
+  background: #d3d3d3;
+  border: none;
+  border-radius: 3px;
+}
+
+.slider::-ms-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #0a0;
+  cursor: pointer;
+  margin: 0;
+}
+
+.shameless-plug {
+  font-size: 0.8em;
+  text-align: center;
+  display: block;
+}
+
+a {
+  color: #0278a4;
+}
+
+.dark a {
+  color: #00b9fd;
+}
+
+#frontcanvas, #backcanvas {
+    touch-action: none;
+}
+
+  </style>
+  <script type="text/javascript" >
+///////////////////////////////////////////////
+/*
+  Split.js - v1.3.5
+  MIT License
+  https://github.com/nathancahill/Split.js
+*/
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):e.Split=t()}(this,function(){"use strict";var e=window,t=e.document,n="addEventListener",i="removeEventListener",r="getBoundingClientRect",s=function(){return!1},o=e.attachEvent&&!e[n],a=["","-webkit-","-moz-","-o-"].filter(function(e){var n=t.createElement("div");return n.style.cssText="width:"+e+"calc(9px)",!!n.style.length}).shift()+"calc",l=function(e){return"string"==typeof e||e instanceof String?t.querySelector(e):e};return function(u,c){function z(e,t,n){var i=A(y,t,n);Object.keys(i).forEach(function(t){return e.style[t]=i[t]})}function h(e,t){var n=B(y,t);Object.keys(n).forEach(function(t){return e.style[t]=n[t]})}function f(e){var t=E[this.a],n=E[this.b],i=t.size+n.size;t.size=e/this.size*i,n.size=i-e/this.size*i,z(t.element,t.size,this.aGutterSize),z(n.element,n.size,this.bGutterSize)}function m(e){var t;this.dragging&&((t="touches"in e?e.touches[0][b]-this.start:e[b]-this.start)<=E[this.a].minSize+M+this.aGutterSize?t=E[this.a].minSize+this.aGutterSize:t>=this.size-(E[this.b].minSize+M+this.bGutterSize)&&(t=this.size-(E[this.b].minSize+this.bGutterSize)),f.call(this,t),c.onDrag&&c.onDrag())}function g(){var e=E[this.a].element,t=E[this.b].element;this.size=e[r]()[y]+t[r]()[y]+this.aGutterSize+this.bGutterSize,this.start=e[r]()[G]}function d(){var t=this,n=E[t.a].element,r=E[t.b].element;t.dragging&&c.onDragEnd&&c.onDragEnd(),t.dragging=!1,e[i]("mouseup",t.stop),e[i]("touchend",t.stop),e[i]("touchcancel",t.stop),t.parent[i]("mousemove",t.move),t.parent[i]("touchmove",t.move),delete t.stop,delete t.move,n[i]("selectstart",s),n[i]("dragstart",s),r[i]("selectstart",s),r[i]("dragstart",s),n.style.userSelect="",n.style.webkitUserSelect="",n.style.MozUserSelect="",n.style.pointerEvents="",r.style.userSelect="",r.style.webkitUserSelect="",r.style.MozUserSelect="",r.style.pointerEvents="",t.gutter.style.cursor="",t.parent.style.cursor=""}function S(t){var i=this,r=E[i.a].element,o=E[i.b].element;!i.dragging&&c.onDragStart&&c.onDragStart(),t.preventDefault(),i.dragging=!0,i.move=m.bind(i),i.stop=d.bind(i),e[n]("mouseup",i.stop),e[n]("touchend",i.stop),e[n]("touchcancel",i.stop),i.parent[n]("mousemove",i.move),i.parent[n]("touchmove",i.move),r[n]("selectstart",s),r[n]("dragstart",s),o[n]("selectstart",s),o[n]("dragstart",s),r.style.userSelect="none",r.style.webkitUserSelect="none",r.style.MozUserSelect="none",r.style.pointerEvents="none",o.style.userSelect="none",o.style.webkitUserSelect="none",o.style.MozUserSelect="none",o.style.pointerEvents="none",i.gutter.style.cursor=j,i.parent.style.cursor=j,g.call(i)}function v(e){e.forEach(function(t,n){if(n>0){var i=F[n-1],r=E[i.a],s=E[i.b];r.size=e[n-1],s.size=t,z(r.element,r.size,i.aGutterSize),z(s.element,s.size,i.bGutterSize)}})}function p(){F.forEach(function(e){e.parent.removeChild(e.gutter),E[e.a].element.style[y]="",E[e.b].element.style[y]=""})}void 0===c&&(c={});var y,b,G,E,w=l(u[0]).parentNode,D=e.getComputedStyle(w).flexDirection,U=c.sizes||u.map(function(){return 100/u.length}),k=void 0!==c.minSize?c.minSize:100,x=Array.isArray(k)?k:u.map(function(){return k}),L=void 0!==c.gutterSize?c.gutterSize:10,M=void 0!==c.snapOffset?c.snapOffset:30,O=c.direction||"horizontal",j=c.cursor||("horizontal"===O?"ew-resize":"ns-resize"),C=c.gutter||function(e,n){var i=t.createElement("div");return i.className="gutter gutter-"+n,i},A=c.elementStyle||function(e,t,n){var i={};return"string"==typeof t||t instanceof String?i[e]=t:i[e]=o?t+"%":a+"("+t+"% - "+n+"px)",i},B=c.gutterStyle||function(e,t){return n={},n[e]=t+"px",n;var n};"horizontal"===O?(y="width","clientWidth",b="clientX",G="left","paddingLeft"):"vertical"===O&&(y="height","clientHeight",b="clientY",G="top","paddingTop");var F=[];return E=u.map(function(e,t){var i,s={element:l(e),size:U[t],minSize:x[t]};if(t>0&&(i={a:t-1,b:t,dragging:!1,isFirst:1===t,isLast:t===u.length-1,direction:O,parent:w},i.aGutterSize=L,i.bGutterSize=L,i.isFirst&&(i.aGutterSize=L/2),i.isLast&&(i.bGutterSize=L/2),"row-reverse"===D||"column-reverse"===D)){var a=i.a;i.a=i.b,i.b=a}if(!o&&t>0){var c=C(t,O);h(c,L),c[n]("mousedown",S.bind(i)),c[n]("touchstart",S.bind(i)),w.insertBefore(c,s.element),i.gutter=c}0===t||t===u.length-1?z(s.element,s.size,L/2):z(s.element,s.size,L);var f=s.element[r]()[y];return f<s.minSize&&(s.minSize=f),t>0&&F.push(i),s}),o?{setSizes:v,destroy:p}:{setSizes:v,getSizes:function(){return E.map(function(e){return e.size})},collapse:function(e){if(e===F.length){var t=F[e-1];g.call(t),o||f.call(t,t.size-t.bGutterSize)}else{var n=F[e];g.call(n),o||f.call(n,n.aGutterSize)}},destroy:p}}});
+
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+/*!
+ * PEP v0.4.3 | https://github.com/jquery/PEP
+ * Copyright jQuery Foundation and other contributors | http://jquery.org/license
+ */
+!function(a,b){"object"==typeof exports&&"undefined"!=typeof module?module.exports=b():"function"==typeof define&&define.amd?define(b):a.PointerEventsPolyfill=b()}(this,function(){"use strict";function a(a,b){b=b||Object.create(null);var c=document.createEvent("Event");c.initEvent(a,b.bubbles||!1,b.cancelable||!1);
+for(var d,e=2;e<m.length;e++)d=m[e],c[d]=b[d]||n[e];c.buttons=b.buttons||0;
+var f=0;return f=b.pressure&&c.buttons?b.pressure:c.buttons?.5:0,c.x=c.clientX,c.y=c.clientY,c.pointerId=b.pointerId||0,c.width=b.width||0,c.height=b.height||0,c.pressure=f,c.tiltX=b.tiltX||0,c.tiltY=b.tiltY||0,c.twist=b.twist||0,c.tangentialPressure=b.tangentialPressure||0,c.pointerType=b.pointerType||"",c.hwTimestamp=b.hwTimestamp||0,c.isPrimary=b.isPrimary||!1,c}function b(){this.array=[],this.size=0}function c(a,b,c,d){this.addCallback=a.bind(d),this.removeCallback=b.bind(d),this.changedCallback=c.bind(d),A&&(this.observer=new A(this.mutationWatcher.bind(this)))}function d(a){return"body /shadow-deep/ "+e(a)}function e(a){return'[touch-action="'+a+'"]'}function f(a){return"{ -ms-touch-action: "+a+"; touch-action: "+a+"; }"}function g(){if(F){D.forEach(function(a){String(a)===a?(E+=e(a)+f(a)+"\n",G&&(E+=d(a)+f(a)+"\n")):(E+=a.selectors.map(e)+f(a.rule)+"\n",G&&(E+=a.selectors.map(d)+f(a.rule)+"\n"))});var a=document.createElement("style");a.textContent=E,document.head.appendChild(a)}}function h(){if(!window.PointerEvent){if(window.PointerEvent=a,window.navigator.msPointerEnabled){var b=window.navigator.msMaxTouchPoints;Object.defineProperty(window.navigator,"maxTouchPoints",{value:b,enumerable:!0}),u.registerSource("ms",_)}else Object.defineProperty(window.navigator,"maxTouchPoints",{value:0,enumerable:!0}),u.registerSource("mouse",N),void 0!==window.ontouchstart&&u.registerSource("touch",V);u.register(document)}}function i(a){if(!u.pointermap.has(a)){var b=new Error("InvalidPointerId");throw b.name="InvalidPointerId",b}}function j(a){for(var b=a.parentNode;b&&b!==a.ownerDocument;)b=b.parentNode;if(!b){var c=new Error("InvalidStateError");throw c.name="InvalidStateError",c}}function k(a){var b=u.pointermap.get(a);return 0!==b.buttons}function l(){window.Element&&!Element.prototype.setPointerCapture&&Object.defineProperties(Element.prototype,{setPointerCapture:{value:W},releasePointerCapture:{value:X},hasPointerCapture:{value:Y}})}
+var m=["bubbles","cancelable","view","detail","screenX","screenY","clientX","clientY","ctrlKey","altKey","shiftKey","metaKey","button","relatedTarget","pageX","pageY"],n=[!1,!1,null,null,0,0,0,0,!1,!1,!1,!1,0,null,0,0],o=window.Map&&window.Map.prototype.forEach,p=o?Map:b;b.prototype={set:function(a,b){return void 0===b?this["delete"](a):(this.has(a)||this.size++,void(this.array[a]=b))},has:function(a){return void 0!==this.array[a]},"delete":function(a){this.has(a)&&(delete this.array[a],this.size--)},get:function(a){return this.array[a]},clear:function(){this.array.length=0,this.size=0},forEach:function(a,b){return this.array.forEach(function(c,d){a.call(b,c,d,this)},this)}};var q=["bubbles","cancelable","view","detail","screenX","screenY","clientX","clientY","ctrlKey","altKey","shiftKey","metaKey","button","relatedTarget","buttons","pointerId","width","height","pressure","tiltX","tiltY","pointerType","hwTimestamp","isPrimary","type","target","currentTarget","which","pageX","pageY","timeStamp"],r=[!1,!1,null,null,0,0,0,0,!1,!1,!1,!1,0,null,0,0,0,0,0,0,0,"",0,!1,"",null,null,0,0,0,0],s={pointerover:1,pointerout:1,pointerenter:1,pointerleave:1},t="undefined"!=typeof SVGElementInstance,u={pointermap:new p,eventMap:Object.create(null),captureInfo:Object.create(null),eventSources:Object.create(null),eventSourceList:[],registerSource:function(a,b){var c=b,d=c.events;d&&(d.forEach(function(a){c[a]&&(this.eventMap[a]=c[a].bind(c))},this),this.eventSources[a]=c,this.eventSourceList.push(c))},register:function(a){for(var b,c=this.eventSourceList.length,d=0;d<c&&(b=this.eventSourceList[d]);d++)
+b.register.call(b,a)},unregister:function(a){for(var b,c=this.eventSourceList.length,d=0;d<c&&(b=this.eventSourceList[d]);d++)
+b.unregister.call(b,a)},contains:function(a,b){try{return a.contains(b)}catch(c){return!1}},down:function(a){a.bubbles=!0,this.fireEvent("pointerdown",a)},move:function(a){a.bubbles=!0,this.fireEvent("pointermove",a)},up:function(a){a.bubbles=!0,this.fireEvent("pointerup",a)},enter:function(a){a.bubbles=!1,this.fireEvent("pointerenter",a)},leave:function(a){a.bubbles=!1,this.fireEvent("pointerleave",a)},over:function(a){a.bubbles=!0,this.fireEvent("pointerover",a)},out:function(a){a.bubbles=!0,this.fireEvent("pointerout",a)},cancel:function(a){a.bubbles=!0,this.fireEvent("pointercancel",a)},leaveOut:function(a){this.out(a),this.propagate(a,this.leave,!1)},enterOver:function(a){this.over(a),this.propagate(a,this.enter,!0)},eventHandler:function(a){if(!a._handledByPE){var b=a.type,c=this.eventMap&&this.eventMap[b];c&&c(a),a._handledByPE=!0}},listen:function(a,b){b.forEach(function(b){this.addEvent(a,b)},this)},unlisten:function(a,b){b.forEach(function(b){this.removeEvent(a,b)},this)},addEvent:function(a,b){a.addEventListener(b,this.boundHandler)},removeEvent:function(a,b){a.removeEventListener(b,this.boundHandler)},makeEvent:function(b,c){this.captureInfo[c.pointerId]&&(c.relatedTarget=null);var d=new a(b,c);return c.preventDefault&&(d.preventDefault=c.preventDefault),d._target=d._target||c.target,d},fireEvent:function(a,b){var c=this.makeEvent(a,b);return this.dispatchEvent(c)},cloneEvent:function(a){for(var b,c=Object.create(null),d=0;d<q.length;d++)b=q[d],c[b]=a[b]||r[d],!t||"target"!==b&&"relatedTarget"!==b||c[b]instanceof SVGElementInstance&&(c[b]=c[b].correspondingUseElement);return a.preventDefault&&(c.preventDefault=function(){a.preventDefault()}),c},getTarget:function(a){var b=this.captureInfo[a.pointerId];return b?a._target!==b&&a.type in s?void 0:b:a._target},propagate:function(a,b,c){for(var d=a.target,e=[];d!==document&&!d.contains(a.relatedTarget);) if(e.push(d),d=d.parentNode,!d)return;c&&e.reverse(),e.forEach(function(c){a.target=c,b.call(this,a)},this)},setCapture:function(b,c,d){this.captureInfo[b]&&this.releaseCapture(b,d),this.captureInfo[b]=c,this.implicitRelease=this.releaseCapture.bind(this,b,d),document.addEventListener("pointerup",this.implicitRelease),document.addEventListener("pointercancel",this.implicitRelease);var e=new a("gotpointercapture");e.pointerId=b,e._target=c,d||this.asyncDispatchEvent(e)},releaseCapture:function(b,c){var d=this.captureInfo[b];if(d){this.captureInfo[b]=void 0,document.removeEventListener("pointerup",this.implicitRelease),document.removeEventListener("pointercancel",this.implicitRelease);var e=new a("lostpointercapture");e.pointerId=b,e._target=d,c||this.asyncDispatchEvent(e)}},dispatchEvent:/*scope.external.dispatchEvent || */function(a){var b=this.getTarget(a);if(b)return b.dispatchEvent(a)},asyncDispatchEvent:function(a){requestAnimationFrame(this.dispatchEvent.bind(this,a))}};u.boundHandler=u.eventHandler.bind(u);var v={shadow:function(a){if(a)return a.shadowRoot||a.webkitShadowRoot},canTarget:function(a){return a&&Boolean(a.elementFromPoint)},targetingShadow:function(a){var b=this.shadow(a);if(this.canTarget(b))return b},olderShadow:function(a){var b=a.olderShadowRoot;if(!b){var c=a.querySelector("shadow");c&&(b=c.olderShadowRoot)}return b},allShadows:function(a){for(var b=[],c=this.shadow(a);c;)b.push(c),c=this.olderShadow(c);return b},searchRoot:function(a,b,c){if(a){var d,e,f=a.elementFromPoint(b,c);for(e=this.targetingShadow(f);e;){if(d=e.elementFromPoint(b,c)){var g=this.targetingShadow(d);return this.searchRoot(g,b,c)||d} e=this.olderShadow(e)} return f}},owner:function(a){
+for(var b=a;b.parentNode;)b=b.parentNode;
+return b.nodeType!==Node.DOCUMENT_NODE&&b.nodeType!==Node.DOCUMENT_FRAGMENT_NODE&&(b=document),b},findTarget:function(a){var b=a.clientX,c=a.clientY,d=this.owner(a.target);
+return d.elementFromPoint(b,c)||(d=document),this.searchRoot(d,b,c)}},w=Array.prototype.forEach.call.bind(Array.prototype.forEach),x=Array.prototype.map.call.bind(Array.prototype.map),y=Array.prototype.slice.call.bind(Array.prototype.slice),z=Array.prototype.filter.call.bind(Array.prototype.filter),A=window.MutationObserver||window.WebKitMutationObserver,B="[touch-action]",C={subtree:!0,childList:!0,attributes:!0,attributeOldValue:!0,attributeFilter:["touch-action"]};c.prototype={watchSubtree:function(a){
+//
+this.observer&&v.canTarget(a)&&this.observer.observe(a,C)},enableOnSubtree:function(a){this.watchSubtree(a),a===document&&"complete"!==document.readyState?this.installOnLoad():this.installNewSubtree(a)},installNewSubtree:function(a){w(this.findElements(a),this.addElement,this)},findElements:function(a){return a.querySelectorAll?a.querySelectorAll(B):[]},removeElement:function(a){this.removeCallback(a)},addElement:function(a){this.addCallback(a)},elementChanged:function(a,b){this.changedCallback(a,b)},concatLists:function(a,b){return a.concat(y(b))},
+installOnLoad:function(){document.addEventListener("readystatechange",function(){"complete"===document.readyState&&this.installNewSubtree(document)}.bind(this))},isElement:function(a){return a.nodeType===Node.ELEMENT_NODE},flattenMutationTree:function(a){
+var b=x(a,this.findElements,this);
+return b.push(z(a,this.isElement)),b.reduce(this.concatLists,[])},mutationWatcher:function(a){a.forEach(this.mutationHandler,this)},mutationHandler:function(a){if("childList"===a.type){var b=this.flattenMutationTree(a.addedNodes);b.forEach(this.addElement,this);var c=this.flattenMutationTree(a.removedNodes);c.forEach(this.removeElement,this)}else"attributes"===a.type&&this.elementChanged(a.target,a.oldValue)}};var D=["none","auto","pan-x","pan-y",{rule:"pan-x pan-y",selectors:["pan-x pan-y","pan-y pan-x"]}],E="",F=window.PointerEvent||window.MSPointerEvent,G=!window.ShadowDOMPolyfill&&document.head.createShadowRoot,H=u.pointermap,I=25,J=[1,4,2,8,16],K=!1;try{K=1===new MouseEvent("test",{buttons:1}).buttons}catch(L){}
+var M,N={POINTER_ID:1,POINTER_TYPE:"mouse",events:["mousedown","mousemove","mouseup","mouseover","mouseout"],register:function(a){u.listen(a,this.events)},unregister:function(a){u.unlisten(a,this.events)},lastTouches:[],
+isEventSimulatedFromTouch:function(a){for(var b,c=this.lastTouches,d=a.clientX,e=a.clientY,f=0,g=c.length;f<g&&(b=c[f]);f++){
+var h=Math.abs(d-b.x),i=Math.abs(e-b.y);if(h<=I&&i<=I)return!0}},prepareEvent:function(a){var b=u.cloneEvent(a),c=b.preventDefault;return b.preventDefault=function(){a.preventDefault(),c()},b.pointerId=this.POINTER_ID,b.isPrimary=!0,b.pointerType=this.POINTER_TYPE,b},prepareButtonsForMove:function(a,b){var c=H.get(this.POINTER_ID);
+0!==b.which&&c?a.buttons=c.buttons:a.buttons=0,b.buttons=a.buttons},mousedown:function(a){if(!this.isEventSimulatedFromTouch(a)){var b=H.get(this.POINTER_ID),c=this.prepareEvent(a);K||(c.buttons=J[c.button],b&&(c.buttons|=b.buttons),a.buttons=c.buttons),H.set(this.POINTER_ID,a),b&&0!==b.buttons?u.move(c):u.down(c)}},mousemove:function(a){if(!this.isEventSimulatedFromTouch(a)){var b=this.prepareEvent(a);K||this.prepareButtonsForMove(b,a),b.button=-1,H.set(this.POINTER_ID,a),u.move(b)}},mouseup:function(a){if(!this.isEventSimulatedFromTouch(a)){var b=H.get(this.POINTER_ID),c=this.prepareEvent(a);if(!K){var d=J[c.button];
+c.buttons=b?b.buttons&~d:0,a.buttons=c.buttons}H.set(this.POINTER_ID,a),
+c.buttons&=~J[c.button],0===c.buttons?u.up(c):u.move(c)}},mouseover:function(a){if(!this.isEventSimulatedFromTouch(a)){var b=this.prepareEvent(a);K||this.prepareButtonsForMove(b,a),b.button=-1,H.set(this.POINTER_ID,a),u.enterOver(b)}},mouseout:function(a){if(!this.isEventSimulatedFromTouch(a)){var b=this.prepareEvent(a);K||this.prepareButtonsForMove(b,a),b.button=-1,u.leaveOut(b)}},cancel:function(a){var b=this.prepareEvent(a);u.cancel(b),this.deactivateMouse()},deactivateMouse:function(){H["delete"](this.POINTER_ID)}},O=u.captureInfo,P=v.findTarget.bind(v),Q=v.allShadows.bind(v),R=u.pointermap,S=2500,T=200,U="touch-action",V={events:["touchstart","touchmove","touchend","touchcancel"],register:function(a){M.enableOnSubtree(a)},unregister:function(){},elementAdded:function(a){var b=a.getAttribute(U),c=this.touchActionToScrollType(b);c&&(a._scrollType=c,u.listen(a,this.events),
+Q(a).forEach(function(a){a._scrollType=c,u.listen(a,this.events)},this))},elementRemoved:function(a){a._scrollType=void 0,u.unlisten(a,this.events),
+Q(a).forEach(function(a){a._scrollType=void 0,u.unlisten(a,this.events)},this)},elementChanged:function(a,b){var c=a.getAttribute(U),d=this.touchActionToScrollType(c),e=this.touchActionToScrollType(b);
+d&&e?(a._scrollType=d,Q(a).forEach(function(a){a._scrollType=d},this)):e?this.elementRemoved(a):d&&this.elementAdded(a)},scrollTypes:{EMITTER:"none",XSCROLLER:"pan-x",YSCROLLER:"pan-y",SCROLLER:/^(?:pan-x pan-y)|(?:pan-y pan-x)|auto$/},touchActionToScrollType:function(a){var b=a,c=this.scrollTypes;return"none"===b?"none":b===c.XSCROLLER?"X":b===c.YSCROLLER?"Y":c.SCROLLER.exec(b)?"XY":void 0},POINTER_TYPE:"touch",firstTouch:null,isPrimaryTouch:function(a){return this.firstTouch===a.identifier},setPrimaryTouch:function(a){
+(0===R.size||1===R.size&&R.has(1))&&(this.firstTouch=a.identifier,this.firstXY={X:a.clientX,Y:a.clientY},this.scrolling=!1,this.cancelResetClickCount())},removePrimaryPointer:function(a){a.isPrimary&&(this.firstTouch=null,this.firstXY=null,this.resetClickCount())},clickCount:0,resetId:null,resetClickCount:function(){var a=function(){this.clickCount=0,this.resetId=null}.bind(this);this.resetId=setTimeout(a,T)},cancelResetClickCount:function(){this.resetId&&clearTimeout(this.resetId)},typeToButtons:function(a){var b=0;return"touchstart"!==a&&"touchmove"!==a||(b=1),b},touchToPointer:function(a){var b=this.currentTouchEvent,c=u.cloneEvent(a),d=c.pointerId=a.identifier+2;c.target=O[d]||P(c),c.bubbles=!0,c.cancelable=!0,c.detail=this.clickCount,c.button=0,c.buttons=this.typeToButtons(b.type),c.width=2*(a.radiusX||a.webkitRadiusX||0),c.height=2*(a.radiusY||a.webkitRadiusY||0),c.pressure=a.force||a.webkitForce||.5,c.isPrimary=this.isPrimaryTouch(a),c.pointerType=this.POINTER_TYPE,
+c.altKey=b.altKey,c.ctrlKey=b.ctrlKey,c.metaKey=b.metaKey,c.shiftKey=b.shiftKey;
+var e=this;return c.preventDefault=function(){e.scrolling=!1,e.firstXY=null,b.preventDefault()},c},processTouches:function(a,b){var c=a.changedTouches;this.currentTouchEvent=a;for(var d,e=0;e<c.length;e++)d=c[e],b.call(this,this.touchToPointer(d))},
+shouldScroll:function(a){if(this.firstXY){var b,c=a.currentTarget._scrollType;if("none"===c)
+b=!1;else if("XY"===c)
+b=!0;else{var d=a.changedTouches[0],e=c,f="Y"===c?"X":"Y",g=Math.abs(d["client"+e]-this.firstXY[e]),h=Math.abs(d["client"+f]-this.firstXY[f]);
+b=g>=h}return this.firstXY=null,b}},findTouch:function(a,b){for(var c,d=0,e=a.length;d<e&&(c=a[d]);d++)if(c.identifier===b)return!0},
+vacuumTouches:function(a){var b=a.touches;
+if(R.size>=b.length){var c=[];R.forEach(function(a,d){
+if(1!==d&&!this.findTouch(b,d-2)){var e=a.out;c.push(e)}},this),c.forEach(this.cancelOut,this)}},touchstart:function(a){this.vacuumTouches(a),this.setPrimaryTouch(a.changedTouches[0]),this.dedupSynthMouse(a),this.scrolling||(this.clickCount++,this.processTouches(a,this.overDown))},overDown:function(a){R.set(a.pointerId,{target:a.target,out:a,outTarget:a.target}),u.enterOver(a),u.down(a)},touchmove:function(a){this.scrolling||(this.shouldScroll(a)?(this.scrolling=!0,this.touchcancel(a)):(a.preventDefault(),this.processTouches(a,this.moveOverOut)))},moveOverOut:function(a){var b=a,c=R.get(b.pointerId);
+if(c){var d=c.out,e=c.outTarget;u.move(b),d&&e!==b.target&&(d.relatedTarget=b.target,b.relatedTarget=e,
+d.target=e,b.target?(u.leaveOut(d),u.enterOver(b)):(
+b.target=e,b.relatedTarget=null,this.cancelOut(b))),c.out=b,c.outTarget=b.target}},touchend:function(a){this.dedupSynthMouse(a),this.processTouches(a,this.upOut)},upOut:function(a){this.scrolling||(u.up(a),u.leaveOut(a)),this.cleanUpPointer(a)},touchcancel:function(a){this.processTouches(a,this.cancelOut)},cancelOut:function(a){u.cancel(a),u.leaveOut(a),this.cleanUpPointer(a)},cleanUpPointer:function(a){R["delete"](a.pointerId),this.removePrimaryPointer(a)},
+dedupSynthMouse:function(a){var b=N.lastTouches,c=a.changedTouches[0];
+if(this.isPrimaryTouch(c)){
+var d={x:c.clientX,y:c.clientY};b.push(d);var e=function(a,b){var c=a.indexOf(b);c>-1&&a.splice(c,1)}.bind(null,b,d);setTimeout(e,S)}}};M=new c(V.elementAdded,V.elementRemoved,V.elementChanged,V);var W,X,Y,Z=u.pointermap,$=window.MSPointerEvent&&"number"==typeof window.MSPointerEvent.MSPOINTER_TYPE_MOUSE,_={events:["MSPointerDown","MSPointerMove","MSPointerUp","MSPointerOut","MSPointerOver","MSPointerCancel","MSGotPointerCapture","MSLostPointerCapture"],register:function(a){u.listen(a,this.events)},unregister:function(a){u.unlisten(a,this.events)},POINTER_TYPES:["","unavailable","touch","pen","mouse"],prepareEvent:function(a){var b=a;return $&&(b=u.cloneEvent(a),b.pointerType=this.POINTER_TYPES[a.pointerType]),b},cleanup:function(a){Z["delete"](a)},MSPointerDown:function(a){Z.set(a.pointerId,a);var b=this.prepareEvent(a);u.down(b)},MSPointerMove:function(a){var b=this.prepareEvent(a);u.move(b)},MSPointerUp:function(a){var b=this.prepareEvent(a);u.up(b),this.cleanup(a.pointerId)},MSPointerOut:function(a){var b=this.prepareEvent(a);u.leaveOut(b)},MSPointerOver:function(a){var b=this.prepareEvent(a);u.enterOver(b)},MSPointerCancel:function(a){var b=this.prepareEvent(a);u.cancel(b),this.cleanup(a.pointerId)},MSLostPointerCapture:function(a){var b=u.makeEvent("lostpointercapture",a);u.dispatchEvent(b)},MSGotPointerCapture:function(a){var b=u.makeEvent("gotpointercapture",a);u.dispatchEvent(b)}},aa=window.navigator;aa.msPointerEnabled?(W=function(a){i(a),j(this),k(a)&&(u.setCapture(a,this,!0),this.msSetPointerCapture(a))},X=function(a){i(a),u.releaseCapture(a,!0),this.msReleasePointerCapture(a)}):(W=function(a){i(a),j(this),k(a)&&u.setCapture(a,this)},X=function(a){i(a),u.releaseCapture(a)}),Y=function(a){return!!u.captureInfo[a]},g(),h(),l();var ba={dispatcher:u,Installer:c,PointerEvent:a,PointerMap:p,targetFinding:v};return ba});
+
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+var config = {"show_fabrication": false, "redraw_on_drag": true, "highlight_pin1": false, "extra_fields": ["Farnell", "LCSC", "Manufacturer Nbr"], "dark_mode": false, "bom_view": "left-right", "board_rotation": 0, "checkboxes": "Sourced,Placed", "show_silkscreen": true, "show_pads": true, "layer_view": "FB"}
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+var pcbdata = {"edges": [{"start": [130.5, 95.5], "end": [170.5, 95.5], "type": "segment", "width": 0.09999999999999999}, {"start": [130.5, 135.5], "end": [130.5, 95.5], "type": "segment", "width": 0.09999999999999999}, {"start": [170.5, 135.5], "end": [130.5, 135.5], "type": "segment", "width": 0.09999999999999999}, {"start": [170.5, 95.5], "end": [170.5, 135.5], "type": "segment", "width": 0.09999999999999999}, {"start": [139.13, 109.91], "end": [139.13, 104.31], "type": "segment", "width": 0.09999999999999999}, {"start": [161.63, 109.91], "end": [139.13, 109.91], "type": "segment", "width": 0.09999999999999999}, {"start": [161.63, 104.31], "end": [161.63, 109.91], "type": "segment", "width": 0.09999999999999999}, {"start": [139.13, 104.31], "end": [161.63, 104.31], "type": "segment", "width": 0.09999999999999999}], "bom": {"both": [[3, "1\u00b5", "C_0805_2012Metric", [["C3", 15], ["C4", 16], ["C5", 17]], ["", "C106837", "CC0805ZRY5V8BB105"]], [1, "22\u00b5", "C_0805_2012Metric", [["C2", 14]], ["", "C5674", "CL21A226MQQNNNE"]], [2, "4.7\u00b5", "C_0805_2012Metric", [["C6", 18], ["C7", 19]], ["", "C87998", "CL21B475KPFNNNE"]], [1, "330k", "R_0805_2012Metric", [["R5", 24]], ["", "C17629", "0805W8F3303T5E"]], [2, "100K", "R_0805_2012Metric", [["R1", 20], ["R2", 21]], ["", "C25611", "0805W8J0104T5E"]], [1, "1K", "R_0805_2012Metric", [["R3", 22]], ["", "C25623", "0805W8J0102T5E"]], [1, "4.7K", "R_0805_2012Metric", [["R4", 23]], ["", "C26022", "0805W8J0472T5E"]], [1, "D_Schottky", "D_SOD-123", [["D1", 27]], ["", "C181204", "SD103AW"]], [1, "ORANGE", "LED_0603_1608Metric", [["D2", 28]], ["", "C84269", "FC-DA1608HOK-600H"]], [1, "SSD1306", "SSD1306_OLED", [["U3", 4]], ["", "", ""]], [1, "MCP73831-2-OT", "SOT-23-5", [["U2", 11]], ["", "C14879", "MCP73831T-2ATI/OT"]], [1, "SW_DPDT_x2", "JS102011SAQN", [["SW1", 2]], ["2320017", "C221660", "JS102011SAQN"]], [4, "GND", "Mounting_Pad_Power", [["H8", 10], ["H9", 25], ["H10", 12], ["H11", 26]], ["", "", ""]], [3, "VBS", "Mounting_Pad_Power", [["H6", 9], ["H12", 29], ["H13", 30]], ["", "", ""]], [1, "VSW", "Mounting_Pad_Power", [["H2", 13]], ["", "", ""]], [1, "3V3", "Mounting_Pad_Power", [["H7", 1]], ["", "", ""]], [1, "BTMN", "Mounting_Pad_Signal", [["H1", 5]], ["", "", ""]], [1, "ORES", "Mounting_Pad_Signal", [["H3", 6]], ["", "", ""]], [1, "OSCL", "Mounting_Pad_Signal", [["H4", 7]], ["", "", ""]], [1, "OSDA", "Mounting_Pad_Signal", [["H5", 8]], ["", "", ""]], [1, "LOGO", "d3", [["G***", 0]], ["", "", ""]], [1, "Conn_01x02_Male", "Conn_Bat", [["J1", 3]], ["", "", ""]]], "B": [[3, "1\u00b5", "C_0805_2012Metric", [["C3", 15], ["C4", 16], ["C5", 17]], ["", "C106837", "CC0805ZRY5V8BB105"]], [1, "22\u00b5", "C_0805_2012Metric", [["C2", 14]], ["", "C5674", "CL21A226MQQNNNE"]], [2, "4.7\u00b5", "C_0805_2012Metric", [["C6", 18], ["C7", 19]], ["", "C87998", "CL21B475KPFNNNE"]], [1, "330k", "R_0805_2012Metric", [["R5", 24]], ["", "C17629", "0805W8F3303T5E"]], [2, "100K", "R_0805_2012Metric", [["R1", 20], ["R2", 21]], ["", "C25611", "0805W8J0104T5E"]], [1, "1K", "R_0805_2012Metric", [["R3", 22]], ["", "C25623", "0805W8J0102T5E"]], [1, "4.7K", "R_0805_2012Metric", [["R4", 23]], ["", "C26022", "0805W8J0472T5E"]], [1, "D_Schottky", "D_SOD-123", [["D1", 27]], ["", "C181204", "SD103AW"]], [1, "ORANGE", "LED_0603_1608Metric", [["D2", 28]], ["", "C84269", "FC-DA1608HOK-600H"]], [1, "SSD1306", "SSD1306_OLED", [["U3", 4]], ["", "", ""]], [1, "MCP73831-2-OT", "SOT-23-5", [["U2", 11]], ["", "C14879", "MCP73831T-2ATI/OT"]], [1, "SW_DPDT_x2", "JS102011SAQN", [["SW1", 2]], ["2320017", "C221660", "JS102011SAQN"]], [4, "GND", "Mounting_Pad_Power", [["H8", 10], ["H9", 25], ["H10", 12], ["H11", 26]], ["", "", ""]], [3, "VBS", "Mounting_Pad_Power", [["H6", 9], ["H12", 29], ["H13", 30]], ["", "", ""]], [1, "VSW", "Mounting_Pad_Power", [["H2", 13]], ["", "", ""]], [1, "3V3", "Mounting_Pad_Power", [["H7", 1]], ["", "", ""]], [1, "BTMN", "Mounting_Pad_Signal", [["H1", 5]], ["", "", ""]], [1, "ORES", "Mounting_Pad_Signal", [["H3", 6]], ["", "", ""]], [1, "OSCL", "Mounting_Pad_Signal", [["H4", 7]], ["", "", ""]], [1, "OSDA", "Mounting_Pad_Signal", [["H5", 8]], ["", "", ""]], [1, "Conn_01x02_Male", "Conn_Bat", [["J1", 3]], ["", "", ""]]], "skipped": [], "F": [[1, "LOGO", "d3", [["G***", 0]], ["", "", ""]]]}, "silkscreen": {"B": [{"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "Cuby V0.1", "thickness": 0.15, "pos": [150.5, 97.5], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "3V3", "thickness": 0.15, "pos": [164.0, 98.0], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "BTMN", "thickness": 0.15, "pos": [140.7, 97.89999999999999], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "ORES", "thickness": 0.15, "pos": [156.5, 97.75], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "OSCL", "thickness": 0.15, "pos": [159.0, 97.75], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "OSDA", "thickness": 0.15, "pos": [161.5, 97.75], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "VBS", "thickness": 0.15, "pos": [138.7, 101.25], "height": 0.8999999999999999}, {"start": [131.14, 108.89999999999999], "end": [131.14, 107.1], "type": "segment", "width": 0.12}, {"start": [134.35999999999999, 107.1], "end": [134.35999999999999, 109.55], "type": "segment", "width": 0.12}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "GND", "thickness": 0.15, "pos": [132.0, 101.25], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "VSW", "thickness": 0.15, "pos": [135.2, 101.25], "height": 0.8999999999999999}, {"start": [133.54142199999998, 116.78999999999999], "end": [134.05857799999998, 116.78999999999999], "type": "segment", "width": 0.12}, {"start": [133.54142199999998, 118.21], "end": [134.05857799999998, 118.21], "type": "segment", "width": 0.12}, {"start": [170.20999999999998, 114.508578], "end": [170.20999999999998, 113.991422], "type": "segment", "width": 0.12}, {"start": [168.79, 114.508578], "end": [168.79, 113.991422], "type": "segment", "width": 0.12}, {"start": [168.79, 110.558578], "end": [168.79, 110.041422], "type": "segment", "width": 0.12}, {"start": [170.20999999999998, 110.558578], "end": [170.20999999999998, 110.041422], "type": "segment", "width": 0.12}, {"start": [168.79, 106.14142199999999], "end": [168.79, 106.65857799999999], "type": "segment", "width": 0.12}, {"start": [170.20999999999998, 106.14142199999999], "end": [170.20999999999998, 106.65857799999999], "type": "segment", "width": 0.12}, {"start": [164.29, 103.008578], "end": [164.29, 102.491422], "type": "segment", "width": 0.12}, {"start": [165.70999999999998, 103.008578], "end": [165.70999999999998, 102.491422], "type": "segment", "width": 0.12}, {"start": [166.54, 102.491422], "end": [166.54, 103.008578], "type": "segment", "width": 0.12}, {"start": [167.95999999999998, 102.491422], "end": [167.95999999999998, 103.008578], "type": "segment", "width": 0.12}, {"start": [144.758578, 99.03999999999999], "end": [144.241422, 99.03999999999999], "type": "segment", "width": 0.12}, {"start": [144.758578, 100.46], "end": [144.241422, 100.46], "type": "segment", "width": 0.12}, {"start": [144.241422, 96.78999999999999], "end": [144.758578, 96.78999999999999], "type": "segment", "width": 0.12}, {"start": [144.241422, 98.21], "end": [144.758578, 98.21], "type": "segment", "width": 0.12}, {"start": [136.46, 107.741422], "end": [136.46, 108.258578], "type": "segment", "width": 0.12}, {"start": [135.04, 107.741422], "end": [135.04, 108.258578], "type": "segment", "width": 0.12}, {"start": [132.41, 104.008578], "end": [132.41, 103.491422], "type": "segment", "width": 0.12}, {"start": [130.98999999999998, 104.008578], "end": [130.98999999999998, 103.491422], "type": "segment", "width": 0.12}, {"start": [168.79, 102.491422], "end": [168.79, 103.008578], "type": "segment", "width": 0.12}, {"start": [170.20999999999998, 102.491422], "end": [170.20999999999998, 103.008578], "type": "segment", "width": 0.12}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "GND", "thickness": 0.15, "pos": [131.95, 129.7], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "GND", "thickness": 0.15, "pos": [169.04999999999998, 129.7], "height": 1.0}, {"start": [148.25, 128.2], "end": [148.25, 126.19999999999999], "type": "segment", "width": 0.12}, {"start": [148.25, 126.19999999999999], "end": [152.15, 126.19999999999999], "type": "segment", "width": 0.12}, {"start": [148.25, 128.2], "end": [152.15, 128.2], "type": "segment", "width": 0.12}, {"start": [135.335, 102.94999999999999], "end": [135.335, 105.235], "type": "segment", "width": 0.12}, {"start": [135.335, 105.235], "end": [133.86499999999998, 105.235], "type": "segment", "width": 0.12}, {"start": [133.86499999999998, 105.235], "end": [133.86499999999998, 102.94999999999999], "type": "segment", "width": 0.12}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "VBS", "thickness": 0.15, "pos": [131.85, 122.69999999999999], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "VBS", "thickness": 0.15, "pos": [169.04999999999998, 122.69999999999999], "height": 1.0}], "F": [{"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[3.92521, 6.846527999999999], [4.04948, 7.020258999999999], [4.064, 7.108149], [4.0055369999999995, 7.192857999999999], [3.8387599999999997, 7.382877], [3.576586, 7.66529], [3.231929, 8.027182], [2.817707, 8.455639], [2.3468359999999997, 8.937745], [1.8322319999999999, 9.460587], [1.286811, 10.011247], [0.72349, 10.576813], [0.155185, 11.144369], [-0.405188, 11.700999999999999], [-0.944712, 12.233791], [-1.450472, 12.729827], [-1.9095499999999999, 13.176193999999999], [-2.3090319999999998, 13.559975999999999], [-2.635999, 13.868259], [-2.877537, 14.088128], [-3.0207289999999998, 14.206667999999999], [-3.052612, 14.224], [-3.2258679999999997, 14.167750999999999], [-3.2850669999999997, 14.122399999999999], [-3.3759349999999997, 13.958615], [-3.3866669999999996, 13.889184], [-3.328204, 13.804475], [-3.1614269999999998, 13.614455999999999], [-2.899253, 13.332042999999999], [-2.554596, 12.970151], [-2.140374, 12.541694], [-1.669503, 12.059588], [-1.154899, 11.536745999999999], [-0.609478, 10.986086], [-0.046157, 10.42052], [0.522148, 9.852964], [1.0825209999999998, 9.296332999999999], [1.622045, 8.763542], [2.127805, 8.267506], [2.586883, 7.821139], [2.9863649999999997, 7.4373569999999996], [3.313332, 7.129073999999999], [3.5548699999999998, 6.909205], [3.6980619999999997, 6.790665], [3.729945, 6.773333], [3.92521, 6.846527999999999]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[-16.423082, -19.969175999999997], [-16.278503, -19.938256], [-16.256, -19.917095], [-16.313579999999998, -19.842243999999997], [-16.474329, -19.667075], [-16.720257, -19.409568999999998], [-17.033376, -19.087708], [-17.395697, -18.719472], [-17.789233, -18.322844], [-18.195992999999998, -17.915803999999998], [-18.597991, -17.516334], [-18.977235999999998, -17.142416], [-19.315741, -16.812030999999998], [-19.595518, -16.54316], [-19.798576, -16.353784], [-19.906928999999998, -16.261886], [-19.918554999999998, -16.256], [-19.955126, -16.331965], [-19.977756, -16.525258], [-19.981333, -16.659074], [-19.981333, -17.062148], [-18.519951, -18.521741], [-17.058569, -19.981333], [-16.657284, -19.981333], [-16.423082, -19.969175999999997]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[-13.036723, -19.969257], [-12.891957, -19.938537999999998], [-12.869333, -19.917451], [-12.92742, -19.846719], [-13.093109, -19.669832], [-13.353543, -19.399645], [-13.695865999999999, -19.049014], [-14.107221, -18.630793999999998], [-14.574751, -18.157839], [-15.0856, -17.643007], [-15.626911, -17.099151], [-16.185827, -16.539127], [-16.749492, -15.975791], [-17.305049, -15.421997], [-17.839641, -14.890602], [-18.340411, -14.394459], [-18.794504, -13.946425999999999], [-19.189061, -13.559356], [-19.511226999999998, -13.246105], [-19.748144999999997, -13.019528999999999], [-19.886958, -12.892482999999999], [-19.918212, -12.869333], [-19.955001, -12.945293], [-19.977752, -13.138548], [-19.981333, -13.271924], [-19.981333, -13.674513999999999], [-16.827082, -16.827924], [-13.672830999999999, -19.981333], [-13.271082, -19.981333], [-13.036723, -19.969257]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[-9.650151, -19.969284], [-9.505328, -19.938634], [-9.482667, -19.917575], [-9.541020999999999, -19.848748999999998], [-9.709061, -19.671205999999998], [-9.97625, -19.395483], [-10.332054, -19.032114], [-10.765934999999999, -18.591635], [-11.26736, -18.08458], [-11.825792, -17.521485], [-12.430696, -16.912885], [-13.071536, -16.269313999999998], [-13.737777, -15.601308], [-14.418882, -14.919402], [-15.104318, -14.234129999999999], [-15.783546999999999, -13.556028999999999], [-16.446034, -12.895631999999999], [-17.081243999999998, -12.263475999999999], [-17.678641, -11.670093999999999], [-18.22769, -11.126023], [-18.717855, -10.641797], [-19.1386, -10.227951], [-19.479391, -9.895021], [-19.729689999999998, -9.65354], [-19.878963, -9.514046], [-19.91809, -9.482667], [-19.954956, -9.558625], [-19.97775, -9.751868], [-19.981333, -9.88511], [-19.981333, -10.287552], [-15.133892999999999, -15.134443], [-10.286453, -19.981333], [-9.884559999999999, -19.981333], [-9.650151, -19.969284]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[-6.2635309999999995, -19.969298], [-6.1186799999999995, -19.938682999999997], [-6.096, -19.917638999999998], [-6.154527, -19.849968999999998], [-6.324014, -19.672068], [-6.59532, -19.393076999999998], [-6.959305, -19.022135], [-7.406828, -18.568384], [-7.9287469999999995, -18.040964], [-8.515922999999999, -17.449015], [-9.159215, -16.801676999999998], [-9.849482, -16.108092], [-10.577582, -15.377398999999999], [-11.334375999999999, -14.618739999999999], [-12.110723, -13.841254], [-12.897482, -13.054082999999999], [-13.685511, -12.266366], [-14.465672, -11.487243999999999], [-15.228822, -10.725857999999999], [-15.965819999999999, -9.991348], [-16.667528, -9.292854], [-17.324802, -8.639517999999999], [-17.928504, -8.040479], [-18.469490999999998, -7.504878], [-18.938624, -7.041855], [-19.326760999999998, -6.660552], [-19.624762, -6.370108], [-19.823486, -6.179664], [-19.913792, -6.09836], [-19.918027, -6.096], [-19.954933, -6.171957], [-19.977749, -6.365195], [-19.981333, -6.498372], [-19.981333, -6.900742999999999], [-13.440629999999999, -13.441037999999999], [-6.899926, -19.981333], [-6.4979629999999995, -19.981333], [-6.2635309999999995, -19.969298]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[-2.876892, -19.969307], [-2.732024, -19.938713], [-2.709333, -19.917676999999998], [-2.7679839999999998, -19.850806], [-2.938477, -19.672674999999998], [-3.21263, -19.391469], [-3.582257, -19.015372], [-4.039174, -18.552569], [-4.575196, -18.011243999999998], [-5.182138, -17.399583], [-5.851814999999999, -16.725769], [-6.576042999999999, -15.997986999999998], [-7.346636999999999, -15.224421999999999], [-8.155413, -14.413257999999999], [-8.994185, -13.57268], [-9.854769, -12.710873], [-10.72898, -11.83602], [-11.608633, -10.956306999999999], [-12.485545, -10.079918], [-13.351529, -9.215038], [-14.198402, -8.369850999999999], [-15.017978999999999, -7.552542], [-15.802074, -6.771294999999999], [-16.542504, -6.034294999999999], [-17.231082999999998, -5.3497259999999995], [-17.859627, -4.7257739999999995], [-18.419950999999998, -4.170622], [-18.903871, -3.692455], [-19.303200999999998, -3.299458], [-19.609757, -2.999815], [-19.815355, -2.801711], [-19.911808999999998, -2.71333], [-19.917989, -2.709333], [-19.954919, -2.78529], [-19.977748, -2.9785239999999997], [-19.981333, -3.111663], [-19.981333, -3.513992], [-11.747338, -11.747663], [-3.513343, -19.981333], [-3.111338, -19.981333], [-2.876892, -19.969307]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[3.896422, -19.969312], [4.041302, -19.938731999999998], [4.064, -19.917703], [4.005096, -19.847455], [3.833382, -19.665513], [3.5563529999999997, -19.379345999999998], [3.181504, -18.996426], [2.7163299999999997, -18.524221999999998], [2.168326, -17.970205], [1.5449869999999999, -17.341845], [0.8538089999999999, -16.646614], [0.102286, -15.891981], [-0.702086, -15.085417], [-1.551812, -14.234392], [-2.439397, -13.346376999999999], [-3.3573459999999997, -12.428842], [-4.298164, -11.489258999999999], [-5.254356, -10.535096], [-6.218426, -9.573825], [-7.182879, -8.612917], [-8.140221, -7.659840999999999], [-9.082956, -6.722067999999999], [-10.003589, -5.807068], [-10.894624, -4.922313], [-11.748567999999999, -4.075272], [-12.557924, -3.273417], [-13.315197, -2.5242169999999997], [-14.012893, -1.8351419999999998], [-14.643516, -1.2136639999999999], [-15.199570999999999, -0.667253], [-15.673563, -0.203379], [-16.057997, 0.170486], [-16.345377, 0.446874], [-16.528209999999998, 0.618313], [-16.598997999999998, 0.677333], [-16.59903, 0.677333], [-16.772529, 0.621072], [-16.831733, 0.5757329999999999], [-16.922594999999998, 0.41211], [-16.933332999999998, 0.342767], [-16.874409, 0.269655], [-16.701757999999998, 0.083247], [-16.421566, -0.210191], [-16.04002, -0.604394], [-15.563303999999999, -1.093094], [-14.997605, -1.670027], [-14.349107, -2.3289269999999997], [-13.623996, -3.0635269999999997], [-12.828458, -3.867562], [-11.968677999999999, -4.734767], [-11.050842, -5.658874], [-10.081135, -6.6336189999999995], [-9.065743, -7.652736], [-8.010850999999999, -8.709958], [-6.922644999999999, -9.799019999999999], [-6.836701, -9.884966], [3.259931, -19.981333], [3.661965, -19.981333], [3.896422, -19.969312]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.981333, -1.9041059999999999], [16.996392, 1.079947], [16.407287, 1.6663249999999998], [15.851588999999999, 2.2145349999999997], [15.341237, 2.713143], [14.888167999999999, 3.150716], [14.504322, 3.515821], [14.201635999999999, 3.797023], [13.992049, 3.982888], [13.887497999999999, 4.061983], [13.880659, 4.064], [13.707464, 4.0077549999999995], [13.648266999999999, 3.9623999999999997], [13.557397, 3.7985919999999997], [13.546667, 3.729149], [13.60498, 3.6459089999999996], [13.772582, 3.454955], [14.038459999999999, 3.167745], [14.391603, 2.795737], [14.821003, 2.35039], [15.315646999999998, 1.8431609999999998], [15.864524999999999, 1.28551], [16.456626, 0.688894], [16.764, 0.381], [19.981333, -2.835498], [19.981333, -1.9041059999999999]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.981333, -8.677913], [13.609957999999999, -2.3069569999999997], [12.745301, -1.4435639999999998], [11.912804, -0.614637], [11.120422, 0.172031], [10.376114, 0.908642], [9.687835, 1.5874], [9.063543, 2.200509], [8.511194999999999, 2.740173], [8.038746999999999, 3.1985959999999998], [7.654157, 3.5679819999999998], [7.365381999999999, 3.840534], [7.180378999999999, 4.008457], [7.107558, 4.064], [6.934136, 4.007743], [6.8749329999999995, 3.9623999999999997], [6.78407, 3.79873], [6.773333, 3.7293629999999998], [6.832059999999999, 3.653139], [7.003134999999999, 3.465257], [7.278899999999999, 3.173526], [7.6517, 2.785755], [8.113876, 2.3097529999999997], [8.657772, 1.7533299999999998], [9.27573, 1.124295], [9.960092999999999, 0.430456], [10.703203, -0.32037699999999997], [11.497404, -1.120395], [12.335037, -1.9617879999999999], [13.208447, -2.8367489999999997], [13.377333, -3.005667], [19.981333, -9.609259999999999], [19.981333, -8.677913]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[0.509757, -19.969362], [0.654636, -19.938907999999998], [0.677333, -19.917966], [0.618454, -19.852242999999998], [0.445934, -19.673082], [0.165952, -19.386702], [-0.21531299999999998, -18.999319], [-0.6916829999999999, -18.517151], [-1.2569789999999998, -17.946415], [-1.905023, -17.293329], [-2.629637, -16.56411], [-3.424642, -15.764975999999999], [-4.28386, -14.902142999999999], [-5.201111, -13.981829], [-6.1702189999999995, -13.010252], [-7.185003, -11.993629], [-8.239287, -10.938177], [-9.326889999999999, -9.850114999999999], [-9.418947, -9.758053], [-19.515227, 0.338493], [-18.054851, 1.798868], [-16.594476, 3.259244], [-4.973955999999999, -8.361044999999999], [6.6465629999999996, -19.981333], [7.048615, -19.981333], [7.283077, -19.969319], [7.427963999999999, -19.938755999999998], [7.450666999999999, -19.917735], [7.391787, -19.852297], [7.219468999999999, -19.673786], [6.940195, -19.388683999999998], [6.5604439999999995, -19.003472], [6.0866999999999996, -18.524631], [5.525442, -17.958643], [4.883152, -17.311988], [4.166312, -16.591148], [3.3814029999999997, -15.802605], [2.534906, -14.952838999999999], [1.633302, -14.048331999999998], [0.6830729999999999, -13.095564], [-0.30929999999999996, -12.101018], [-1.3373359999999999, -11.071174], [-2.3945529999999997, -10.012514], [-3.474471, -8.931519], [-4.570607, -7.83467], [-5.676481, -6.7284489999999995], [-6.785610999999999, -5.619336], [-7.8915169999999994, -4.513812], [-8.987715999999999, -3.41836], [-10.067727, -2.339461], [-11.12507, -1.283595], [-12.153262999999999, -0.257244], [-13.145824, 0.733112], [-14.096271999999999, 1.6809889999999998], [-14.998127, 2.579909], [-15.844906, 3.4233879999999997], [-16.630129, 4.204947], [-17.347314, 4.9181029999999994], [-17.98998, 5.556375], [-18.551645, 6.113283], [-19.025828, 6.582345], [-19.406049, 6.9570799999999995], [-19.685824999999998, 7.231006], [-19.858676, 7.397641999999999], [-19.917931, 7.450666999999999], [-19.954935, 7.374721999999999], [-19.977778, 7.181566999999999], [-19.981333, 7.049382], [-19.981333, 6.648098], [-18.521741, 5.186716], [-17.062148, 3.725333], [-18.521741, 2.263951], [-19.981333, 0.802568], [-19.981333, -0.12727], [-10.054032, -10.054302], [-0.12673099999999998, -19.981333], [0.27530099999999996, -19.981333], [0.509757, -19.969362]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[10.669727, -19.969322], [10.814624, -19.938765], [10.837333, -19.917745999999998], [10.778402, -19.852619999999998], [10.605685, -19.674032], [10.325293, -19.388095], [9.943339, -19.000920999999998], [9.465936, -18.518622999999998], [8.899196, -17.947312999999998], [8.249232, -17.293104], [7.522156, -16.562109], [6.724081, -15.760439], [5.861117999999999, -14.894207], [4.939382, -13.969524999999999], [3.964984, -12.992507], [2.9440359999999997, -11.969263999999999], [1.8826509999999999, -10.905909], [0.7869419999999999, -9.808555], [-0.336979, -8.683313], [-1.482999, -7.536296999999999], [-2.645006, -6.373618], [-3.816887, -5.20139], [-4.992531, -4.025723999999999], [-6.165824, -2.852734], [-7.330654, -1.688531], [-8.480908, -0.5392279999999999], [-9.610474, 0.589062], [-10.713239999999999, 1.6902279999999998], [-11.783092, 2.758155], [-12.813919, 3.786734], [-13.799609, 4.769849], [-14.734046999999999, 5.70139], [-15.611123, 6.575244], [-16.424723, 7.385298], [-17.168734999999998, 8.125439], [-17.837046, 8.789556], [-18.423545, 9.371535999999999], [-18.922117999999998, 9.865267], [-19.326653, 10.264635], [-19.631038, 10.563528999999999], [-19.829159999999998, 10.755836], [-19.914906, 10.835443999999999], [-19.917921, 10.837333], [-19.954893, 10.761377999999999], [-19.977746, 10.568149], [-19.981333, 10.435077], [-19.981333, 10.032821], [-4.9740779999999996, -4.974256], [10.033178, -19.981333], [10.435255999999999, -19.981333], [10.669727, -19.969322]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[14.056386999999999, -19.969324], [14.201288, -19.938772], [14.224, -19.917755], [14.165025, -19.852892999999998], [13.991966999999999, -19.674241], [13.710626999999999, -19.387598999999998], [13.326805, -18.998768], [12.8463, -18.513547], [12.274913, -17.937737], [11.618445, -17.277139], [10.882696, -16.537551], [10.073464999999999, -15.724775], [9.196553999999999, -14.844610999999999], [8.257762, -13.902858], [7.2628889999999995, -12.905318], [6.2177359999999995, -11.85779], [5.1281039999999996, -10.766074999999999], [3.999792, -9.635973], [2.8386, -8.473283], [1.650329, -7.2838069999999995], [0.44078, -6.073344], [-0.784249, -4.847695], [-2.018955, -3.612659], [-3.2575399999999997, -2.374038], [-4.494203, -1.137631], [-5.723144, 0.090761], [-6.938562, 1.3053379999999999], [-8.134656999999999, 2.500301], [-9.305629, 3.6698489999999997], [-10.445678, 4.808180999999999], [-11.549004, 5.909497], [-12.609805999999999, 6.967998], [-13.622283, 7.977881999999999], [-14.580637, 8.933349999999999], [-15.479066, 9.828602], [-16.31177, 10.657836999999999], [-17.072948999999998, 11.415255], [-17.756802999999998, 12.095056], [-18.357532, 12.69144], [-18.869334, 13.198606], [-19.286410999999998, 13.610754], [-19.602961999999998, 13.922085], [-19.813185999999998, 14.126797], [-19.911284, 14.21909], [-19.917911999999998, 14.224], [-19.95489, 14.148045], [-19.977746, 13.954816], [-19.981333, 13.821753], [-19.981333, 13.419506], [-3.280753, -3.2809139999999997], [13.419827, -19.981333], [13.821912999999999, -19.981333], [14.056386999999999, -19.969324]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[17.442952, -19.969329], [17.587915, -19.938791], [17.610667, -19.917762], [17.551654, -19.853127999999998], [17.378301999999998, -19.674422], [17.096144, -19.387176], [16.71071, -18.99692], [16.227532, -18.509186], [15.652140999999999, -17.929506], [14.99007, -17.26341], [14.246848, -16.516431], [13.428008, -15.694099999999999], [12.539081, -14.801947], [11.585598, -13.845505999999999], [10.573091999999999, -12.830306], [9.507092, -11.761878999999999], [8.393132, -10.645757999999999], [7.236740999999999, -9.487472], [6.0434529999999995, -8.292553999999999], [4.818797, -7.066535], [3.5683059999999998, -5.814946], [2.29751, -4.543318999999999], [1.011942, -3.257186], [-0.282867, -1.9620769999999998], [-1.581386, -0.663523], [-2.8780829999999997, 0.632942], [-4.167428, 1.921789], [-5.443887999999999, 3.197486], [-6.701931999999999, 4.454501], [-7.9360289999999996, 5.687303], [-9.140647, 6.890359999999999], [-10.310253999999999, 8.058142], [-11.439321, 9.185117], [-12.522314, 10.265751999999999], [-13.553702999999999, 11.294518], [-14.527954999999999, 12.265882], [-15.439541, 13.174313999999999], [-16.282928, 14.014280999999999], [-17.052584, 14.780251999999999], [-17.742979, 15.466695999999999], [-18.348581, 16.068082], [-18.863858999999998, 16.578878], [-19.283281, 16.993551999999998], [-19.601315, 17.306573999999998], [-19.812431, 17.512411999999998], [-19.911096, 17.605534], [-19.917904999999998, 17.610667], [-19.954893, 17.534713], [-19.977750999999998, 17.341496], [-19.981333, 17.208572999999998], [-19.981333, 16.806479], [16.806186999999998, -19.981333], [17.208427, -19.981333], [17.442952, -19.969329]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.965097999999998, 17.962107], [19.991197, 18.401913], [19.20477, 19.191623], [18.418343999999998, 19.981333], [17.485857, 19.981333], [18.712428, 18.751817], [19.939, 17.522299999999998], [19.965097999999998, 17.962107]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.965134, 14.577119999999999], [19.991269, 15.017334], [17.510339, 17.499333999999998], [15.029409999999999, 19.981333], [14.09792, 19.981333], [17.018459999999997, 17.05912], [19.939, 14.136906], [19.965134, 14.577119999999999]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.965142, 11.190828], [19.991283, 11.631079999999999], [15.816796, 15.806206], [11.642308, 19.981333], [10.710916, 19.981333], [19.939, 10.750577], [19.965142, 11.190828]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.99129, 8.244589], [14.123372999999999, 14.112960999999999], [8.255457, 19.981333], [7.3240929999999995, 19.981333], [13.631546, 13.672699999999999], [19.939, 7.3640669999999995], [19.99129, 8.244589]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.965146, 4.417755], [19.991293, 4.85802], [12.42999, 12.419677], [4.868688, 19.981333], [3.9373359999999997, 19.981333], [11.938168, 11.979412], [19.939, 3.97749], [19.965146, 4.417755]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[10.69849, 6.84654], [10.822894, 7.0203619999999995], [10.837333, 7.107977], [10.778625, 7.184494], [10.607698, 7.372513], [10.332348999999999, 7.664073999999999], [9.960374999999999, 8.051221], [9.499571999999999, 8.525998], [8.957737, 9.080446], [8.342667, 9.706609], [7.66216, 10.396531], [6.92401, 11.142253], [6.136016, 11.935818], [5.305973, 12.769271], [4.465958, 13.610377], [-1.9054179999999998, 19.981333], [-2.8359259999999997, 19.981333], [3.767667, 13.377333], [4.6481069999999995, 12.498007999999999], [5.49646, 11.653006999999999], [6.3049159999999995, 10.84999], [7.065668, 10.096611], [7.770905, 9.40053], [8.412818999999999, 8.769402], [8.983599, 8.210886], [9.475437999999999, 7.732639], [9.880524999999999, 7.3423169999999995], [10.191053, 7.047578], [10.399211, 6.8560799999999995], [10.49719, 6.775479], [10.502696, 6.773333], [10.69849, 6.84654]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[-6.2348099999999995, 17.006605], [-6.11037, 17.180932], [-6.096, 17.268791], [-6.153671999999999, 17.365368999999998], [-6.314975, 17.560861], [-6.562338, 17.835925], [-6.878191999999999, 18.171221], [-7.244966, 18.547408], [-7.38816, 18.691191], [-8.680318999999999, 19.981333], [-9.607903, 19.981333], [-8.085666999999999, 18.457333], [-7.666118999999999, 18.042315], [-7.280447, 17.67031], [-6.94616, 17.357449], [-6.68077, 17.119864], [-6.50179, 16.973686], [-6.431316, 16.933332999999998], [-6.2348099999999995, 17.006605]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.965146999999998, -12.515485], [19.991293, -12.075299], [12.091384999999999, -4.175051], [4.191476, 3.725196], [7.112098, 6.645817999999999], [13.546714999999999, 0.211618], [19.981333, -6.222582], [19.981333, -5.292255], [10.964936999999999, 3.725323], [13.885199, 6.645585], [19.981333, 0.551215], [19.981333, 1.4819559999999998], [10.731356, 10.731645], [1.4813779999999999, 19.981333], [0.550751, 19.981333], [6.984951, 13.546714999999999], [13.419151, 7.112098], [11.958839999999999, 5.651787], [10.498529999999999, 4.191476], [2.603262, 12.086405], [-5.292005, 19.981333], [-6.2210149999999995, 19.981333], [-4.867991, 18.626323], [-3.514967, 17.271314], [-4.974733, 15.811547], [-6.4345, 14.351780999999999], [-12.065933999999999, 19.981333], [-12.99617, 19.981333], [-6.899667999999999, 13.884490999999999], [-5.967973, 13.884490999999999], [-4.530087, 15.324245], [-4.1272079999999995, 15.725911], [-3.7642919999999997, 16.084419], [-3.458258, 16.383325], [-3.226026, 16.606187], [-3.0845149999999997, 16.736562], [-3.048656, 16.764], [-2.983463, 16.705558], [-2.807682, 16.536194], [-2.530334, 16.26485], [-2.16044, 15.900466], [-1.707021, 15.451984999999999], [-1.179098, 14.928348], [-0.585693, 14.338496], [0.064173, 13.691371], [0.761479, 12.995915], [1.497204, 12.261068999999999], [1.820319, 11.938013999999999], [6.645747999999999, 7.112028], [5.185433, 5.651714], [3.725119, 4.191399], [-5.967973, 13.884490999999999], [-6.899667999999999, 13.884490999999999], [19.939, -12.955670999999999], [19.965146999999998, -12.515485]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.9913, -15.461784999999999], [2.269892, 2.2597739999999997], [-15.451514999999999, 19.981333], [-16.382852, 19.981333], [19.939, -16.342323], [19.9913, -15.461784999999999]]]}, {"angle": [0.0], "type": "polygon", "pos": [150.5, 115.55], "polygons": [[[19.9913, -18.848439], [0.576552, 0.5664469999999999], [-18.838195, 19.981333], [-19.769531, 19.981333], [0.08473399999999999, 0.12617799999999998], [19.939, -19.728977], [19.9913, -18.848439]]]}]}, "edges_bbox": {"minx": 130.449999, "miny": 95.44999899999999, "maxx": 170.55000099999998, "maxy": 135.55000099999998}, "font_data": {"\u00b5": {"l": [[[0.23809523809523808, -0.7142857142857142], [0.23809523809523808, 0.2857142857142857]], [[0.7142857142857142, -0.19047619047619047], [0.7619047619047619, -0.09523809523809523], [0.8571428571428571, -0.047619047619047616]], [[0.23809523809523808, -0.19047619047619047], [0.2857142857142857, -0.09523809523809523], [0.38095238095238093, -0.047619047619047616], [0.5714285714285714, -0.047619047619047616], [0.6666666666666666, -0.09523809523809523], [0.7142857142857142, -0.19047619047619047], [0.7142857142857142, -0.7142857142857142]]], "w": 1.0476190476190474}, " ": {"l": [], "w": 0.7619047619047619}, "-": {"l": [[[0.23809523809523814, -0.42857142857142855], [1.0, -0.42857142857142855]]], "w": 1.2380952380952381}, ".": {"l": [[[0.23809523809523808, -0.14285714285714285], [0.2857142857142857, -0.09523809523809523], [0.23809523809523808, -0.047619047619047616], [0.19047619047619047, -0.09523809523809523], [0.23809523809523808, -0.14285714285714285], [0.23809523809523808, -0.047619047619047616]]], "w": 0.47619047619047616}, "1": {"l": [[[0.7619047619047619, -0.047619047619047616], [0.19047619047619047, -0.047619047619047616]], [[0.47619047619047616, -0.047619047619047616], [0.47619047619047616, -1.0476190476190474], [0.38095238095238093, -0.9047619047619047], [0.2857142857142857, -0.8095238095238095], [0.19047619047619047, -0.7619047619047619]]], "w": 0.9523809523809523}, "0": {"l": [[[0.42857142857142855, -1.0476190476190474], [0.5238095238095237, -1.0476190476190474], [0.6190476190476191, -1.0], [0.6666666666666666, -0.9523809523809523], [0.7142857142857142, -0.8571428571428571], [0.7619047619047619, -0.6666666666666666], [0.7619047619047619, -0.42857142857142855], [0.7142857142857142, -0.23809523809523808], [0.6666666666666666, -0.14285714285714285], [0.6190476190476191, -0.09523809523809523], [0.5238095238095237, -0.047619047619047616], [0.42857142857142855, -0.047619047619047616], [0.3333333333333333, -0.09523809523809523], [0.2857142857142857, -0.14285714285714285], [0.23809523809523808, -0.23809523809523808], [0.19047619047619047, -0.42857142857142855], [0.19047619047619047, -0.6666666666666666], [0.23809523809523808, -0.8571428571428571], [0.2857142857142857, -0.9523809523809523], [0.3333333333333333, -1.0], [0.42857142857142855, -1.0476190476190474]]], "w": 0.9523809523809523}, "3": {"l": [[[0.14285714285714285, -1.0476190476190474], [0.7619047619047619, -1.0476190476190474], [0.42857142857142855, -0.6666666666666666], [0.5714285714285714, -0.6666666666666666], [0.6666666666666666, -0.6190476190476191], [0.7142857142857142, -0.5714285714285714], [0.7619047619047619, -0.47619047619047616], [0.7619047619047619, -0.23809523809523808], [0.7142857142857142, -0.14285714285714285], [0.6666666666666666, -0.09523809523809523], [0.5714285714285714, -0.047619047619047616], [0.2857142857142857, -0.047619047619047616], [0.19047619047619047, -0.09523809523809523], [0.14285714285714285, -0.14285714285714285]]], "w": 0.9523809523809523}, "2": {"l": [[[0.19047619047619047, -0.9523809523809523], [0.23809523809523808, -1.0], [0.3333333333333333, -1.0476190476190474], [0.5714285714285714, -1.0476190476190474], [0.6666666666666666, -1.0], [0.7142857142857142, -0.9523809523809523], [0.7619047619047619, -0.8571428571428571], [0.7619047619047619, -0.7619047619047619], [0.7142857142857142, -0.6190476190476191], [0.14285714285714285, -0.047619047619047616], [0.7619047619047619, -0.047619047619047616]]], "w": 0.9523809523809523}, "5": {"l": [[[0.7142857142857142, -1.0476190476190474], [0.23809523809523808, -1.0476190476190474], [0.19047619047619047, -0.5714285714285714], [0.23809523809523808, -0.6190476190476191], [0.3333333333333333, -0.6666666666666666], [0.5714285714285714, -0.6666666666666666], [0.6666666666666666, -0.6190476190476191], [0.7142857142857142, -0.5714285714285714], [0.7619047619047619, -0.47619047619047616], [0.7619047619047619, -0.23809523809523808], [0.7142857142857142, -0.14285714285714285], [0.6666666666666666, -0.09523809523809523], [0.5714285714285714, -0.047619047619047616], [0.3333333333333333, -0.047619047619047616], [0.23809523809523808, -0.09523809523809523], [0.19047619047619047, -0.14285714285714285]]], "w": 0.9523809523809523}, "4": {"l": [[[0.6666666666666666, -0.7142857142857142], [0.6666666666666666, -0.047619047619047616]], [[0.42857142857142855, -1.0952380952380951], [0.19047619047619047, -0.38095238095238093], [0.8095238095238095, -0.38095238095238093]]], "w": 0.9523809523809523}, "7": {"l": [[[0.14285714285714285, -1.0476190476190474], [0.8095238095238095, -1.0476190476190474], [0.38095238095238093, -0.047619047619047616]]], "w": 0.9523809523809523}, "6": {"l": [[[0.6666666666666666, -1.0476190476190474], [0.47619047619047616, -1.0476190476190474], [0.38095238095238093, -1.0], [0.3333333333333333, -0.9523809523809523], [0.23809523809523808, -0.8095238095238095], [0.19047619047619047, -0.6190476190476191], [0.19047619047619047, -0.23809523809523808], [0.23809523809523808, -0.14285714285714285], [0.2857142857142857, -0.09523809523809523], [0.38095238095238093, -0.047619047619047616], [0.5714285714285714, -0.047619047619047616], [0.6666666666666666, -0.09523809523809523], [0.7142857142857142, -0.14285714285714285], [0.7619047619047619, -0.23809523809523808], [0.7619047619047619, -0.47619047619047616], [0.7142857142857142, -0.5714285714285714], [0.6666666666666666, -0.6190476190476191], [0.5714285714285714, -0.6666666666666666], [0.38095238095238093, -0.6666666666666666], [0.2857142857142857, -0.6190476190476191], [0.23809523809523808, -0.5714285714285714], [0.19047619047619047, -0.47619047619047616]]], "w": 0.9523809523809523}, "9": {"l": [[[0.2857142857142857, -0.047619047619047616], [0.47619047619047616, -0.047619047619047616], [0.5714285714285714, -0.09523809523809523], [0.6190476190476191, -0.14285714285714285], [0.7142857142857142, -0.2857142857142857], [0.7619047619047619, -0.47619047619047616], [0.7619047619047619, -0.8571428571428571], [0.7142857142857142, -0.9523809523809523], [0.6666666666666666, -1.0], [0.5714285714285714, -1.0476190476190474], [0.38095238095238093, -1.0476190476190474], [0.2857142857142857, -1.0], [0.23809523809523808, -0.9523809523809523], [0.19047619047619047, -0.8571428571428571], [0.19047619047619047, -0.6190476190476191], [0.23809523809523808, -0.5238095238095237], [0.2857142857142857, -0.47619047619047616], [0.38095238095238093, -0.42857142857142855], [0.5714285714285714, -0.42857142857142855], [0.6666666666666666, -0.47619047619047616], [0.7142857142857142, -0.5238095238095237], [0.7619047619047619, -0.6190476190476191]]], "w": 0.9523809523809523}, "8": {"l": [[[0.38095238095238093, -0.6190476190476191], [0.2857142857142857, -0.6666666666666666], [0.23809523809523808, -0.7142857142857142], [0.19047619047619047, -0.8095238095238095], [0.19047619047619047, -0.8571428571428571], [0.23809523809523808, -0.9523809523809523], [0.2857142857142857, -1.0], [0.38095238095238093, -1.0476190476190474], [0.5714285714285714, -1.0476190476190474], [0.6666666666666666, -1.0], [0.7142857142857142, -0.9523809523809523], [0.7619047619047619, -0.8571428571428571], [0.7619047619047619, -0.8095238095238095], [0.7142857142857142, -0.7142857142857142], [0.6666666666666666, -0.6666666666666666], [0.5714285714285714, -0.6190476190476191], [0.38095238095238093, -0.6190476190476191], [0.2857142857142857, -0.5714285714285714], [0.23809523809523808, -0.5238095238095237], [0.19047619047619047, -0.42857142857142855], [0.19047619047619047, -0.23809523809523808], [0.23809523809523808, -0.14285714285714285], [0.2857142857142857, -0.09523809523809523], [0.38095238095238093, -0.047619047619047616], [0.5714285714285714, -0.047619047619047616], [0.6666666666666666, -0.09523809523809523], [0.7142857142857142, -0.14285714285714285], [0.7619047619047619, -0.23809523809523808], [0.7619047619047619, -0.42857142857142855], [0.7142857142857142, -0.5238095238095237], [0.6666666666666666, -0.5714285714285714], [0.5714285714285714, -0.6190476190476191]]], "w": 0.9523809523809523}, "A": {"l": [[[0.19047619047619047, -0.3333333333333333], [0.6666666666666666, -0.3333333333333333]], [[0.09523809523809523, -0.047619047619047616], [0.42857142857142855, -1.0476190476190474], [0.7619047619047619, -0.047619047619047616]]], "w": 0.8571428571428571}, "C": {"l": [[[0.8095238095238095, -0.14285714285714285], [0.7619047619047619, -0.09523809523809523], [0.6190476190476191, -0.047619047619047616], [0.5238095238095237, -0.047619047619047616], [0.38095238095238093, -0.09523809523809523], [0.2857142857142857, -0.19047619047619047], [0.23809523809523808, -0.2857142857142857], [0.19047619047619047, -0.47619047619047616], [0.19047619047619047, -0.6190476190476191], [0.23809523809523808, -0.8095238095238095], [0.2857142857142857, -0.9047619047619047], [0.38095238095238093, -1.0], [0.5238095238095237, -1.0476190476190474], [0.6190476190476191, -1.0476190476190474], [0.7619047619047619, -1.0], [0.8095238095238095, -0.9523809523809523]]], "w": 1.0}, "B": {"l": [[[0.5714285714285714, -0.5714285714285714], [0.7142857142857142, -0.5238095238095237], [0.7619047619047619, -0.47619047619047616], [0.8095238095238094, -0.38095238095238093], [0.8095238095238094, -0.23809523809523808], [0.7619047619047619, -0.14285714285714285], [0.7142857142857142, -0.09523809523809523], [0.619047619047619, -0.047619047619047616], [0.23809523809523803, -0.047619047619047616], [0.23809523809523803, -1.0476190476190474], [0.5714285714285714, -1.0476190476190474], [0.6666666666666665, -1.0], [0.7142857142857142, -0.9523809523809523], [0.7619047619047619, -0.8571428571428571], [0.7619047619047619, -0.7619047619047619], [0.7142857142857142, -0.6666666666666666], [0.6666666666666665, -0.6190476190476191], [0.5714285714285714, -0.5714285714285714], [0.23809523809523803, -0.5714285714285714]]], "w": 1.0}, "E": {"l": [[[0.23809523809523808, -0.5714285714285714], [0.5714285714285714, -0.5714285714285714]], [[0.7142857142857142, -0.047619047619047616], [0.23809523809523808, -0.047619047619047616], [0.23809523809523808, -1.0476190476190474], [0.7142857142857142, -1.0476190476190474]]], "w": 0.9047619047619047}, "D": {"l": [[[0.23809523809523803, -0.047619047619047616], [0.23809523809523803, -1.0476190476190474], [0.4761904761904761, -1.0476190476190474], [0.619047619047619, -1.0], [0.7142857142857142, -0.9047619047619047], [0.7619047619047619, -0.8095238095238095], [0.8095238095238094, -0.6190476190476191], [0.8095238095238094, -0.47619047619047616], [0.7619047619047619, -0.2857142857142857], [0.7142857142857142, -0.19047619047619047], [0.619047619047619, -0.09523809523809523], [0.4761904761904761, -0.047619047619047616], [0.23809523809523803, -0.047619047619047616]]], "w": 1.0}, "G": {"l": [[[0.7619047619047619, -1.0], [0.6666666666666666, -1.0476190476190474], [0.5238095238095237, -1.0476190476190474], [0.38095238095238093, -1.0], [0.2857142857142857, -0.9047619047619047], [0.23809523809523808, -0.8095238095238095], [0.19047619047619047, -0.6190476190476191], [0.19047619047619047, -0.47619047619047616], [0.23809523809523808, -0.2857142857142857], [0.2857142857142857, -0.19047619047619047], [0.38095238095238093, -0.09523809523809523], [0.5238095238095237, -0.047619047619047616], [0.6190476190476191, -0.047619047619047616], [0.7619047619047619, -0.09523809523809523], [0.8095238095238095, -0.14285714285714285], [0.8095238095238095, -0.47619047619047616], [0.6190476190476191, -0.47619047619047616]]], "w": 1.0}, "H": {"l": [[[0.23809523809523803, -0.047619047619047616], [0.23809523809523803, -1.0476190476190474]], [[0.23809523809523803, -0.5714285714285714], [0.8095238095238094, -0.5714285714285714]], [[0.8095238095238094, -0.047619047619047616], [0.8095238095238094, -1.0476190476190474]]], "w": 1.0476190476190474}, "K": {"l": [[[0.23809523809523803, -0.047619047619047616], [0.23809523809523803, -1.0476190476190474]], [[0.8095238095238094, -0.047619047619047616], [0.3809523809523809, -0.6190476190476191]], [[0.8095238095238094, -1.0476190476190474], [0.23809523809523803, -0.47619047619047616]]], "w": 1.0}, "J": {"l": [[[0.5238095238095237, -1.0476190476190474], [0.5238095238095237, -0.3333333333333333], [0.47619047619047616, -0.19047619047619047], [0.38095238095238093, -0.09523809523809523], [0.23809523809523808, -0.047619047619047616], [0.14285714285714285, -0.047619047619047616]]], "w": 0.7619047619047619}, "M": {"l": [[[0.23809523809523808, -0.047619047619047616], [0.23809523809523808, -1.0476190476190474], [0.5714285714285714, -0.3333333333333333], [0.9047619047619047, -1.0476190476190474], [0.9047619047619047, -0.047619047619047616]]], "w": 1.1428571428571428}, "L": {"l": [[[0.7142857142857142, -0.047619047619047616], [0.23809523809523808, -0.047619047619047616], [0.23809523809523808, -1.0476190476190474]]], "w": 0.8095238095238095}, "O": {"l": [[[0.4285714285714285, -1.0476190476190474], [0.619047619047619, -1.0476190476190474], [0.7142857142857142, -1.0], [0.8095238095238094, -0.9047619047619047], [0.857142857142857, -0.7142857142857142], [0.857142857142857, -0.38095238095238093], [0.8095238095238094, -0.19047619047619047], [0.7142857142857142, -0.09523809523809523], [0.619047619047619, -0.047619047619047616], [0.4285714285714285, -0.047619047619047616], [0.33333333333333326, -0.09523809523809523], [0.23809523809523803, -0.19047619047619047], [0.1904761904761904, -0.38095238095238093], [0.1904761904761904, -0.7142857142857142], [0.23809523809523803, -0.9047619047619047], [0.33333333333333326, -1.0], [0.4285714285714285, -1.0476190476190474]]], "w": 1.0476190476190474}, "N": {"l": [[[0.23809523809523803, -0.047619047619047616], [0.23809523809523803, -1.0476190476190474], [0.8095238095238094, -0.047619047619047616], [0.8095238095238094, -1.0476190476190474]]], "w": 1.0476190476190474}, "P": {"l": [[[0.23809523809523803, -0.047619047619047616], [0.23809523809523803, -1.0476190476190474], [0.619047619047619, -1.0476190476190474], [0.7142857142857142, -1.0], [0.7619047619047619, -0.9523809523809523], [0.8095238095238094, -0.8571428571428571], [0.8095238095238094, -0.7142857142857142], [0.7619047619047619, -0.6190476190476191], [0.7142857142857142, -0.5714285714285714], [0.619047619047619, -0.5238095238095237], [0.23809523809523803, -0.5238095238095237]]], "w": 1.0}, "S": {"l": [[[0.19047619047619047, -0.09523809523809523], [0.3333333333333333, -0.047619047619047616], [0.5714285714285714, -0.047619047619047616], [0.6666666666666666, -0.09523809523809523], [0.7142857142857142, -0.14285714285714285], [0.7619047619047619, -0.23809523809523808], [0.7619047619047619, -0.3333333333333333], [0.7142857142857142, -0.42857142857142855], [0.6666666666666666, -0.47619047619047616], [0.5714285714285714, -0.5238095238095237], [0.38095238095238093, -0.5714285714285714], [0.2857142857142857, -0.6190476190476191], [0.23809523809523808, -0.6666666666666666], [0.19047619047619047, -0.7619047619047619], [0.19047619047619047, -0.8571428571428571], [0.23809523809523808, -0.9523809523809523], [0.2857142857142857, -1.0], [0.38095238095238093, -1.0476190476190474], [0.6190476190476191, -1.0476190476190474], [0.7619047619047619, -1.0]]], "w": 0.9523809523809523}, "R": {"l": [[[0.8095238095238094, -0.047619047619047616], [0.4761904761904761, -0.5238095238095237]], [[0.23809523809523803, -0.047619047619047616], [0.23809523809523803, -1.0476190476190474], [0.619047619047619, -1.0476190476190474], [0.7142857142857142, -1.0], [0.7619047619047619, -0.9523809523809523], [0.8095238095238094, -0.8571428571428571], [0.8095238095238094, -0.7142857142857142], [0.7619047619047619, -0.6190476190476191], [0.7142857142857142, -0.5714285714285714], [0.619047619047619, -0.5238095238095237], [0.23809523809523803, -0.5238095238095237]]], "w": 1.0}, "U": {"l": [[[0.23809523809523803, -1.0476190476190474], [0.23809523809523803, -0.23809523809523808], [0.28571428571428564, -0.14285714285714285], [0.33333333333333326, -0.09523809523809523], [0.4285714285714285, -0.047619047619047616], [0.619047619047619, -0.047619047619047616], [0.7142857142857142, -0.09523809523809523], [0.7619047619047619, -0.14285714285714285], [0.8095238095238094, -0.23809523809523808], [0.8095238095238094, -1.0476190476190474]]], "w": 1.0476190476190474}, "T": {"l": [[[0.09523809523809523, -1.0476190476190474], [0.6666666666666666, -1.0476190476190474]], [[0.38095238095238093, -0.047619047619047616], [0.38095238095238093, -1.0476190476190474]]], "w": 0.7619047619047619}, "W": {"l": [[[0.14285714285714285, -1.0476190476190474], [0.38095238095238093, -0.047619047619047616], [0.5714285714285714, -0.7619047619047619], [0.7619047619047619, -0.047619047619047616], [1.0, -1.0476190476190474]]], "w": 1.1428571428571428}, "V": {"l": [[[0.09523809523809523, -1.0476190476190474], [0.42857142857142855, -0.047619047619047616], [0.7619047619047619, -1.0476190476190474]]], "w": 0.8571428571428571}, "_": {"l": [[[0.0, 0.047619047619047616], [0.7619047619047619, 0.047619047619047616]]], "w": 0.7619047619047619}, "a": {"l": [[[0.6666666666666666, -0.047619047619047616], [0.6666666666666666, -0.5714285714285714], [0.6190476190476191, -0.6666666666666666], [0.5238095238095237, -0.7142857142857142], [0.3333333333333333, -0.7142857142857142], [0.23809523809523808, -0.6666666666666666]], [[0.6666666666666666, -0.09523809523809523], [0.5714285714285714, -0.047619047619047616], [0.3333333333333333, -0.047619047619047616], [0.23809523809523808, -0.09523809523809523], [0.19047619047619047, -0.19047619047619047], [0.19047619047619047, -0.2857142857142857], [0.23809523809523808, -0.38095238095238093], [0.3333333333333333, -0.42857142857142855], [0.5714285714285714, -0.42857142857142855], [0.6666666666666666, -0.47619047619047616]]], "w": 0.9047619047619047}, "c": {"l": [[[0.6666666666666666, -0.09523809523809523], [0.5714285714285714, -0.047619047619047616], [0.38095238095238093, -0.047619047619047616], [0.2857142857142857, -0.09523809523809523], [0.23809523809523808, -0.14285714285714285], [0.19047619047619047, -0.23809523809523808], [0.19047619047619047, -0.5238095238095237], [0.23809523809523808, -0.6190476190476191], [0.2857142857142857, -0.6666666666666666], [0.38095238095238093, -0.7142857142857142], [0.5714285714285714, -0.7142857142857142], [0.6666666666666666, -0.6666666666666666]]], "w": 0.8571428571428571}, "b": {"l": [[[0.23809523809523808, -0.047619047619047616], [0.23809523809523808, -1.0476190476190474]], [[0.23809523809523808, -0.6666666666666666], [0.3333333333333333, -0.7142857142857142], [0.5238095238095237, -0.7142857142857142], [0.6190476190476191, -0.6666666666666666], [0.6666666666666666, -0.6190476190476191], [0.7142857142857142, -0.5238095238095237], [0.7142857142857142, -0.23809523809523808], [0.6666666666666666, -0.14285714285714285], [0.6190476190476191, -0.09523809523809523], [0.5238095238095237, -0.047619047619047616], [0.3333333333333333, -0.047619047619047616], [0.23809523809523808, -0.09523809523809523]]], "w": 0.9047619047619047}, "e": {"l": [[[0.6190476190476191, -0.09523809523809523], [0.5238095238095237, -0.047619047619047616], [0.3333333333333333, -0.047619047619047616], [0.23809523809523808, -0.09523809523809523], [0.19047619047619047, -0.19047619047619047], [0.19047619047619047, -0.5714285714285714], [0.23809523809523808, -0.6666666666666666], [0.3333333333333333, -0.7142857142857142], [0.5238095238095237, -0.7142857142857142], [0.6190476190476191, -0.6666666666666666], [0.6666666666666666, -0.5714285714285714], [0.6666666666666666, -0.47619047619047616], [0.19047619047619047, -0.38095238095238093]]], "w": 0.8571428571428571}, "h": {"l": [[[0.23809523809523808, -0.047619047619047616], [0.23809523809523808, -1.0476190476190474]], [[0.6666666666666666, -0.047619047619047616], [0.6666666666666666, -0.5714285714285714], [0.6190476190476191, -0.6666666666666666], [0.5238095238095237, -0.7142857142857142], [0.38095238095238093, -0.7142857142857142], [0.2857142857142857, -0.6666666666666666], [0.23809523809523808, -0.6190476190476191]]], "w": 0.9047619047619047}, "k": {"l": [[[0.23809523809523808, -0.047619047619047616], [0.23809523809523808, -1.0476190476190474]], [[0.3333333333333333, -0.42857142857142855], [0.6190476190476191, -0.047619047619047616]], [[0.6190476190476191, -0.7142857142857142], [0.23809523809523808, -0.3333333333333333]]], "w": 0.8095238095238095}, "l": {"l": [[[0.38095238095238093, -0.047619047619047616], [0.2857142857142857, -0.09523809523809523], [0.23809523809523808, -0.19047619047619047], [0.23809523809523808, -1.0476190476190474]]], "w": 0.5238095238095237}, "o": {"l": [[[0.38095238095238093, -0.047619047619047616], [0.2857142857142857, -0.09523809523809523], [0.23809523809523808, -0.14285714285714285], [0.19047619047619047, -0.23809523809523808], [0.19047619047619047, -0.5238095238095237], [0.23809523809523808, -0.6190476190476191], [0.2857142857142857, -0.6666666666666666], [0.38095238095238093, -0.7142857142857142], [0.5238095238095237, -0.7142857142857142], [0.6190476190476191, -0.6666666666666666], [0.6666666666666666, -0.6190476190476191], [0.7142857142857142, -0.5238095238095237], [0.7142857142857142, -0.23809523809523808], [0.6666666666666666, -0.14285714285714285], [0.6190476190476191, -0.09523809523809523], [0.5238095238095237, -0.047619047619047616], [0.38095238095238093, -0.047619047619047616]]], "w": 0.9047619047619047}, "n": {"l": [[[0.23809523809523808, -0.7142857142857142], [0.23809523809523808, -0.047619047619047616]], [[0.23809523809523808, -0.6190476190476191], [0.2857142857142857, -0.6666666666666666], [0.38095238095238093, -0.7142857142857142], [0.5238095238095237, -0.7142857142857142], [0.6190476190476191, -0.6666666666666666], [0.6666666666666666, -0.5714285714285714], [0.6666666666666666, -0.047619047619047616]]], "w": 0.9047619047619047}, "u": {"l": [[[0.6666666666666666, -0.7142857142857142], [0.6666666666666666, -0.047619047619047616]], [[0.23809523809523808, -0.7142857142857142], [0.23809523809523808, -0.19047619047619047], [0.2857142857142857, -0.09523809523809523], [0.38095238095238093, -0.047619047619047616], [0.5238095238095237, -0.047619047619047616], [0.6190476190476191, -0.09523809523809523], [0.6666666666666666, -0.14285714285714285]]], "w": 0.9047619047619047}, "t": {"l": [[[0.09523809523809523, -0.7142857142857142], [0.47619047619047616, -0.7142857142857142]], [[0.23809523809523808, -1.0476190476190474], [0.23809523809523808, -0.19047619047619047], [0.2857142857142857, -0.09523809523809523], [0.38095238095238093, -0.047619047619047616], [0.47619047619047616, -0.047619047619047616]]], "w": 0.5714285714285714}, "y": {"l": [[[0.14285714285714285, -0.7142857142857142], [0.38095238095238093, -0.047619047619047616]], [[0.6190476190476191, -0.7142857142857142], [0.38095238095238093, -0.047619047619047616], [0.2857142857142857, 0.19047619047619047], [0.23809523809523808, 0.23809523809523808], [0.14285714285714285, 0.2857142857142857]]], "w": 0.7619047619047619}, "x": {"l": [[[0.14285714285714285, -0.047619047619047616], [0.6666666666666666, -0.7142857142857142]], [[0.14285714285714285, -0.7142857142857142], [0.6666666666666666, -0.047619047619047616]]], "w": 0.8095238095238095}}, "modules": [{"layer": "F", "center": [150.5, 115.55], "pads": [], "drawings": [], "ref": "G***", "bbox": {"pos": [130.513666, 95.563666], "size": [39.982634999999995, 39.972668]}}, {"layer": "B", "center": [165.79999999999998, 97.94999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [165.79999999999998, 97.94999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H7", "bbox": {"pos": [164.54999999999998, 95.44999999999999], "size": [2.5, 5.0]}}, {"layer": "B", "center": [150.5, 130.54999999999998], "pads": [{"layers": ["F", "B"], "angle": -180.0, "pos": [153.9, 133.29999999999998], "drillsize": [0.8999999999999999, 0.8999999999999999], "shape": "circle", "offset": [0.0, 0.0], "drillshape": "circle", "type": "th", "size": [0.8999999999999999, 0.8999999999999999]}, {"layers": ["F", "B"], "angle": -180.0, "pos": [147.1, 133.29999999999998], "drillsize": [0.8999999999999999, 0.8999999999999999], "shape": "circle", "offset": [0.0, 0.0], "drillshape": "circle", "type": "th", "size": [0.8999999999999999, 0.8999999999999999]}, {"layers": ["B"], "angle": -180.0, "pos": [148.0, 130.54999999999998], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [1.2, 2.5]}, {"layers": ["B"], "angle": -180.0, "pos": [150.5, 130.54999999999998], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [1.2, 2.5]}, {"layers": ["B"], "angle": -180.0, "pos": [153.0, 130.54999999999998], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [1.2, 2.5]}], "drawings": [], "ref": "SW1", "bbox": {"pos": [145.939999, 129.29999999999998], "size": [9.120002, 7.860001]}}, {"layer": "B", "center": [133.79999999999998, 115.27], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [135.29999999999998, 113.3], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [2.0, 4.0]}, {"layers": ["B"], "angle": -0.0, "pos": [132.29999999999998, 113.3], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.0, 4.0]}], "drawings": [], "ref": "J1", "bbox": {"pos": [131.29999999999998, 111.3], "size": [5.0, 4.22]}}, {"layer": "B", "center": [165.15, 113.24], "pads": [{"layers": ["B"], "angle": -180.0, "pos": [165.15, 105.17999999999999], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 105.8], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 106.42], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 107.03999999999999], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 107.66], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 108.28], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 108.89999999999999], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 109.52], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 110.14], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 110.75999999999999], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 111.38], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 112.0], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 112.61999999999999], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [3.0, 0.32]}, {"layers": ["B"], "angle": -180.0, "pos": [165.15, 113.24], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [3.0, 0.32]}], "drawings": [], "ref": "U3", "bbox": {"pos": [163.589999, 104.649999], "size": [3.620002, 9.120002]}}, {"layer": "B", "center": [141.7, 97.44999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [141.7, 97.44999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [1.0, 4.0]}], "drawings": [], "ref": "H1", "bbox": {"pos": [141.2, 95.44999999999999], "size": [1.0, 4.0]}}, {"layer": "B", "center": [157.72, 97.44999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [157.72, 97.44999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [1.0, 4.0]}], "drawings": [], "ref": "H3", "bbox": {"pos": [157.22, 95.44999999999999], "size": [1.0, 4.0]}}, {"layer": "B", "center": [160.26, 97.44999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [160.26, 97.44999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [1.0, 4.0]}], "drawings": [], "ref": "H4", "bbox": {"pos": [159.76, 95.44999999999999], "size": [1.0, 4.0]}}, {"layer": "B", "center": [162.79999999999998, 97.44999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [162.79999999999998, 97.44999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [1.0, 4.0]}], "drawings": [], "ref": "H5", "bbox": {"pos": [162.29999999999998, 95.44999999999999], "size": [1.0, 4.0]}}, {"layer": "B", "center": [138.7, 97.94999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [138.7, 97.94999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H6", "bbox": {"pos": [137.45, 95.44999999999999], "size": [2.5, 5.0]}}, {"layer": "B", "center": [169.29999999999998, 97.94999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [169.29999999999998, 97.94999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H8", "bbox": {"pos": [168.04999999999998, 95.44999999999999], "size": [2.5, 5.0]}}, {"layer": "B", "center": [132.75, 108.0], "pads": [{"layers": ["B"], "angle": -90.0, "pos": [133.7, 109.1], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [1.06, 0.65]}, {"layers": ["B"], "angle": -90.0, "pos": [132.75, 109.1], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [1.06, 0.65]}, {"layers": ["B"], "angle": -90.0, "pos": [131.79999999999998, 109.1], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [1.06, 0.65]}, {"layers": ["B"], "angle": -90.0, "pos": [131.79999999999998, 106.89999999999999], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [1.06, 0.65]}, {"layers": ["B"], "angle": -90.0, "pos": [133.7, 106.89999999999999], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [1.06, 0.65]}], "drawings": [], "ref": "U2", "bbox": {"pos": [130.92499899999999, 106.07499899999999], "size": [3.6500019999999997, 3.850002]}}, {"layer": "B", "center": [131.7, 97.94999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [131.7, 97.94999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H10", "bbox": {"pos": [130.45, 95.44999999999999], "size": [2.5, 5.0]}}, {"layer": "B", "center": [135.2, 97.94999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [135.2, 97.94999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H2", "bbox": {"pos": [133.95, 95.44999999999999], "size": [2.5, 5.0]}}, {"layer": "B", "center": [133.79999999999998, 117.5], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [134.73749999999998, 117.5], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -0.0, "pos": [132.86249999999998, 117.5], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "C2", "bbox": {"pos": [132.094999, 116.524999], "size": [3.410002, 1.950002]}}, {"layer": "B", "center": [169.5, 114.25], "pads": [{"layers": ["B"], "angle": -90.0, "pos": [169.5, 115.1875], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -90.0, "pos": [169.5, 113.3125], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "C3", "bbox": {"pos": [168.52499899999998, 112.54499899999999], "size": [1.950002, 3.410002]}}, {"layer": "B", "center": [169.5, 110.3], "pads": [{"layers": ["B"], "angle": -90.0, "pos": [169.5, 109.3625], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -90.0, "pos": [169.5, 111.2375], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "C4", "bbox": {"pos": [168.52499899999998, 108.594999], "size": [1.950002, 3.410002]}}, {"layer": "B", "center": [169.5, 106.39999999999999], "pads": [{"layers": ["B"], "angle": -270.0, "pos": [169.5, 105.46249999999999], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -270.0, "pos": [169.5, 107.33749999999999], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "C5", "bbox": {"pos": [168.52499899999998, 104.694999], "size": [1.950002, 3.410002]}}, {"layer": "B", "center": [165.0, 102.75], "pads": [{"layers": ["B"], "angle": -90.0, "pos": [165.0, 101.8125], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -90.0, "pos": [165.0, 103.6875], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "C6", "bbox": {"pos": [164.02499899999998, 101.04499899999999], "size": [1.950002, 3.410002]}}, {"layer": "B", "center": [167.25, 102.75], "pads": [{"layers": ["B"], "angle": -270.0, "pos": [167.25, 101.8125], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -270.0, "pos": [167.25, 103.6875], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "C7", "bbox": {"pos": [166.27499899999998, 101.04499899999999], "size": [1.950002, 3.410002]}}, {"layer": "B", "center": [144.5, 99.75], "pads": [{"layers": ["B"], "angle": -180.0, "pos": [145.4375, 99.75], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -180.0, "pos": [143.5625, 99.75], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "R1", "bbox": {"pos": [142.794999, 98.774999], "size": [3.410002, 1.950002]}}, {"layer": "B", "center": [144.5, 97.5], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [145.4375, 97.5], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -0.0, "pos": [143.5625, 97.5], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "R2", "bbox": {"pos": [142.794999, 96.524999], "size": [3.410002, 1.950002]}}, {"layer": "B", "center": [135.75, 108.0], "pads": [{"layers": ["B"], "angle": -270.0, "pos": [135.75, 108.9375], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -270.0, "pos": [135.75, 107.0625], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "R3", "bbox": {"pos": [134.77499899999998, 106.29499899999999], "size": [1.950002, 3.410002]}}, {"layer": "B", "center": [131.7, 103.75], "pads": [{"layers": ["B"], "angle": -90.0, "pos": [131.7, 104.6875], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -90.0, "pos": [131.7, 102.8125], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "R4", "bbox": {"pos": [130.724999, 102.04499899999999], "size": [1.950002, 3.410002]}}, {"layer": "B", "center": [169.5, 102.75], "pads": [{"layers": ["B"], "angle": -270.0, "pos": [169.5, 101.8125], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.975, 1.4]}, {"layers": ["B"], "angle": -270.0, "pos": [169.5, 103.6875], "shape": "roundrect", "radius": 0.24375, "offset": [0.0, 0.0], "type": "smd", "size": [0.975, 1.4]}], "drawings": [], "ref": "R5", "bbox": {"pos": [168.52499899999998, 101.04499899999999], "size": [1.950002, 3.410002]}}, {"layer": "B", "center": [131.7, 133.04999999999998], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [131.7, 133.04999999999998], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H9", "bbox": {"pos": [130.45, 130.54999999999998], "size": [2.5, 5.0]}}, {"layer": "B", "center": [169.29999999999998, 133.04999999999998], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [169.29999999999998, 133.04999999999998], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H11", "bbox": {"pos": [168.04999999999998, 130.54999999999998], "size": [2.5, 5.0]}}, {"layer": "B", "center": [150.5, 127.19999999999999], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [148.85, 127.19999999999999], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.8999999999999999, 1.2]}, {"layers": ["B"], "angle": -0.0, "pos": [152.15, 127.19999999999999], "shape": "rect", "offset": [0.0, 0.0], "type": "smd", "size": [0.8999999999999999, 1.2]}], "drawings": [], "ref": "D1", "bbox": {"pos": [148.124999, 126.024999], "size": [4.750001999999999, 2.350002]}}, {"layer": "B", "center": [134.6, 103.75], "pads": [{"layers": ["B"], "angle": -90.0, "pos": [134.6, 104.5375], "shape": "roundrect", "radius": 0.21875, "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [0.875, 0.95]}, {"layers": ["B"], "angle": -90.0, "pos": [134.6, 102.96249999999999], "shape": "roundrect", "radius": 0.21875, "offset": [0.0, 0.0], "type": "smd", "size": [0.875, 0.95]}], "drawings": [], "ref": "D2", "bbox": {"pos": [133.80499899999998, 102.24499899999999], "size": [1.590002, 3.0500019999999997]}}, {"layer": "B", "center": [131.7, 126.05], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [131.7, 126.05], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H12", "bbox": {"pos": [130.45, 123.55], "size": [2.5, 5.0]}}, {"layer": "B", "center": [169.29999999999998, 126.05], "pads": [{"layers": ["B"], "angle": -0.0, "pos": [169.29999999999998, 126.05], "shape": "rect", "offset": [0.0, 0.0], "pin1": 1, "type": "smd", "size": [2.5, 5.0]}], "drawings": [], "ref": "H13", "bbox": {"pos": [168.04999999999998, 123.55], "size": [2.5, 5.0]}}], "fabrication": {"B": [{"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H7", "thickness": 0.15, "ref": 1, "pos": [165.79999999999998, 94.05], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "SW1", "thickness": 0.15, "ref": 1, "pos": [150.29999999999998, 133.25], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "SW_DPDT_x2", "thickness": 0.15, "pos": [150.5, 128.15], "height": 0.8999999999999999}, {"start": [152.29999999999998, 137.1], "end": [152.29999999999998, 135.1], "type": "segment", "width": 0.12}, {"start": [150.79999999999998, 137.1], "end": [152.29999999999998, 137.1], "type": "segment", "width": 0.12}, {"start": [150.79999999999998, 135.1], "end": [150.79999999999998, 137.1], "type": "segment", "width": 0.12}, {"start": [146.0, 135.1], "end": [155.0, 135.1], "type": "segment", "width": 0.12}, {"start": [146.0, 131.5], "end": [146.0, 135.1], "type": "segment", "width": 0.12}, {"start": [155.0, 131.5], "end": [146.0, 131.5], "type": "segment", "width": 0.12}, {"start": [155.0, 135.1], "end": [155.0, 131.5], "type": "segment", "width": 0.12}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "J1", "thickness": 0.15, "ref": 1, "pos": [137.4, 112.0], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "Conn_01x02_Male", "thickness": 0.15, "pos": [133.79999999999998, 116.42999999999999], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "U3", "thickness": 0.15, "ref": 1, "pos": [165.25, 114.25], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "SSD1306", "thickness": 0.15, "pos": [167.54999999999998, 109.03999999999999], "height": 0.8999999999999999}, {"start": [163.65, 104.71], "end": [167.15, 104.71], "type": "segment", "width": 0.12}, {"start": [163.65, 113.71], "end": [167.15, 113.71], "type": "segment", "width": 0.12}, {"start": [163.65, 104.71], "end": [163.65, 113.71], "type": "segment", "width": 0.12}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "14", "thickness": 0.15, "pos": [162.7, 104.82], "height": 1.0}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "1", "thickness": 0.15, "pos": [163.10999999999999, 113.69999999999999], "height": 1.0}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H1", "thickness": 0.15, "ref": 1, "pos": [141.7, 94.14999999999999], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H3", "thickness": 0.15, "ref": 1, "pos": [157.72, 94.14999999999999], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H4", "thickness": 0.15, "ref": 1, "pos": [160.26, 94.14999999999999], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H5", "thickness": 0.15, "ref": 1, "pos": [162.79999999999998, 94.14999999999999], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H6", "thickness": 0.15, "ref": 1, "pos": [138.7, 94.05], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H8", "thickness": 0.15, "ref": 1, "pos": [169.29999999999998, 94.05], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "U2", "thickness": 0.15, "ref": 1, "pos": [134.0, 110.5], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "MCP73831-2-OT", "thickness": 0.15, "pos": [129.85, 108.0], "height": 0.8999999999999999}, {"width": 0.5, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "U2", "thickness": 0.075, "pos": [132.75, 108.0], "height": 0.8999999999999999}, {"start": [133.65, 108.89999999999999], "end": [134.29999999999998, 108.25], "type": "segment", "width": 0.09999999999999999}, {"start": [134.29999999999998, 107.1], "end": [134.29999999999998, 108.25], "type": "segment", "width": 0.09999999999999999}, {"start": [133.65, 108.89999999999999], "end": [131.2, 108.89999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [131.2, 107.1], "end": [131.2, 108.89999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [134.29999999999998, 107.1], "end": [131.2, 107.1], "type": "segment", "width": 0.09999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H10", "thickness": 0.15, "ref": 1, "pos": [131.7, 94.05], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H2", "thickness": 0.15, "ref": 1, "pos": [135.2, 94.05], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C2", "thickness": 0.15, "ref": 1, "pos": [133.79999999999998, 119.14999999999999], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "22\u00b5", "thickness": 0.15, "pos": [133.79999999999998, 115.85], "height": 1.0}, {"width": 0.5, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C2", "thickness": 0.08, "pos": [133.79999999999998, 117.5], "height": 0.5}, {"start": [134.79999999999998, 116.89999999999999], "end": [132.79999999999998, 116.89999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [134.79999999999998, 118.1], "end": [134.79999999999998, 116.89999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [132.79999999999998, 118.1], "end": [134.79999999999998, 118.1], "type": "segment", "width": 0.09999999999999999}, {"start": [132.79999999999998, 116.89999999999999], "end": [132.79999999999998, 118.1], "type": "segment", "width": 0.09999999999999999}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C3", "thickness": 0.15, "ref": 1, "pos": [167.9, 114.25], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "1\u00b5", "thickness": 0.15, "pos": [167.85, 114.25], "height": 1.0}, {"start": [168.9, 115.25], "end": [170.1, 115.25], "type": "segment", "width": 0.09999999999999999}, {"start": [170.1, 115.25], "end": [170.1, 113.25], "type": "segment", "width": 0.09999999999999999}, {"start": [170.1, 113.25], "end": [168.9, 113.25], "type": "segment", "width": 0.09999999999999999}, {"start": [168.9, 113.25], "end": [168.9, 115.25], "type": "segment", "width": 0.09999999999999999}, {"width": 0.5, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C3", "thickness": 0.08, "pos": [169.5, 114.25], "height": 0.5}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C4", "thickness": 0.15, "ref": 1, "pos": [167.95, 110.3], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "1\u00b5", "thickness": 0.15, "pos": [167.85, 110.3], "height": 1.0}, {"width": 0.5, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C4", "thickness": 0.08, "pos": [169.5, 110.3], "height": 0.5}, {"start": [168.9, 109.3], "end": [168.9, 111.3], "type": "segment", "width": 0.09999999999999999}, {"start": [170.1, 109.3], "end": [168.9, 109.3], "type": "segment", "width": 0.09999999999999999}, {"start": [170.1, 111.3], "end": [170.1, 109.3], "type": "segment", "width": 0.09999999999999999}, {"start": [168.9, 111.3], "end": [170.1, 111.3], "type": "segment", "width": 0.09999999999999999}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C5", "thickness": 0.15, "ref": 1, "pos": [167.9, 107.3], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "1\u00b5", "thickness": 0.15, "pos": [171.15, 106.39999999999999], "height": 1.0}, {"start": [170.1, 105.39999999999999], "end": [168.9, 105.39999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [168.9, 105.39999999999999], "end": [168.9, 107.39999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [168.9, 107.39999999999999], "end": [170.1, 107.39999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [170.1, 107.39999999999999], "end": [170.1, 105.39999999999999], "type": "segment", "width": 0.09999999999999999}, {"width": 0.5, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C5", "thickness": 0.08, "pos": [169.5, 106.39999999999999], "height": 0.5}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C6", "thickness": 0.15, "ref": 1, "pos": [163.35, 102.75], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "4.7\u00b5", "thickness": 0.15, "pos": [163.35, 102.75], "height": 1.0}, {"width": 0.5, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C6", "thickness": 0.08, "pos": [165.0, 102.75], "height": 0.5}, {"start": [164.4, 101.75], "end": [164.4, 103.75], "type": "segment", "width": 0.09999999999999999}, {"start": [165.6, 101.75], "end": [164.4, 101.75], "type": "segment", "width": 0.09999999999999999}, {"start": [165.6, 103.75], "end": [165.6, 101.75], "type": "segment", "width": 0.09999999999999999}, {"start": [164.4, 103.75], "end": [165.6, 103.75], "type": "segment", "width": 0.09999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C7", "thickness": 0.15, "ref": 1, "pos": [167.6, 105.19999999999999], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "4.7\u00b5", "thickness": 0.15, "pos": [168.9, 102.75], "height": 1.0}, {"start": [167.85, 101.75], "end": [166.65, 101.75], "type": "segment", "width": 0.09999999999999999}, {"start": [166.65, 101.75], "end": [166.65, 103.75], "type": "segment", "width": 0.09999999999999999}, {"start": [166.65, 103.75], "end": [167.85, 103.75], "type": "segment", "width": 0.09999999999999999}, {"start": [167.85, 103.75], "end": [167.85, 101.75], "type": "segment", "width": 0.09999999999999999}, {"width": 0.5, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "C7", "thickness": 0.08, "pos": [167.25, 102.75], "height": 0.5}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R1", "thickness": 0.15, "ref": 1, "pos": [146.9, 99.75], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "100K", "thickness": 0.15, "pos": [144.5, 101.39999999999999], "height": 1.0}, {"start": [145.5, 100.35], "end": [145.5, 99.14999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [145.5, 99.14999999999999], "end": [143.5, 99.14999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [143.5, 99.14999999999999], "end": [143.5, 100.35], "type": "segment", "width": 0.09999999999999999}, {"start": [143.5, 100.35], "end": [145.5, 100.35], "type": "segment", "width": 0.09999999999999999}, {"width": 0.5, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R1", "thickness": 0.08, "pos": [144.5, 99.75], "height": 0.5}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R2", "thickness": 0.15, "ref": 1, "pos": [146.9, 97.5], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "100K", "thickness": 0.15, "pos": [144.5, 95.85], "height": 1.0}, {"width": 0.5, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R2", "thickness": 0.08, "pos": [144.5, 97.5], "height": 0.5}, {"start": [145.5, 96.89999999999999], "end": [143.5, 96.89999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [145.5, 98.1], "end": [145.5, 96.89999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [143.5, 98.1], "end": [145.5, 98.1], "type": "segment", "width": 0.09999999999999999}, {"start": [143.5, 96.89999999999999], "end": [143.5, 98.1], "type": "segment", "width": 0.09999999999999999}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R3", "thickness": 0.15, "ref": 1, "pos": [137.6, 108.0], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "1K", "thickness": 0.15, "pos": [137.4, 108.0], "height": 1.0}, {"width": 0.5, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R3", "thickness": 0.08, "pos": [135.75, 108.0], "height": 0.5}, {"start": [136.35, 109.0], "end": [136.35, 107.0], "type": "segment", "width": 0.09999999999999999}, {"start": [135.15, 109.0], "end": [136.35, 109.0], "type": "segment", "width": 0.09999999999999999}, {"start": [135.15, 107.0], "end": [135.15, 109.0], "type": "segment", "width": 0.09999999999999999}, {"start": [136.35, 107.0], "end": [135.15, 107.0], "type": "segment", "width": 0.09999999999999999}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R4", "thickness": 0.15, "ref": 1, "pos": [133.35, 103.75], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "4.7K", "thickness": 0.15, "pos": [130.04999999999998, 103.75], "height": 1.0}, {"start": [131.1, 104.75], "end": [132.29999999999998, 104.75], "type": "segment", "width": 0.09999999999999999}, {"start": [132.29999999999998, 104.75], "end": [132.29999999999998, 102.75], "type": "segment", "width": 0.09999999999999999}, {"start": [132.29999999999998, 102.75], "end": [131.1, 102.75], "type": "segment", "width": 0.09999999999999999}, {"start": [131.1, 102.75], "end": [131.1, 104.75], "type": "segment", "width": 0.09999999999999999}, {"width": 0.5, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R4", "thickness": 0.08, "pos": [131.7, 103.75], "height": 0.5}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R5", "thickness": 0.15, "ref": 1, "pos": [169.5, 102.8], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "330k", "thickness": 0.15, "pos": [171.15, 102.75], "height": 1.0}, {"start": [170.1, 101.75], "end": [168.9, 101.75], "type": "segment", "width": 0.09999999999999999}, {"start": [168.9, 101.75], "end": [168.9, 103.75], "type": "segment", "width": 0.09999999999999999}, {"start": [168.9, 103.75], "end": [170.1, 103.75], "type": "segment", "width": 0.09999999999999999}, {"start": [170.1, 103.75], "end": [170.1, 101.75], "type": "segment", "width": 0.09999999999999999}, {"width": 0.5, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "R5", "thickness": 0.08, "pos": [169.5, 102.75], "height": 0.5}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H9", "thickness": 0.15, "ref": 1, "pos": [131.7, 129.15], "height": 1.0}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H11", "thickness": 0.15, "ref": 1, "pos": [169.29999999999998, 129.15], "height": 1.0}, {"width": 1.0, "angle": -90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "D1", "thickness": 0.15, "ref": 1, "pos": [147.4, 127.19999999999999], "height": 0.8999999999999999}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "D_Schottky", "thickness": 0.15, "pos": [150.5, 125.1], "height": 0.8999999999999999}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "D1", "thickness": 0.15, "pos": [150.5, 129.2], "height": 1.0}, {"start": [150.75, 127.19999999999999], "end": [151.25, 127.19999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [150.75, 126.8], "end": [150.15, 127.19999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [150.75, 127.6], "end": [150.75, 126.8], "type": "segment", "width": 0.09999999999999999}, {"start": [150.15, 127.19999999999999], "end": [150.75, 127.6], "type": "segment", "width": 0.09999999999999999}, {"start": [150.15, 127.19999999999999], "end": [150.15, 126.64999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [150.15, 127.19999999999999], "end": [150.15, 127.75], "type": "segment", "width": 0.09999999999999999}, {"start": [149.75, 127.19999999999999], "end": [150.15, 127.19999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [149.1, 126.3], "end": [149.1, 128.1], "type": "segment", "width": 0.09999999999999999}, {"start": [151.9, 126.3], "end": [149.1, 126.3], "type": "segment", "width": 0.09999999999999999}, {"start": [151.9, 128.1], "end": [151.9, 126.3], "type": "segment", "width": 0.09999999999999999}, {"start": [149.1, 128.1], "end": [151.9, 128.1], "type": "segment", "width": 0.09999999999999999}, {"width": 1.0, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "D2", "thickness": 0.15, "ref": 1, "pos": [136.03, 103.75], "height": 1.0}, {"width": 1.0, "val": 1, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "ORANGE", "thickness": 0.15, "pos": [133.17, 103.75], "height": 1.0}, {"start": [135.0, 102.94999999999999], "end": [135.0, 104.25], "type": "segment", "width": 0.09999999999999999}, {"start": [135.0, 104.25], "end": [134.7, 104.55], "type": "segment", "width": 0.09999999999999999}, {"start": [134.7, 104.55], "end": [134.2, 104.55], "type": "segment", "width": 0.09999999999999999}, {"start": [134.2, 104.55], "end": [134.2, 102.94999999999999], "type": "segment", "width": 0.09999999999999999}, {"start": [134.2, 102.94999999999999], "end": [135.0, 102.94999999999999], "type": "segment", "width": 0.09999999999999999}, {"width": 0.39999999999999997, "angle": 90.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "D2", "thickness": 0.06, "pos": [134.6, 103.75], "height": 0.39999999999999997}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H12", "thickness": 0.15, "ref": 1, "pos": [131.7, 122.14999999999999], "height": 1.0}, {"width": 1.0, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "H13", "thickness": 0.15, "ref": 1, "pos": [169.29999999999998, 122.14999999999999], "height": 1.0}], "F": [{"start": [170.5, 110.5], "end": [130.5, 110.5], "type": "segment", "width": 0.15}, {"start": [137.15, 113.71], "end": [163.65, 113.69999999999999], "type": "segment", "width": 0.15}, {"start": [163.65, 102.19999999999999], "end": [163.65, 113.69999999999999], "type": "segment", "width": 0.15}, {"start": [137.15, 102.19999999999999], "end": [163.65, 102.19999999999999], "type": "segment", "width": 0.15}, {"start": [137.15, 113.71], "end": [137.15, 102.19999999999999], "type": "segment", "width": 0.15}, {"width": 1.0, "val": 1, "angle": 0.0, "attr": ["mirrored"], "horiz_justify": 0, "text": "GND", "thickness": 0.15, "pos": [169.29999999999998, 99.75], "height": 0.8999999999999999}]}, "metadata": {"date": "2019-10-11 14:41:12", "company": "", "revision": "", "title": "Top"}}
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+/* Utility functions */
+
+var storagePrefix = 'KiCad_HTML_BOM__' + pcbdata.metadata.title + '__' +
+  pcbdata.metadata.revision + '__';
+var storage;
+
+function initStorage(key) {
+  try {
+    window.localStorage.getItem("blank");
+    storage = window.localStorage;
+  } catch (e) {
+    // localStorage not available
+  }
+  if (!storage) {
+    try {
+      window.sessionStorage.getItem("blank");
+      storage = window.sessionStorage;
+    } catch (e) {
+      // sessionStorage also not available
+    }
+  }
+}
+
+function readStorage(key) {
+  if (storage) {
+    return storage.getItem(storagePrefix + '#' + key);
+  } else {
+    return null;
+  }
+}
+
+function writeStorage(key, value) {
+  if (storage) {
+    storage.setItem(storagePrefix + '#' + key, value);
+  }
+}
+
+function fancyDblClickHandler(el, onsingle, ondouble) {
+  return function() {
+    if (el.getAttribute("data-dblclick") == null) {
+      el.setAttribute("data-dblclick", 1);
+      setTimeout(function() {
+        if (el.getAttribute("data-dblclick") == 1) {
+          onsingle();
+        }
+        el.removeAttribute("data-dblclick");
+      }, 200);
+    } else {
+      el.removeAttribute("data-dblclick");
+      ondouble();
+    }
+  }
+}
+
+function smoothScrollToRow(rowid) {
+  document.getElementById(rowid).scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+    inline: "nearest"
+  });
+}
+
+function focusInputField(input) {
+  input.scrollIntoView(false);
+  input.focus();
+  input.select();
+}
+
+function copyToClipboard() {
+  var text = '';
+  for (var node of bomhead.childNodes[0].childNodes) {
+    if (node.firstChild) {
+      text = text + node.firstChild.nodeValue;
+    }
+    if (node != bomhead.childNodes[0].lastChild) {
+      text += '\t';
+    }
+  }
+  text += '\n';
+  for (var row of bombody.childNodes) {
+    for (var cell of row.childNodes) {
+      for (var node of cell.childNodes) {
+        if (node.nodeName == "INPUT") {
+          if (node.checked) {
+            text = text + '✓';
+          }
+        } else if (node.nodeName == "MARK") {
+          text = text + node.firstChild.nodeValue;
+        } else {
+          text = text + node.nodeValue;
+        }
+      }
+      if (cell != row.lastChild) {
+        text += '\t';
+      }
+    }
+    text += '\n';
+  }
+  var textArea = document.createElement("textarea");
+  textArea.classList.add('clipboard-temp');
+  textArea.value = text;
+
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    if (document.execCommand('copy')) {
+      console.log('Bom copied to clipboard.');
+    }
+  } catch (err) {
+    console.log('Can not copy to clipboard.');
+  }
+
+  document.body.removeChild(textArea);
+}
+
+function removeGutterNode(node) {
+  for (var i = 0; i < node.childNodes.length; i++) {
+    if (node.childNodes[i].classList &&
+      node.childNodes[i].classList.contains("gutter")) {
+      node.removeChild(node.childNodes[i]);
+      break;
+    }
+  }
+}
+
+function cleanGutters() {
+  removeGutterNode(document.getElementById("bot"));
+  removeGutterNode(document.getElementById("canvasdiv"));
+}
+
+var units = {
+  prefixes: {
+    giga: ["G", "g", "giga", "Giga", "GIGA"],
+    mega: ["M", "mega", "Mega", "MEGA"],
+    kilo: ["K", "k", "kilo", "Kilo", "KILO"],
+    milli: ["m", "milli", "Milli", "MILLI"],
+    micro: ["U", "u", "micro", "Micro", "MICRO", "μ", "µ"], // different utf8 μ
+    nano: ["N", "n", "nano", "Nano", "NANO"],
+    pico: ["P", "p", "pico", "Pico", "PICO"],
+  },
+  unitsShort: ["R", "r", "Ω", "F", "f", "H", "h"],
+  unitsLong: [
+    "OHM", "Ohm", "ohm", "ohms",
+    "FARAD", "Farad", "farad",
+    "HENRY", "Henry", "henry"
+  ],
+  getMultiplier: function(s) {
+    if (this.prefixes.giga.includes(s)) return 1e9;
+    if (this.prefixes.mega.includes(s)) return 1e6;
+    if (this.prefixes.kilo.includes(s)) return 1e3;
+    if (this.prefixes.milli.includes(s)) return 1e-3;
+    if (this.prefixes.micro.includes(s)) return 1e-6;
+    if (this.prefixes.nano.includes(s)) return 1e-9;
+    if (this.prefixes.pico.includes(s)) return 1e-12;
+    return 1;
+  },
+  valueRegex: null,
+}
+
+function initUtils() {
+  var allPrefixes = units.prefixes.giga
+                    .concat(units.prefixes.mega)
+                    .concat(units.prefixes.kilo)
+                    .concat(units.prefixes.milli)
+                    .concat(units.prefixes.micro)
+                    .concat(units.prefixes.nano)
+                    .concat(units.prefixes.pico);
+  var allUnits = units.unitsShort.concat(units.unitsLong);
+  units.valueRegex = new RegExp("^([0-9\.]+)" +
+                         "\\s*(" + allPrefixes.join("|") + ")?" +
+                         "(" + allUnits.join("|") + ")?" +
+                         "(\\b.*)?$", "");
+  units.valueAltRegex = new RegExp("^([0-9]*)" +
+                         "(" + units.unitsShort.join("|") + ")?" +
+                         "([GgMmKkUuNnPp])?" +
+                         "([0-9]*)" +
+                         "(\\b.*)?$", "");
+  for (var bom_type of ["both", "F", "B"]) {
+    for (var row of pcbdata.bom[bom_type]) {
+      row.push(parseValue(row[1], row[3][0][0]));
+    }
+  }
+}
+
+function parseValue(val, ref) {
+  var inferUnit = (unit, ref) => {
+    if (unit) {
+      unit = unit.toLowerCase();
+      if (unit == 'Ω' || unit == "ohm" || unit == "ohms") {
+        unit = 'r';
+      }
+      unit = unit[0];
+    } else {
+      ref = /^([a-z]+)\d+$/i.exec(ref);
+      if (ref) {
+        ref = ref[1].toLowerCase();
+        if (ref == "c") unit = 'f';
+        else if (ref == "l") unit = 'h';
+        else if (ref == "r" || ref == "rv") unit = 'r';
+        else unit = null;
+      }
+    }
+    return unit;
+  };
+  val = val.replace(/,/g, "");
+  var match = units.valueRegex.exec(val);
+  var unit;
+  if (match) {
+    val = parseFloat(match[1]);
+    if (match[2]) {
+      val = val * units.getMultiplier(match[2]);
+    }
+    unit = inferUnit(match[3], ref);
+    if (!unit) return null;
+    else return {
+      val: val,
+      unit: unit,
+      extra: match[4],
+    }
+  }
+  match = units.valueAltRegex.exec(val);
+  if (match && (match[1] || match[4])) {
+    val = parseFloat(match[1] + "." + match[4]);
+    if (match[3]) {
+      val = val * units.getMultiplier(match[3]);
+    }
+    unit = inferUnit(match[2], ref);
+    if (!unit) return null;
+    else return {
+      val: val,
+      unit: unit,
+      extra: match[5],
+    }
+  }
+  return null;
+}
+
+function valueCompare(a, b, stra, strb) {
+  if (a === null && b === null) {
+    // Failed to parse both values, compare them as strings.
+    if (stra != strb) return stra > strb ? 1 : -1;
+    else return 0;
+  } else if (a === null) {
+    return 1;
+  } else if (b === null) {
+    return -1;
+  } else {
+    if (a.unit != b.unit) return a.unit > b.unit ? 1 : -1;
+    else if (a.val != b.val) return a.val > b.val ? 1 : -1;
+    else if (a.extra != b.extra) return a.extra > b.extra ? 1 : -1;
+    else return 0;
+  }
+}
+
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+/* PCB rendering code */
+
+var redrawOnDrag = true;
+var boardRotation = 0;
+var renderPads = true;
+var renderReferences = true;
+var renderValues = true;
+var renderDnpOutline = false;
+
+function deg2rad(deg) {
+  return deg * Math.PI / 180;
+}
+
+function calcFontPoint(linepoint, text, offsetx, offsety, tilt) {
+  var point = [
+    linepoint[0] * text.width + offsetx,
+    linepoint[1] * text.height + offsety
+  ];
+  // Adding half a line height here is technically a bug
+  // but pcbnew currently does the same, text is slightly shifted.
+  point[0] -= (point[1] + text.height * 0.5) * tilt;
+  return point;
+}
+
+function drawtext(ctx, text, color, flip) {
+  if ("ref" in text && !renderReferences) return;
+  if ("val" in text && !renderValues) return;
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.strokeStyle = color;
+  ctx.lineCap = "round";
+  ctx.lineWidth = text.thickness;
+  if (text.svgpath) {
+    ctx.stroke(new Path2D(text.svgpath));
+    ctx.restore();
+    return;
+  }
+  ctx.translate(...text.pos);
+  var angle = -text.angle;
+  if (text.attr.includes("mirrored")) {
+    ctx.scale(-1, 1);
+    angle = -angle;
+  }
+  var tilt = 0;
+  if (text.attr.includes("italic")) {
+    tilt = 0.125;
+  }
+  var interline = (text.height * 1.5 + text.thickness) / 2;
+  var txt = text.text.split("\n");
+  // KiCad ignores last empty line.
+  if (txt[txt.length - 1] == '') txt.pop();
+  ctx.rotate(deg2rad(angle));
+  for (var i in txt) {
+    var offsety = (-(txt.length - 1) + i * 2) * interline + text.height / 2;
+    var lineWidth = 0;
+    for (var c of txt[i]) {
+      lineWidth += pcbdata.font_data[c].w * text.width;
+    }
+    var offsetx = 0;
+    switch (text.horiz_justify) {
+      case -1:
+        // Justify left, do nothing
+        break;
+      case 0:
+        // Justify center
+        offsetx -= lineWidth / 2;
+        break;
+      case 1:
+        // Justify right
+        offsetx -= lineWidth;
+        break;
+    }
+    for (var c of txt[i]) {
+      for (var line of pcbdata.font_data[c].l) {
+        // Drawing each segment separately instead of
+        // polyline because round line caps don't work in joints
+        for (var i = 0; i < line.length - 1; i++) {
+          ctx.beginPath();
+          ctx.moveTo(...calcFontPoint(line[i], text, offsetx, offsety, tilt));
+          ctx.lineTo(...calcFontPoint(line[i + 1], text, offsetx, offsety, tilt));
+          ctx.stroke();
+        }
+      }
+      offsetx += pcbdata.font_data[c].w * text.width;
+    }
+  }
+  ctx.restore();
+}
+
+function drawedge(ctx, scalefactor, edge, color) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = Math.max(1 / scalefactor, edge.width);
+  ctx.lineCap = "round";
+  if (edge.type == "segment") {
+    ctx.beginPath();
+    ctx.moveTo(...edge.start);
+    ctx.lineTo(...edge.end);
+    ctx.stroke();
+  }
+  if (edge.type == "arc") {
+    ctx.beginPath();
+    if (edge.svgpath) {
+      ctx.stroke(new Path2D(edge.svgpath));
+    } else {
+      ctx.arc(
+        ...edge.start,
+        edge.radius,
+        deg2rad(edge.startangle),
+        deg2rad(edge.endangle));
+      ctx.stroke();
+    }
+  }
+  if (edge.type == "circle") {
+    ctx.beginPath();
+    ctx.arc(
+      ...edge.start,
+      edge.radius,
+      0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.stroke();
+  }
+}
+
+function drawRoundRect(ctx, color, size, radius, ctxmethod) {
+  ctx.beginPath();
+  ctx.strokeStyle = color;
+  var x = size[0] * -0.5;
+  var y = size[1] * -0.5;
+  var width = size[0];
+  var height = size[1];
+  ctx.moveTo(x, 0);
+  ctx.arcTo(x, y + height, x + width, y + height, radius);
+  ctx.arcTo(x + width, y + height, x + width, y, radius);
+  ctx.arcTo(x + width, y, x, y, radius);
+  ctx.arcTo(x, y, x, y + height, radius);
+  ctx.closePath();
+  ctxmethod();
+}
+
+function drawOblong(ctx, color, size, ctxmethod) {
+  drawRoundRect(ctx, color, size, Math.min(size[0], size[1]) / 2, ctxmethod);
+}
+
+function drawPolygons(ctx, color, polygons, ctxmethod) {
+  ctx.fillStyle = color;
+  for (var polygon of polygons) {
+    ctx.beginPath();
+    for (var vertex of polygon) {
+      ctx.lineTo(...vertex)
+    }
+    ctx.closePath();
+    ctxmethod();
+  }
+}
+
+function drawPolygonShape(ctx, shape, color) {
+  ctx.save();
+  if (shape.svgpath) {
+    ctx.fillStyle = color;
+    ctx.fill(new Path2D(shape.svgpath));
+  } else {
+    ctx.translate(...shape.pos);
+    ctx.rotate(deg2rad(-shape.angle));
+    drawPolygons(ctx, color, shape.polygons, ctx.fill.bind(ctx));
+  }
+  ctx.restore();
+}
+
+function drawDrawing(ctx, layer, scalefactor, drawing, color) {
+  if (["segment", "arc", "circle"].includes(drawing.type)) {
+    drawedge(ctx, scalefactor, drawing, color);
+  } else if (drawing.type == "polygon") {
+    drawPolygonShape(ctx, drawing, color);
+  } else {
+    drawtext(ctx, drawing, color, layer == "B");
+  }
+}
+
+function drawCircle(ctx, radius, ctxmethod) {
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctxmethod();
+}
+
+function drawPad(ctx, pad, color, outline, hole) {
+  ctx.save();
+  ctx.translate(...pad.pos);
+  ctx.rotate(deg2rad(pad.angle));
+  if (pad.offset) {
+    ctx.translate(...pad.offset);
+  }
+  ctx.fillStyle = color;
+  ctx.strokeStyle = color;
+  var ctxmethod = outline ? ctx.stroke.bind(ctx) : ctx.fill.bind(ctx);
+  if (pad.shape == "rect") {
+    var rect = [...pad.size.map(c => -c * 0.5), ...pad.size];
+    if (outline) {
+      ctx.strokeRect(...rect);
+    } else {
+      ctx.fillRect(...rect);
+    }
+  } else if (pad.shape == "oval") {
+    drawOblong(ctx, color, pad.size, ctxmethod);
+  } else if (pad.shape == "circle") {
+    drawCircle(ctx, pad.size[0] / 2, ctxmethod);
+  } else if (pad.shape == "roundrect") {
+    drawRoundRect(ctx, color, pad.size, pad.radius, ctxmethod);
+  } else if (pad.shape == "custom") {
+    drawPolygons(ctx, color, pad.polygons, ctxmethod);
+  }
+  if (pad.type == "th" && hole) {
+    ctxmethod = ctx.fill.bind(ctx);
+    ctx.fillStyle = "#CCCCCC";
+    if (pad.drillshape == "oblong") {
+      drawOblong(ctx, "#CCCCCC", pad.drillsize, ctxmethod);
+    } else {
+      drawCircle(ctx, pad.drillsize[0] / 2, ctxmethod);
+    }
+  }
+  ctx.restore();
+}
+
+function drawModule(ctx, layer, scalefactor, module, padcolor, outlinecolor, highlight, outline) {
+  if (highlight) {
+    // draw bounding box
+    if (module.layer == layer) {
+      ctx.save();
+      ctx.globalAlpha = 0.2;
+      ctx.translate(...module.bbox.pos);
+      ctx.fillStyle = padcolor;
+      ctx.fillRect(
+        0, 0,
+        ...module.bbox.size);
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = padcolor;
+      ctx.strokeRect(
+        0, 0,
+        ...module.bbox.size);
+      ctx.restore();
+    }
+  }
+  // draw drawings
+  for (var drawing of module.drawings) {
+    if (drawing.layer == layer) {
+      drawDrawing(ctx, layer, scalefactor, drawing.drawing, padcolor);
+    }
+  }
+  // draw pads
+  if (renderPads) {
+    for (var pad of module.pads) {
+      if (pad.layers.includes(layer)) {
+        drawPad(ctx, pad, padcolor, outline, true);
+        if (pad.pin1 && highlightpin1) {
+          drawPad(ctx, pad, outlinecolor, true, false);
+        }
+      }
+    }
+  }
+}
+
+function drawEdgeCuts(canvas, scalefactor) {
+  var ctx = canvas.getContext("2d");
+  var edgecolor = getComputedStyle(topmostdiv).getPropertyValue('--pcb-edge-color');
+  for (var edge of pcbdata.edges) {
+    drawedge(ctx, scalefactor, edge, edgecolor);
+  }
+}
+
+function drawModules(canvas, layer, scalefactor, highlight) {
+  var ctx = canvas.getContext("2d");
+  ctx.lineWidth = 3 / scalefactor;
+  var style = getComputedStyle(topmostdiv);
+  var padcolor = style.getPropertyValue('--pad-color');
+  var outlinecolor = style.getPropertyValue('--pin1-outline-color');
+  if (highlight) {
+    padcolor = style.getPropertyValue('--pad-color-highlight');
+    outlinecolor = style.getPropertyValue('--pin1-outline-color-highlight');
+  }
+  for (var i = 0; i < pcbdata.modules.length; i++) {
+    var mod = pcbdata.modules[i];
+    var outline = renderDnpOutline && pcbdata.bom.skipped.includes(i);
+    if (!highlight || highlightedModules.includes(i)) {
+      drawModule(ctx, layer, scalefactor, mod, padcolor, outlinecolor, highlight, outline);
+    }
+  }
+}
+
+function drawBgLayer(layername, canvas, layer, scalefactor, edgeColor, polygonColor, textColor) {
+  var ctx = canvas.getContext("2d");
+  for (var d of pcbdata[layername][layer]) {
+    if (["segment", "arc", "circle"].includes(d.type)) {
+      drawedge(ctx, scalefactor, d, edgeColor);
+    } else if (d.type == "polygon") {
+      drawPolygonShape(ctx, d, polygonColor);
+    } else {
+      drawtext(ctx, d, textColor, layer == "B");
+    }
+  }
+}
+
+function clearCanvas(canvas) {
+  var ctx = canvas.getContext("2d");
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+}
+
+function drawHighlightsOnLayer(canvasdict) {
+  clearCanvas(canvasdict.highlight);
+  drawModules(canvasdict.highlight, canvasdict.layer,
+    canvasdict.transform.s * canvasdict.transform.zoom, true);
+}
+
+function drawHighlights() {
+  drawHighlightsOnLayer(allcanvas.front);
+  drawHighlightsOnLayer(allcanvas.back);
+}
+
+function drawBackground(canvasdict) {
+  clearCanvas(canvasdict.bg);
+  clearCanvas(canvasdict.fab);
+  clearCanvas(canvasdict.silk);
+  drawEdgeCuts(canvasdict.bg, canvasdict.transform.s);
+  drawModules(canvasdict.bg, canvasdict.layer,
+    canvasdict.transform.s * canvasdict.transform.zoom, false);
+
+  var style = getComputedStyle(topmostdiv);
+  var edgeColor = style.getPropertyValue('--silkscreen-edge-color');
+  var polygonColor = style.getPropertyValue('--silkscreen-polygon-color');
+  var textColor = style.getPropertyValue('--silkscreen-text-color');
+  drawBgLayer(
+    "silkscreen", canvasdict.silk, canvasdict.layer,
+    canvasdict.transform.s * canvasdict.transform.zoom,
+    edgeColor, polygonColor, textColor);
+
+  edgeColor = style.getPropertyValue('--fabrication-edge-color');
+  polygonColor = style.getPropertyValue('--fabrication-polygon-color');
+  textColor = style.getPropertyValue('--fabrication-text-color');
+  drawBgLayer(
+    "fabrication", canvasdict.fab, canvasdict.layer,
+    canvasdict.transform.s * canvasdict.transform.zoom,
+    edgeColor, polygonColor, textColor);
+}
+
+function prepareCanvas(canvas, flip, transform) {
+  var ctx = canvas.getContext("2d");
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  var fontsize = 1.55;
+  ctx.scale(transform.zoom, transform.zoom);
+  ctx.translate(transform.panx, transform.pany);
+  if (flip) {
+    ctx.scale(-1, 1);
+  }
+  ctx.translate(transform.x, transform.y);
+  ctx.rotate(deg2rad(boardRotation));
+  ctx.scale(transform.s, transform.s);
+}
+
+function prepareLayer(canvasdict) {
+  var flip = (canvasdict.layer == "B");
+  for (var c of ["bg", "fab", "silk", "highlight"]) {
+    prepareCanvas(canvasdict[c], flip, canvasdict.transform);
+  }
+}
+
+function rotateVector(v, angle) {
+  angle = deg2rad(angle);
+  return [
+    v[0] * Math.cos(angle) - v[1] * Math.sin(angle),
+    v[0] * Math.sin(angle) + v[1] * Math.cos(angle)
+  ];
+}
+
+function applyRotation(bbox) {
+  var corners = [
+    [bbox.minx, bbox.miny],
+    [bbox.minx, bbox.maxy],
+    [bbox.maxx, bbox.miny],
+    [bbox.maxx, bbox.maxy],
+  ];
+  corners = corners.map((v) => rotateVector(v, boardRotation));
+  return {
+    minx: corners.reduce((a, v) => Math.min(a, v[0]), Infinity),
+    miny: corners.reduce((a, v) => Math.min(a, v[1]), Infinity),
+    maxx: corners.reduce((a, v) => Math.max(a, v[0]), -Infinity),
+    maxy: corners.reduce((a, v) => Math.max(a, v[1]), -Infinity),
+  }
+}
+
+function recalcLayerScale(canvasdict) {
+  var canvasdivid = {
+    "F": "frontcanvas",
+    "B": "backcanvas"
+  } [canvasdict.layer];
+  var width = document.getElementById(canvasdivid).clientWidth * devicePixelRatio;
+  var height = document.getElementById(canvasdivid).clientHeight * devicePixelRatio;
+  var bbox = applyRotation(pcbdata.edges_bbox);
+  var scalefactor = 0.98 * Math.min(
+    width / (bbox.maxx - bbox.minx),
+    height / (bbox.maxy - bbox.miny)
+  );
+  if (scalefactor < 0.1) {
+    scalefactor = 1;
+  }
+  canvasdict.transform.s = scalefactor;
+  var flip = (canvasdict.layer == "B");
+  if (flip) {
+    canvasdict.transform.x = -((bbox.maxx + bbox.minx) * scalefactor + width) * 0.5;
+  } else {
+    canvasdict.transform.x = -((bbox.maxx + bbox.minx) * scalefactor - width) * 0.5;
+  }
+  canvasdict.transform.y = -((bbox.maxy + bbox.miny) * scalefactor - height) * 0.5;
+  for (var c of ["bg", "fab", "silk", "highlight"]) {
+    canvas = canvasdict[c];
+    canvas.width = width;
+    canvas.height = height;
+    canvas.style.width = (width / devicePixelRatio) + "px";
+    canvas.style.height = (height / devicePixelRatio) + "px";
+  }
+}
+
+function redrawCanvas(layerdict) {
+  prepareLayer(layerdict);
+  drawBackground(layerdict);
+  drawHighlightsOnLayer(layerdict);
+}
+
+function resizeCanvas(layerdict) {
+  recalcLayerScale(layerdict);
+  redrawCanvas(layerdict);
+}
+
+function resizeAll() {
+  resizeCanvas(allcanvas.front);
+  resizeCanvas(allcanvas.back);
+}
+
+function bboxScan(layer, x, y) {
+  var result = [];
+  for (var i = 0; i < pcbdata.modules.length; i++) {
+    var module = pcbdata.modules[i];
+    if (module.layer == layer) {
+      var b = module.bbox;
+      if (b.pos[0] <= x && b.pos[0] + b.size[0] >= x &&
+        b.pos[1] <= y && b.pos[1] + b.size[1] >= y) {
+        result.push(i);
+      }
+    }
+  }
+  return result;
+}
+
+function handlePointerDown(e, layerdict) {
+  if (e.button != 0) {
+    return;
+  }
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (!e.hasOwnProperty("offsetX")) {
+    // The polyfill doesn't set this properly
+    e.offsetX = e.pageX - e.currentTarget.offsetLeft;
+    e.offsetY = e.pageY - e.currentTarget.offsetTop;
+  }
+
+  layerdict.pointerStates[e.pointerId] = {
+    distanceTravelled: 0,
+    lastX: e.offsetX,
+    lastY: e.offsetY,
+    downTime: Date.now(),
+  };
+}
+
+function handleMouseClick(e, layerdict) {
+  if (!e.hasOwnProperty("offsetX")) {
+    // The polyfill doesn't set this properly
+    e.offsetX = e.pageX - e.currentTarget.offsetLeft;
+    e.offsetY = e.pageY - e.currentTarget.offsetTop;
+  }
+
+  var x = e.offsetX;
+  var y = e.offsetY;
+  var t = layerdict.transform;
+  if (layerdict.layer == "B") {
+    x = (devicePixelRatio * x / t.zoom - t.panx + t.x) / -t.s;
+  } else {
+    x = (devicePixelRatio * x / t.zoom - t.panx - t.x) / t.s;
+  }
+  y = (devicePixelRatio * y / t.zoom - t.y - t.pany) / t.s;
+  var v = rotateVector([x, y], -boardRotation);
+  var modules = bboxScan(layerdict.layer, v[0], v[1]);
+  if (modules.length > 0) {
+    modulesClicked(modules);
+  }
+}
+
+function handlePointerLeave(e, layerdict) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (!redrawOnDrag) {
+    redrawCanvas(layerdict);
+  }
+
+  delete layerdict.pointerStates[e.pointerId];
+}
+
+function resetTransform(layerdict) {
+  layerdict.transform.panx = 0;
+  layerdict.transform.pany = 0;
+  layerdict.transform.zoom = 1;
+  redrawCanvas(layerdict);
+}
+
+function handlePointerUp(e, layerdict) {
+  if (!e.hasOwnProperty("offsetX")) {
+    // The polyfill doesn't set this properly
+    e.offsetX = e.pageX - e.currentTarget.offsetLeft;
+    e.offsetY = e.pageY - e.currentTarget.offsetTop;
+  }
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (e.button == 2) {
+    // Reset pan and zoom on right click.
+    resetTransform(layerdict);
+    layerdict.anotherPointerTapped = false;
+    return;
+  }
+
+  // We haven't necessarily had a pointermove event since the interaction started, so make sure we update this now
+  var ptr = layerdict.pointerStates[e.pointerId];
+  ptr.distanceTravelled += Math.abs(e.offsetX - ptr.lastX) + Math.abs(e.offsetY - ptr.lastY);
+
+  if (e.button == 0 && ptr.distanceTravelled < 10 && Date.now() - ptr.downTime <= 500) {
+    if (Object.keys(layerdict.pointerStates).length == 1) {
+      if (layerdict.anotherPointerTapped) {
+        // This is the second pointer coming off of a two-finger tap
+        resetTransform(layerdict);
+      } else {
+        // This is just a regular tap
+        handleMouseClick(e, layerdict);
+      }
+      layerdict.anotherPointerTapped = false;
+    } else {
+      // This is the first finger coming off of what could become a two-finger tap
+      layerdict.anotherPointerTapped = true;
+    }
+  } else {
+    if (!redrawOnDrag) {
+      redrawCanvas(layerdict);
+    }
+    layerdict.anotherPointerTapped = false;
+  }
+
+  delete layerdict.pointerStates[e.pointerId];
+}
+
+function handlePointerMove(e, layerdict) {
+  if (!layerdict.pointerStates.hasOwnProperty(e.pointerId)) {
+    return;
+  }
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (!e.hasOwnProperty("offsetX")) {
+    // The polyfill doesn't set this properly
+    e.offsetX = e.pageX - e.currentTarget.offsetLeft;
+    e.offsetY = e.pageY - e.currentTarget.offsetTop;
+  }
+
+  var thisPtr = layerdict.pointerStates[e.pointerId];
+
+  var dx = e.offsetX - thisPtr.lastX;
+  var dy = e.offsetY - thisPtr.lastY;
+
+  // If this number is low on pointer up, we count the action as a click
+  thisPtr.distanceTravelled += Math.abs(dx) + Math.abs(dy);
+
+  if (Object.keys(layerdict.pointerStates).length == 1) {
+    // This is a simple drag
+    layerdict.transform.panx += devicePixelRatio * dx / layerdict.transform.zoom;
+    layerdict.transform.pany += devicePixelRatio * dy / layerdict.transform.zoom;
+  } else if (Object.keys(layerdict.pointerStates).length == 2) {
+    var otherPtr = Object.values(layerdict.pointerStates).filter((ptr) => ptr != thisPtr)[0];
+
+    var oldDist = Math.sqrt(Math.pow(thisPtr.lastX - otherPtr.lastX, 2) + Math.pow(thisPtr.lastY - otherPtr.lastY, 2));
+    var newDist = Math.sqrt(Math.pow(e.offsetX - otherPtr.lastX, 2)     + Math.pow(e.offsetY - otherPtr.lastY, 2));
+
+    var scaleFactor = newDist/oldDist;
+
+    if (scaleFactor != NaN) {
+      layerdict.transform.zoom *= scaleFactor;
+
+      var zoomd = (1 - scaleFactor) / layerdict.transform.zoom;
+      layerdict.transform.panx += devicePixelRatio * otherPtr.lastX * zoomd;
+      layerdict.transform.pany += devicePixelRatio * otherPtr.lastY * zoomd;
+    }
+  }
+
+  thisPtr.lastX = e.offsetX;
+  thisPtr.lastY = e.offsetY;
+
+  if (redrawOnDrag) {
+    redrawCanvas(layerdict);
+  }
+}
+
+function handleMouseWheel(e, layerdict) {
+  e.preventDefault();
+  e.stopPropagation();
+  var t = layerdict.transform;
+  var wheeldelta = e.deltaY;
+  if (e.deltaMode == 1) {
+    // FF only, scroll by lines
+    wheeldelta *= 30;
+  } else if (e.deltaMode == 2) {
+    wheeldelta *= 300;
+  }
+  var m = Math.pow(1.1, -wheeldelta / 40);
+  // Limit amount of zoom per tick.
+  if (m > 2) {
+    m = 2;
+  } else if (m < 0.5) {
+    m = 0.5;
+  }
+  t.zoom *= m;
+  var zoomd = (1 - m) / t.zoom;
+  t.panx += devicePixelRatio * e.offsetX * zoomd;
+  t.pany += devicePixelRatio * e.offsetY * zoomd;
+  redrawCanvas(layerdict);
+}
+
+function addMouseHandlers(div, layerdict) {
+  div.addEventListener("pointerdown", function(e) {
+    handlePointerDown(e, layerdict);
+  });
+  div.addEventListener("pointermove", function(e) {
+    handlePointerMove(e, layerdict);
+  });
+  div.addEventListener("pointerup", function(e) {
+    handlePointerUp(e, layerdict);
+  });
+  var pointerleave = function(e) {
+    handlePointerLeave(e, layerdict);
+  }
+  div.addEventListener("pointercancel", pointerleave);
+  div.addEventListener("pointerleave", pointerleave);
+  div.addEventListener("pointerout", pointerleave);
+
+  div.onwheel = function(e) {
+    handleMouseWheel(e, layerdict);
+  }
+  for (var element of [div, layerdict.bg, layerdict.fab, layerdict.silk, layerdict.highlight]) {
+    element.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+    }, false);
+  }
+}
+
+function setRedrawOnDrag(value) {
+  redrawOnDrag = value;
+  writeStorage("redrawOnDrag", value);
+}
+
+function setBoardRotation(value) {
+  boardRotation = value * 5;
+  writeStorage("boardRotation", boardRotation);
+  document.getElementById("rotationDegree").textContent = boardRotation;
+  resizeAll();
+}
+
+function initRender() {
+  allcanvas = {
+    front: {
+      transform: {
+        x: 0,
+        y: 0,
+        s: 1,
+        panx: 0,
+        pany: 0,
+        zoom: 1,
+      },
+      pointerStates: {},
+      anotherPointerTapped: false,
+      bg: document.getElementById("F_bg"),
+      fab: document.getElementById("F_fab"),
+      silk: document.getElementById("F_slk"),
+      highlight: document.getElementById("F_hl"),
+      layer: "F",
+    },
+    back: {
+      transform: {
+        x: 0,
+        y: 0,
+        s: 1,
+        panx: 0,
+        pany: 0,
+        zoom: 1,
+      },
+      pointerStates: {},
+      anotherPointerTapped: false,
+      bg: document.getElementById("B_bg"),
+      fab: document.getElementById("B_fab"),
+      silk: document.getElementById("B_slk"),
+      highlight: document.getElementById("B_hl"),
+      layer: "B",
+    }
+  };
+  addMouseHandlers(document.getElementById("frontcanvas"), allcanvas.front);
+  addMouseHandlers(document.getElementById("backcanvas"), allcanvas.back);
+}
+
+///////////////////////////////////////////////
+
+///////////////////////////////////////////////
+/* DOM manipulation and misc code */
+
+var bomsplit;
+var canvassplit;
+var canvaslayout = "default";
+var bomlayout = "default";
+var initDone = false;
+var bomSortFunction = null;
+var currentSortColumn = null;
+var currentSortOrder = null;
+var currentHighlightedRowId;
+var highlightHandlers = [];
+var moduleIndexToHandler = {};
+var highlightedModules = [];
+var checkboxes = [];
+var bomCheckboxes = "";
+var highlightpin1 = false;
+var lastClicked;
+
+function dbg(html) {
+  dbgdiv.innerHTML = html;
+}
+
+function redrawIfInitDone() {
+  if (initDone) {
+    redrawCanvas(allcanvas.front);
+    redrawCanvas(allcanvas.back);
+  }
+}
+
+function padsVisible(value) {
+  writeStorage("padsVisible", value);
+  renderPads = value;
+  redrawIfInitDone();
+}
+
+function referencesVisible(value) {
+  writeStorage("referencesVisible", value);
+  renderReferences = value;
+  redrawIfInitDone();
+}
+
+function valuesVisible(value) {
+  writeStorage("valuesVisible", value);
+  renderValues = value;
+  redrawIfInitDone();
+}
+
+function dnpOutline(value) {
+  writeStorage("dnpOutline", value);
+  renderDnpOutline = value;
+  redrawIfInitDone();
+}
+
+function setDarkMode(value) {
+  if (value) {
+    topmostdiv.classList.add("dark");
+  } else {
+    topmostdiv.classList.remove("dark");
+  }
+  writeStorage("darkmode", value);
+  redrawIfInitDone();
+}
+
+function layerVisible(visible, frontCavnas, backCanvas, storageString) {
+  var display = (visible) ? "" : "none";
+  frontCavnas.style.display = display;
+  backCanvas.style.display = display;
+  writeStorage(storageString, visible);
+}
+
+function fabricationVisible(visible) {
+  layerVisible(visible, allcanvas.front.fab, allcanvas.back.fab, "fabricationVisible");
+}
+
+function silkscreenVisible(visible) {
+  layerVisible(visible, allcanvas.front.silk, allcanvas.back.silk, "silkscreenVisible");
+}
+
+function setHighlightPin1(value) {
+  writeStorage("highlightpin1", value);
+  highlightpin1 = value;
+  redrawIfInitDone();
+}
+
+function getStoredCheckboxRefs(checkbox) {
+  function convert(ref) {
+    var intref = parseInt(ref);
+    if (isNaN(intref)) {
+      for (var i = 0; i < pcbdata.modules.length; i++) {
+        if (pcbdata.modules[i].ref == ref) {
+          return i;
+        }
+      }
+      return -1;
+    } else {
+      return intref;
+    }
+  }
+  var existingRefs = readStorage("checkbox_" + checkbox);
+  if (!existingRefs) {
+    return new Set();
+  } else {
+    return new Set(existingRefs.split(",").map(r => convert(r)));
+  }
+}
+
+function getCheckboxState(checkbox, references) {
+  var storedRefsSet = getStoredCheckboxRefs(checkbox);
+  var currentRefsSet = new Set(references.map(r => r[1]));
+  // Get difference of current - stored
+  var difference = new Set(currentRefsSet);
+  for (ref of storedRefsSet) {
+    difference.delete(ref);
+  }
+  if (difference.size == 0) {
+    // All the current refs are stored
+    return "checked";
+  } else if (difference.size == currentRefsSet.size) {
+    // None of the current refs are stored
+    return "unchecked";
+  } else {
+    // Some of the refs are stored
+    return "indeterminate";
+  }
+}
+
+function setBomCheckboxState(checkbox, element, references) {
+  var state = getCheckboxState(checkbox, references);
+  element.checked = (state == "checked");
+  element.indeterminate = (state == "indeterminate");
+}
+
+function createCheckboxChangeHandler(checkbox, references) {
+  return function() {
+    refsSet = getStoredCheckboxRefs(checkbox);
+    if (this.checked) {
+      // checkbox ticked
+      for (var ref of references) {
+        refsSet.add(ref[1]);
+      }
+    } else {
+      // checkbox unticked
+      for (var ref of references) {
+        refsSet.delete(ref[1]);
+      }
+    }
+    writeStorage("checkbox_" + checkbox, [...refsSet].join(","));
+    updateCheckboxStats(checkbox);
+  }
+}
+
+function createRowHighlightHandler(rowid, refs) {
+  return function() {
+    if (currentHighlightedRowId) {
+      if (currentHighlightedRowId == rowid) {
+        return;
+      }
+      document.getElementById(currentHighlightedRowId).classList.remove("highlighted");
+    }
+    document.getElementById(rowid).classList.add("highlighted");
+    currentHighlightedRowId = rowid;
+    highlightedModules = refs.map(r => r[1]);
+    drawHighlights();
+  }
+}
+
+function entryMatches(entry) {
+  // check refs
+  for (var ref of entry[3]) {
+    if (ref[0].toLowerCase().indexOf(filter) >= 0) {
+      return true;
+    }
+  }
+  // check extra fields
+  for (var i in config.extra_fields) {
+    if (entry[4][i].toLowerCase().indexOf(filter) >= 0) {
+      return true;
+    }
+  }
+  // check value
+  if (entry[1].toLowerCase().indexOf(filter) >= 0) {
+    return true;
+  }
+  // check footprint
+  if (entry[2].toLowerCase().indexOf(filter) >= 0) {
+    return true;
+  }
+  return false;
+}
+
+function findRefInEntry(entry) {
+  return entry[3].filter(r => r[0].toLowerCase() == reflookup);
+}
+
+function highlightFilter(s) {
+  if (!filter) {
+    return s;
+  }
+  var parts = s.toLowerCase().split(filter);
+  if (parts.length == 1) {
+    return s;
+  }
+  var r = "";
+  var pos = 0;
+  for (var i in parts) {
+    if (i > 0) {
+      r += '<mark class="highlight">' +
+        s.substring(pos, pos + filter.length) +
+        '</mark>';
+      pos += filter.length;
+    }
+    r += s.substring(pos, pos + parts[i].length);
+    pos += parts[i].length;
+  }
+  return r;
+}
+
+function checkboxSetUnsetAllHandler(checkboxname) {
+  return function() {
+    var checkboxnum = 0;
+    while (checkboxnum < checkboxes.length &&
+      checkboxes[checkboxnum].toLowerCase() != checkboxname.toLowerCase()) {
+      checkboxnum++;
+    }
+    if (checkboxnum >= checkboxes.length) {
+      return;
+    }
+    var allset = true;
+    var checkbox;
+    var row;
+    for (row of bombody.childNodes) {
+      checkbox = row.childNodes[checkboxnum + 1].childNodes[0];
+      if (!checkbox.checked || checkbox.indeterminate) {
+        allset = false;
+        break;
+      }
+    }
+    for (row of bombody.childNodes) {
+      checkbox = row.childNodes[checkboxnum + 1].childNodes[0];
+      checkbox.checked = !allset;
+      checkbox.indeterminate = false;
+      checkbox.onchange();
+    }
+  }
+}
+
+function createColumnHeader(name, cls, comparator) {
+  var th = document.createElement("TH");
+  th.innerHTML = name;
+  th.classList.add(cls);
+  th.style.cursor = "pointer";
+  var span = document.createElement("SPAN");
+  span.classList.add("sortmark");
+  span.classList.add("none");
+  th.appendChild(span);
+  th.onclick = function() {
+    if (currentSortColumn && this !== currentSortColumn) {
+      // Currently sorted by another column
+      currentSortColumn.childNodes[1].classList.remove(currentSortOrder);
+      currentSortColumn.childNodes[1].classList.add("none");
+      currentSortColumn = null;
+      currentSortOrder = null;
+    }
+    if (currentSortColumn && this === currentSortColumn) {
+      // Already sorted by this column
+      if (currentSortOrder == "asc") {
+        // Sort by this column, descending order
+        bomSortFunction = function(a, b) {
+          return -comparator(a, b);
+        }
+        currentSortColumn.childNodes[1].classList.remove("asc");
+        currentSortColumn.childNodes[1].classList.add("desc");
+        currentSortOrder = "desc";
+      } else {
+        // Unsort
+        bomSortFunction = null;
+        currentSortColumn.childNodes[1].classList.remove("desc");
+        currentSortColumn.childNodes[1].classList.add("none");
+        currentSortColumn = null;
+        currentSortOrder = null;
+      }
+    } else {
+      // Sort by this column, ascending order
+      bomSortFunction = comparator;
+      currentSortColumn = this;
+      currentSortColumn.childNodes[1].classList.remove("none");
+      currentSortColumn.childNodes[1].classList.add("asc");
+      currentSortOrder = "asc";
+    }
+    populateBomBody();
+  }
+  return th;
+}
+
+function populateBomHeader() {
+  while (bomhead.firstChild) {
+    bomhead.removeChild(bomhead.firstChild);
+  }
+  var tr = document.createElement("TR");
+  var th = document.createElement("TH");
+  th.classList.add("numCol");
+  tr.appendChild(th);
+  var checkboxCompareClosure = function(checkbox) {
+    return (a, b) => {
+      var stateA = getCheckboxState(checkbox, a[3]);
+      var stateB = getCheckboxState(checkbox, b[3]);
+      if (stateA > stateB) return -1;
+      if (stateA < stateB) return 1;
+      return 0;
+    }
+  }
+  for (var checkbox of checkboxes) {
+    th = createColumnHeader(
+      checkbox, "bom-checkbox", checkboxCompareClosure(checkbox));
+    th.onclick = fancyDblClickHandler(
+      th, th.onclick.bind(th), checkboxSetUnsetAllHandler(checkbox));
+    tr.appendChild(th);
+  }
+  tr.appendChild(createColumnHeader("References", "References", (a, b) => {
+    var i = 0;
+    while (i < a[3].length && i < b[3].length) {
+      if (a[3][i] != b[3][i]) return a[3][i] > b[3][i] ? 1 : -1;
+      i++;
+    }
+    return a[3].length - b[3].length;
+  }));
+  // Extra fields
+  if (config.extra_fields.length > 0) {
+    var extraFieldCompareClosure = function(fieldIndex) {
+      return (a, b) => {
+        var fa = a[4][fieldIndex];
+        var fb = b[4][fieldIndex];
+        if (fa != fb) return fa > fb ? 1 : -1;
+        else return 0;
+      }
+    }
+    for (var i in config.extra_fields) {
+      tr.appendChild(createColumnHeader(
+        config.extra_fields[i], "extra", extraFieldCompareClosure(i)));
+    }
+  }
+  tr.appendChild(createColumnHeader("Value", "Value", (a, b) => {
+    return valueCompare(a[5], b[5], a[1], b[1]);
+  }));
+  tr.appendChild(createColumnHeader("Footprint", "Footprint", (a, b) => {
+    if (a[2] != b[2]) return a[2] > b[2] ? 1 : -1;
+    else return 0;
+  }));
+  tr.appendChild(createColumnHeader("Quantity", "Quantity", (a, b) => {
+    return a[3].length - b[3].length;
+  }));
+  bomhead.appendChild(tr);
+}
+
+function populateBomBody() {
+  while (bom.firstChild) {
+    bom.removeChild(bom.firstChild);
+  }
+  highlightHandlers = [];
+  moduleIndexToHandler = {};
+  currentHighlightedRowId = null;
+  var first = true;
+  switch (canvaslayout) {
+    case 'F':
+      bomtable = pcbdata.bom.F;
+      break;
+    case 'FB':
+      bomtable = pcbdata.bom.both;
+      break;
+    case 'B':
+      bomtable = pcbdata.bom.B;
+      break;
+  }
+  if (bomSortFunction) {
+    bomtable = bomtable.slice().sort(bomSortFunction);
+  }
+  for (var i in bomtable) {
+    var bomentry = bomtable[i];
+    if (filter && !entryMatches(bomentry)) {
+      continue;
+    }
+    var references = bomentry[3];
+    if (reflookup) {
+      references = findRefInEntry(bomentry);
+      if (references.length == 0) {
+        continue;
+      }
+    }
+    var tr = document.createElement("TR");
+    var td = document.createElement("TD");
+    var rownum = +i + 1;
+    tr.id = "bomrow" + rownum;
+    td.textContent = rownum;
+    tr.appendChild(td);
+    // Checkboxes
+    for (var checkbox of checkboxes) {
+      if (checkbox) {
+        td = document.createElement("TD");
+        var input = document.createElement("input");
+        input.type = "checkbox";
+        input.onchange = createCheckboxChangeHandler(checkbox, references);
+        setBomCheckboxState(checkbox, input, references);
+        td.appendChild(input);
+        tr.appendChild(td);
+      }
+    }
+    // References
+    td = document.createElement("TD");
+    td.innerHTML = highlightFilter(references.map(r => r[0]).join(", "));
+    tr.appendChild(td);
+    // Extra fields
+    for (var i in config.extra_fields) {
+      td = document.createElement("TD");
+      td.innerHTML = highlightFilter(bomentry[4][i]);
+      tr.appendChild(td);
+    }
+    // Value
+    td = document.createElement("TD");
+    td.innerHTML = highlightFilter(bomentry[1]);
+    tr.appendChild(td);
+    // Footprint
+    td = document.createElement("TD");
+    td.innerHTML = highlightFilter(bomentry[2]);
+    tr.appendChild(td);
+    // Quantity
+    td = document.createElement("TD");
+    td.textContent = bomentry[3].length;
+    tr.appendChild(td);
+    bom.appendChild(tr);
+    var handler = createRowHighlightHandler(tr.id, references);
+    tr.onmousemove = handler;
+    highlightHandlers.push({
+      id: tr.id,
+      handler: handler,
+      refs: references
+    });
+    for (var refIndex of references.map(r => r[1])) {
+      moduleIndexToHandler[refIndex] = handler;
+    }
+    if ((filter || reflookup) && first) {
+      handler();
+      first = false;
+    }
+  }
+}
+
+function highlightPreviousRow() {
+  if (!currentHighlightedRowId) {
+    highlightHandlers[highlightHandlers.length - 1].handler();
+  } else {
+    if (highlightHandlers.length > 1 &&
+      highlightHandlers[0].id == currentHighlightedRowId) {
+      highlightHandlers[highlightHandlers.length - 1].handler();
+    } else {
+      for (var i = 0; i < highlightHandlers.length - 1; i++) {
+        if (highlightHandlers[i + 1].id == currentHighlightedRowId) {
+          highlightHandlers[i].handler();
+          break;
+        }
+      }
+    }
+  }
+  smoothScrollToRow(currentHighlightedRowId);
+}
+
+function highlightNextRow() {
+  if (!currentHighlightedRowId) {
+    highlightHandlers[0].handler();
+  } else {
+    if (highlightHandlers.length > 1 &&
+      highlightHandlers[highlightHandlers.length - 1].id == currentHighlightedRowId) {
+      highlightHandlers[0].handler();
+    } else {
+      for (var i = 1; i < highlightHandlers.length; i++) {
+        if (highlightHandlers[i - 1].id == currentHighlightedRowId) {
+          highlightHandlers[i].handler();
+          break;
+        }
+      }
+    }
+  }
+  smoothScrollToRow(currentHighlightedRowId);
+}
+
+function populateBomTable() {
+  populateBomHeader();
+  populateBomBody();
+}
+
+function modulesClicked(moduleIndexes) {
+  var lastClickedIndex = moduleIndexes.indexOf(lastClicked);
+  for (var i = 1; i <= moduleIndexes.length; i++) {
+    var refIndex = moduleIndexes[(lastClickedIndex + i) % moduleIndexes.length];
+    if (refIndex in moduleIndexToHandler) {
+      lastClicked = refIndex;
+      moduleIndexToHandler[refIndex]();
+      smoothScrollToRow(currentHighlightedRowId);
+      break;
+    }
+  }
+}
+
+function updateFilter(input) {
+  filter = input.toLowerCase();
+  populateBomTable();
+}
+
+function updateRefLookup(input) {
+  reflookup = input.toLowerCase();
+  populateBomTable();
+}
+
+function changeCanvasLayout(layout) {
+  document.getElementById("fl-btn").classList.remove("depressed");
+  document.getElementById("fb-btn").classList.remove("depressed");
+  document.getElementById("bl-btn").classList.remove("depressed");
+  switch (layout) {
+    case 'F':
+      document.getElementById("fl-btn").classList.add("depressed");
+      if (bomlayout != "bom-only") {
+        canvassplit.collapse(1);
+      }
+      break;
+    case 'B':
+      document.getElementById("bl-btn").classList.add("depressed");
+      if (bomlayout != "bom-only") {
+        canvassplit.collapse(0);
+      }
+      break;
+    default:
+      document.getElementById("fb-btn").classList.add("depressed");
+      if (bomlayout != "bom-only") {
+        canvassplit.setSizes([50, 50]);
+      }
+  }
+  canvaslayout = layout;
+  writeStorage("canvaslayout", layout);
+  resizeAll();
+  populateBomTable();
+}
+
+function populateMetadata() {
+  document.getElementById("title").innerHTML = pcbdata.metadata.title;
+  document.getElementById("revision").innerHTML = "Rev: " + pcbdata.metadata.revision;
+  document.getElementById("company").innerHTML = pcbdata.metadata.company;
+  document.getElementById("filedate").innerHTML = pcbdata.metadata.date;
+  if (pcbdata.metadata.title != "") {
+    document.title = pcbdata.metadata.title + " BOM";
+  }
+  var fp_f = 0, fp_b = 0, pads_f = 0, pads_b = 0, pads_th = 0;
+  for (var i = 0; i < pcbdata.modules.length; i++) {
+    if (pcbdata.bom.skipped.includes(i)) continue;
+    var mod = pcbdata.modules[i];
+    if (mod.layer == "F") {
+      fp_f++;
+    } else {
+      fp_b++;
+    }
+    for (var pad of mod.pads) {
+      if (pad.type == "th") {
+        pads_th++;
+      } else {
+        if (pad.layers.includes("F")) {
+          pads_f++;
+        }
+        if (pad.layers.includes("B")) {
+          pads_b++;
+        }
+      }
+    }
+  }
+  document.getElementById("stats-components-front").innerHTML = fp_f;
+  document.getElementById("stats-components-back").innerHTML = fp_b;
+  document.getElementById("stats-components-total").innerHTML = fp_f + fp_b;
+  document.getElementById("stats-groups-front").innerHTML = pcbdata.bom.F.length;
+  document.getElementById("stats-groups-back").innerHTML = pcbdata.bom.B.length;
+  document.getElementById("stats-groups-total").innerHTML = pcbdata.bom.both.length;
+  document.getElementById("stats-smd-pads-front").innerHTML = pads_f;
+  document.getElementById("stats-smd-pads-back").innerHTML = pads_b;
+  document.getElementById("stats-smd-pads-total").innerHTML = pads_f + pads_b;
+  document.getElementById("stats-th-pads").innerHTML = pads_th;
+}
+
+function changeBomLayout(layout) {
+  document.getElementById("bom-btn").classList.remove("depressed");
+  document.getElementById("lr-btn").classList.remove("depressed");
+  document.getElementById("tb-btn").classList.remove("depressed");
+  switch (layout) {
+    case 'bom-only':
+      document.getElementById("bom-btn").classList.add("depressed");
+      if (bomsplit) {
+        bomsplit.destroy();
+        bomsplit = null;
+        canvassplit.destroy();
+        canvassplit = null;
+      }
+      document.getElementById("frontcanvas").style.display = "none";
+      document.getElementById("backcanvas").style.display = "none";
+      document.getElementById("bot").style.height = "";
+      break;
+    case 'top-bottom':
+      document.getElementById("tb-btn").classList.add("depressed");
+      document.getElementById("frontcanvas").style.display = "";
+      document.getElementById("backcanvas").style.display = "";
+      document.getElementById("bot").style.height = "calc(100% - 80px)";
+      document.getElementById("bomdiv").classList.remove("split-horizontal");
+      document.getElementById("canvasdiv").classList.remove("split-horizontal");
+      document.getElementById("frontcanvas").classList.add("split-horizontal");
+      document.getElementById("backcanvas").classList.add("split-horizontal");
+      if (bomsplit) {
+        bomsplit.destroy();
+        bomsplit = null;
+        canvassplit.destroy();
+        canvassplit = null;
+      }
+      bomsplit = Split(['#bomdiv', '#canvasdiv'], {
+        sizes: [50, 50],
+        onDragEnd: resizeAll,
+        direction: "vertical",
+        gutterSize: 5
+      });
+      canvassplit = Split(['#frontcanvas', '#backcanvas'], {
+        sizes: [50, 50],
+        gutterSize: 5,
+        onDragEnd: resizeAll
+      });
+      break;
+    case 'left-right':
+      document.getElementById("lr-btn").classList.add("depressed");
+      document.getElementById("frontcanvas").style.display = "";
+      document.getElementById("backcanvas").style.display = "";
+      document.getElementById("bot").style.height = "calc(100% - 80px)";
+      document.getElementById("bomdiv").classList.add("split-horizontal");
+      document.getElementById("canvasdiv").classList.add("split-horizontal");
+      document.getElementById("frontcanvas").classList.remove("split-horizontal");
+      document.getElementById("backcanvas").classList.remove("split-horizontal");
+      if (bomsplit) {
+        bomsplit.destroy();
+        bomsplit = null;
+        canvassplit.destroy();
+        canvassplit = null;
+      }
+      bomsplit = Split(['#bomdiv', '#canvasdiv'], {
+        sizes: [50, 50],
+        onDragEnd: resizeAll,
+        gutterSize: 5
+      });
+      canvassplit = Split(['#frontcanvas', '#backcanvas'], {
+        sizes: [50, 50],
+        gutterSize: 5,
+        direction: "vertical",
+        onDragEnd: resizeAll
+      });
+  }
+  bomlayout = layout;
+  writeStorage("bomlayout", layout);
+  changeCanvasLayout(canvaslayout);
+}
+
+function focusFilterField() {
+  focusInputField(document.getElementById("filter"));
+}
+
+function focusRefLookupField() {
+  focusInputField(document.getElementById("reflookup"));
+}
+
+function toggleBomCheckbox(bomrowid, checkboxnum) {
+  if (!bomrowid || checkboxnum > checkboxes.length) {
+    return;
+  }
+  var bomrow = document.getElementById(bomrowid);
+  var checkbox = bomrow.childNodes[checkboxnum].childNodes[0];
+  checkbox.checked = !checkbox.checked;
+  checkbox.indeterminate = false;
+  checkbox.onchange();
+}
+
+function checkBomCheckbox(bomrowid, checkboxname) {
+  var checkboxnum = 0;
+  while (checkboxnum < checkboxes.length &&
+    checkboxes[checkboxnum].toLowerCase() != checkboxname.toLowerCase()) {
+    checkboxnum++;
+  }
+  if (!bomrowid || checkboxnum >= checkboxes.length) {
+    return;
+  }
+  var bomrow = document.getElementById(bomrowid);
+  var checkbox = bomrow.childNodes[checkboxnum + 1].childNodes[0];
+  checkbox.checked = true;
+  checkbox.indeterminate = false;
+  checkbox.onchange();
+}
+
+function setBomCheckboxes(value) {
+  bomCheckboxes = value;
+  writeStorage("bomCheckboxes", value);
+  prepCheckboxes();
+  populateBomTable();
+}
+
+function prepCheckboxes() {
+  checkboxes = bomCheckboxes.split(",").filter((e) => e);
+  var table = document.getElementById("checkbox-stats");
+  while (table.childElementCount > 1) {
+    table.removeChild(table.lastChild);
+  }
+  if (checkboxes.length) {
+    table.style.display = "";
+  } else {
+    table.style.display = "none";
+  }
+  for (var checkbox of checkboxes) {
+    var tr = document.createElement("TR");
+    var td = document.createElement("TD");
+    td.innerHTML = checkbox;
+    tr.appendChild(td);
+    td = document.createElement("TD");
+    td.id = "checkbox-stats-" + checkbox;
+    var progressbar = document.createElement("div");
+    progressbar.classList.add("bar");
+    td.appendChild(progressbar);
+    var text = document.createElement("div");
+    text.classList.add("text");
+    td.appendChild(text);
+    tr.appendChild(td);
+    table.appendChild(tr);
+    updateCheckboxStats(checkbox);
+  }
+}
+
+function updateCheckboxStats(checkbox) {
+  var checked = getStoredCheckboxRefs(checkbox).size;
+  var total = pcbdata.modules.length - pcbdata.bom.skipped.length;
+  var percent = checked * 100.0 / total;
+  var td = document.getElementById("checkbox-stats-" + checkbox);
+  td.firstChild.style.width = percent + "%";
+  td.lastChild.innerHTML = checked + "/" + total + " (" + Math.round(percent) + "%)";
+}
+
+document.onkeydown = function(e) {
+  switch (e.key) {
+    case "n":
+      if (document.activeElement.type == "text") {
+        return;
+      }
+      if (currentHighlightedRowId !== null) {
+        checkBomCheckbox(currentHighlightedRowId, "placed");
+        highlightNextRow();
+        e.preventDefault();
+      }
+      break;
+    case "ArrowUp":
+      highlightPreviousRow();
+      e.preventDefault();
+      break;
+    case "ArrowDown":
+      highlightNextRow();
+      e.preventDefault();
+      break;
+    default:
+      break;
+  }
+  if (e.altKey) {
+    switch (e.key) {
+      case "f":
+        focusFilterField();
+        e.preventDefault();
+        break;
+      case "r":
+        focusRefLookupField();
+        e.preventDefault();
+        break;
+      case "z":
+        changeBomLayout("bom-only");
+        e.preventDefault();
+        break;
+      case "x":
+        changeBomLayout("left-right");
+        e.preventDefault();
+        break;
+      case "c":
+        changeBomLayout("top-bottom");
+        e.preventDefault();
+        break;
+      case "v":
+        changeCanvasLayout("F");
+        e.preventDefault();
+        break;
+      case "b":
+        changeCanvasLayout("FB");
+        e.preventDefault();
+        break;
+      case "n":
+        changeCanvasLayout("B");
+        e.preventDefault();
+        break;
+      default:
+        break;
+    }
+    if (e.key >= '1' && e.key <= '9') {
+      toggleBomCheckbox(currentHighlightedRowId, parseInt(e.key));
+    }
+  }
+}
+
+function getStorageBooleanOrDefault(storageString, def) {
+  var b = readStorage(storageString);
+  if (b === null) {
+    b = def;
+  } else {
+    b = (b == "true");
+  }
+  return b;
+}
+
+function initDefaults() {
+  bomlayout = readStorage("bomlayout");
+  if (bomlayout === null) {
+    bomlayout = config.bom_view;
+  }
+  if (!['bom-only', 'left-right', 'top-bottom'].includes(bomlayout)) {
+    bomlayout = config.bom_view;
+  }
+  canvaslayout = readStorage("canvaslayout");
+  if (canvaslayout === null) {
+    canvaslayout = config.layer_view;
+  }
+  bomCheckboxes = readStorage("bomCheckboxes");
+  if (bomCheckboxes === null) {
+    bomCheckboxes = config.checkboxes;
+  }
+  document.getElementById("bomCheckboxes").value = bomCheckboxes;
+
+  var b = getStorageBooleanOrDefault("padsVisible", config.show_pads);
+  document.getElementById("padsCheckbox").checked = b;
+  padsVisible(b);
+
+  b = getStorageBooleanOrDefault("fabricationVisible", config.show_fabrication);
+  document.getElementById("fabricationCheckbox").checked = b;
+  fabricationVisible(b);
+
+  b = getStorageBooleanOrDefault("silkscreenVisible", config.show_silkscreen);
+  document.getElementById("silkscreenCheckbox").checked = b;
+  silkscreenVisible(b);
+
+  b = getStorageBooleanOrDefault("referencesVisible", true);
+  document.getElementById("referencesCheckbox").checked = b;
+  referencesVisible(b);
+
+  b = getStorageBooleanOrDefault("valuesVisible", true);
+  document.getElementById("valuesCheckbox").checked = b;
+  valuesVisible(b);
+
+  b = getStorageBooleanOrDefault("dnpOutline", false);
+  document.getElementById("dnpOutlineCheckbox").checked = b;
+  dnpOutline(b);
+
+  b = getStorageBooleanOrDefault("redrawOnDrag", config.redraw_on_drag);
+  document.getElementById("dragCheckbox").checked = b;
+  setRedrawOnDrag(b);
+
+  b = getStorageBooleanOrDefault("darkmode", config.dark_mode);
+  document.getElementById("darkmodeCheckbox").checked = b;
+  setDarkMode(b);
+
+  b = getStorageBooleanOrDefault("highlightpin1", config.highlight_pin1);
+  document.getElementById("highlightpin1Checkbox").checked = b;
+  setHighlightPin1(b);
+
+  boardRotation = readStorage("boardRotation");
+  if (boardRotation === null) {
+    boardRotation = config.board_rotation * 5;
+  } else {
+    boardRotation = parseInt(boardRotation);
+  }
+  document.getElementById("boardRotation").value = boardRotation / 5;
+  document.getElementById("rotationDegree").textContent = boardRotation;
+}
+
+window.onload = function(e) {
+  initUtils();
+  initRender();
+  initStorage();
+  initDefaults();
+  cleanGutters();
+  populateMetadata();
+  dbgdiv = document.getElementById("dbg");
+  bom = document.getElementById("bombody");
+  bomhead = document.getElementById("bomhead");
+  filter = "";
+  reflookup = "";
+  initDone = true;
+  prepCheckboxes();
+  // Triggers render
+  changeBomLayout(bomlayout);
+}
+
+window.onresize = resizeAll;
+window.matchMedia("print").addListener(resizeAll);
+
+///////////////////////////////////////////////
+
+  </script>
+</head>
+
+<body>
+<div id="topmostdiv" style="width: 100%; height: 100%">
+  <div id="top">
+    <div style="float: right;">
+      <div class="hideonprint menu" style="float: right; margin: 10px; top: 8px;">
+        <button class="menubtn"></button>
+        <div class="menu-content">
+          <label class="menu-label menu-label-top">
+            <input id="darkmodeCheckbox" type="checkbox" onchange="setDarkMode(this.checked)">
+            Dark mode
+          </label>
+          <label class="menu-label">
+            <input id="padsCheckbox" type="checkbox" checked onchange="padsVisible(this.checked)">
+            Show footprint pads
+          </label>
+          <label class="menu-label">
+            <input id="fabricationCheckbox" type="checkbox" checked onchange="fabricationVisible(this.checked)">
+            Show fabrication layer
+          </label>
+          <label class="menu-label">
+            <input id="silkscreenCheckbox" type="checkbox" checked onchange="silkscreenVisible(this.checked)">
+            Show silkscreen
+          </label>
+          <label class="menu-label" style="width: calc(50% - 18px)">
+            <input id="referencesCheckbox" type="checkbox" checked onchange="referencesVisible(this.checked)">
+            References
+          </label><!-- This comment eats space! All of it!
+          --><label class="menu-label" style="width: calc(50% - 18px); border-left: 0;">
+            <input id="valuesCheckbox" type="checkbox" checked onchange="valuesVisible(this.checked)">
+            Values
+          </label>
+          <label class="menu-label">
+            <input id="dnpOutlineCheckbox" type="checkbox" checked onchange="dnpOutline(this.checked)">
+            DNP components outlined
+          </label>
+          <label class="menu-label">
+            <input id="highlightpin1Checkbox" type="checkbox" onchange="setHighlightPin1(this.checked)">
+            Highlight first pin
+          </label>
+          <label class="menu-label">
+            <input id="dragCheckbox" type="checkbox" checked onchange="setRedrawOnDrag(this.checked)">
+            Continuous redraw on drag
+          </label>
+          <label class="menu-label">
+            <span>Board rotation</span>
+            <span style="float: right"><span id="rotationDegree">0</span>&#176;</span>
+            <input id="boardRotation" type="range" min="-36" max="36" value="0" class="slider" oninput="setBoardRotation(this.value)">
+          </label>
+          <label class="menu-label">
+            <div style="margin-left: 5px">Bom checkboxes</div>
+            <input id="bomCheckboxes" class="menu-textbox" type=text
+                   oninput="setBomCheckboxes(this.value)">
+          </label>
+          <label class="menu-label">
+            <span class="shameless-plug">
+              <span>Created using</span>
+              <a target="blank" href="https://github.com/openscopeproject/InteractiveHtmlBom">InteractiveHtmlBom</a>
+            </span>
+          </label>
+        </div>
+      </div>
+      <div class="button-container hideonprint"
+           style="float: right; margin: 10px; position: relative; top: 8px">
+        <button id="fl-btn" class="left-most-button" onclick="changeCanvasLayout('F')"
+                title="Front only">F
+        </button>
+        <button id="fb-btn" class="middle-button" onclick="changeCanvasLayout('FB')"
+                title="Front and Back">FB
+        </button>
+        <button id="bl-btn" class="right-most-button" onclick="changeCanvasLayout('B')"
+                title="Back only">B
+        </button>
+      </div>
+      <div class="button-container hideonprint"
+           style="float: right; margin: 10px; position: relative; top: 8px">
+        <button id="bom-btn" class="left-most-button" onclick="changeBomLayout('bom-only')"
+                title="BOM only"></button>
+        <button id="lr-btn" class="middle-button" onclick="changeBomLayout('left-right')"
+                title="BOM left, drawings right"></button>
+        <button id="tb-btn" class="right-most-button" onclick="changeBomLayout('top-bottom')"
+                title="BOM top, drawings bot"></button>
+      </div>
+      <div class="hideonprint menu" style="float: right; margin: 10px; top: 8px;">
+        <button class="statsbtn"></button>
+        <div class="menu-content">
+          <table class="stats">
+            <tbody>
+              <tr>
+                <td width="40%">Board stats</td>
+                <td>Front</td>
+                <td>Back</td>
+                <td>Total</td>
+              </tr>
+              <tr>
+                <td>Components</td>
+                <td id="stats-components-front">~</td>
+                <td id="stats-components-back">~</td>
+                <td id="stats-components-total">~</td>
+              </tr>
+              <tr>
+                <td>Groups</td>
+                <td id="stats-groups-front">~</td>
+                <td id="stats-groups-back">~</td>
+                <td id="stats-groups-total">~</td>
+              </tr>
+              <tr>
+                <td>SMD pads</td>
+                <td id="stats-smd-pads-front">~</td>
+                <td id="stats-smd-pads-back">~</td>
+                <td id="stats-smd-pads-total">~</td>
+              </tr>
+              <tr>
+                <td>TH pads</td>
+                <td colspan=3 id="stats-th-pads">~</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="stats">
+            <col width="40%"/><col />
+            <tbody id="checkbox-stats">
+              <tr>
+                <td colspan=2 style="border-top: 0">Checkboxes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="fileinfodiv" style="overflow: auto;">
+      <table class="fileinfo">
+        <tbody>
+          <tr>
+            <td id="title" class="title" style="width: 70%">
+              Title
+            </td>
+            <td id="revision" class="title" style="width: 30%">
+              Revision
+            </td>
+          </tr>
+          <tr>
+            <td id="company">
+              Kicad version
+            </td>
+            <td id="filedate">
+              Date
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="bot" class="split" style="height: calc(100% - 80px)">
+    <div id="bomdiv" class="split split-horizontal">
+      <div style="width: 100%">
+        <input id="reflookup" class="searchbox reflookup hideonprint" type="text" placeholder="Ref lookup"
+               oninput="updateRefLookup(this.value)">
+        <input id="filter" class="searchbox filter hideonprint" type="text" placeholder="Filter"
+               oninput="updateFilter(this.value)">
+        <div class="button-container hideonprint" style="float: left">
+          <button id="copy" title="Copy bom table to clipboard"
+               onclick="copyToClipboard()"></button>
+        </div>
+      </div>
+      <div id="dbg"></div>
+      <table class="bom">
+        <thead id="bomhead">
+        </thead>
+        <tbody id="bombody">
+        </tbody>
+      </table>
+    </div>
+    <div id="canvasdiv" class="split split-horizontal">
+      <div id="frontcanvas" class="split" touch-action="none" style="overflow: hidden">
+        <div style="position: relative; width: 100%; height: 100%;">
+          <canvas id="F_bg" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+          <canvas id="F_fab" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+          <canvas id="F_slk" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+          <canvas id="F_hl" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+        </div>
+      </div>
+      <div id="backcanvas" class="split" touch-action="none" style="overflow: hidden">
+        <div style="position: relative; width: 100%; height: 100%;">
+          <canvas id="B_bg" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+          <canvas id="B_fab" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+          <canvas id="B_slk" style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+          <canvas id="B_hl" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
