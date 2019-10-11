@@ -20,27 +20,26 @@ function draw() {
   strokeWeight(6);
   stroke(255);
 
-  if (yposition != 0) {
-    drawLine(determineLine(previous));
-  }
-
-  //Shift right
-  xposition += 1;
-
-  //Shift to next line
-  if (xposition > width / xoffset) {
-    if (abs(yposition) % 2 == 1) {
-      xposition = 0.5;
-    } else {
-      xposition = 0;
+  for (yposition = 0; yposition < height / yoffset; yposition += 1) {
+    if (yposition != 0) {
+      drawLine(determineLine(previous));
     }
-    yposition += 1;
+
+    //Shift right
+    xposition += 1;
+
+    //Shift to next line
+    if (xposition > width / xoffset) {
+      if (abs(yposition) % 2 == 1) {
+        xposition = 0.5;
+      } else {
+        xposition = 0;
+      }
+    }
   }
 
-  if (yposition > height / yoffset) {
-    noLoop();
-    save();
-  }
+  noLoop();
+  //save();
 }
 
 function determineLine() {

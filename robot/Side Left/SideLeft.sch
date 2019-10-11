@@ -1,0 +1,196 @@
+EESchema Schematic File Version 4
+LIBS:SideLeft-cache
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Side"
+Date "2019-09-29"
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L power:GND #PWR0101
+U 1 1 5D90DE5B
+P 3100 3200
+F 0 "#PWR0101" H 3100 2950 50  0001 C CNN
+F 1 "GND" H 3105 3027 50  0000 C CNN
+F 2 "" H 3100 3200 50  0001 C CNN
+F 3 "" H 3100 3200 50  0001 C CNN
+	1    3100 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5D90E330
+P 3100 3050
+F 0 "#FLG0101" H 3100 3125 50  0001 C CNN
+F 1 "PWR_FLAG" H 3100 3200 50  0000 C CNN
+F 2 "" H 3100 3050 50  0001 C CNN
+F 3 "~" H 3100 3050 50  0001 C CNN
+	1    3100 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3100 3050 3100 3200
+Wire Wire Line
+	3400 3150 3400 3200
+$Comp
+L power:GND #PWR0102
+U 1 1 5D910A58
+P 3400 3200
+F 0 "#PWR0102" H 3400 2950 50  0001 C CNN
+F 1 "GND" H 3405 3027 50  0000 C CNN
+F 2 "" H 3400 3200 50  0001 C CNN
+F 3 "" H 3400 3200 50  0001 C CNN
+	1    3400 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Custom:MountingPad H2
+U 1 1 5D90E7EF
+P 3400 2850
+F 0 "H2" H 3488 2788 50  0000 L CNN
+F 1 "GND" H 3488 2697 50  0000 L CNN
+F 2 "Custom:Mounting_Pad_Power" H 3400 3000 50  0001 C CNN
+F 3 "" H 3400 3000 50  0001 C CNN
+	1    3400 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Custom:MountingPad H3
+U 1 1 5D9BF32E
+P 2800 3650
+F 0 "H3" H 2600 3600 50  0000 L CNN
+F 1 "GND" H 2550 3500 50  0000 L CNN
+F 2 "Custom:Mounting_Pad_Power" H 2800 3800 50  0001 C CNN
+F 3 "" H 2800 3800 50  0001 C CNN
+	1    2800 3650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 5D9BF338
+P 2800 4000
+F 0 "#PWR0104" H 2800 3750 50  0001 C CNN
+F 1 "GND" H 2805 3827 50  0000 C CNN
+F 2 "" H 2800 4000 50  0001 C CNN
+F 3 "" H 2800 4000 50  0001 C CNN
+	1    2800 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2800 3950 2800 4000
+Wire Wire Line
+	2800 5850 2800 5900
+$Comp
+L power:GND #PWR0105
+U 1 1 5D9BF975
+P 2800 5900
+F 0 "#PWR0105" H 2800 5650 50  0001 C CNN
+F 1 "GND" H 2805 5727 50  0000 C CNN
+F 2 "" H 2800 5900 50  0001 C CNN
+F 3 "" H 2800 5900 50  0001 C CNN
+	1    2800 5900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Custom:MountingPad H5
+U 1 1 5D9BF97F
+P 2800 5550
+F 0 "H5" H 2888 5488 50  0000 L CNN
+F 1 "GND" H 2888 5397 50  0000 L CNN
+F 2 "Custom:Mounting_Pad_Power_Corner" H 2800 5700 50  0001 C CNN
+F 3 "" H 2800 5700 50  0001 C CNN
+	1    2800 5550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 5850 3350 5900
+$Comp
+L power:GND #PWR0108
+U 1 1 5D9C4095
+P 3350 5900
+F 0 "#PWR0108" H 3350 5650 50  0001 C CNN
+F 1 "GND" H 3355 5727 50  0000 C CNN
+F 2 "" H 3350 5900 50  0001 C CNN
+F 3 "" H 3350 5900 50  0001 C CNN
+	1    3350 5900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Custom:MountingPad H7
+U 1 1 5D9C409F
+P 3350 5550
+F 0 "H7" H 3438 5488 50  0000 L CNN
+F 1 "GND" H 3438 5397 50  0000 L CNN
+F 2 "Custom:Mounting_Pad_Power_Corner" H 3350 5700 50  0001 C CNN
+F 3 "" H 3350 5700 50  0001 C CNN
+	1    3350 5550
+	1    0    0    -1  
+$EndComp
+Text Notes 2950 5250 0    50   ~ 0
+Corners
+$Comp
+L Connector_Generic:Conn_01x02 J3
+U 1 1 5D9BA9E9
+P 3100 1950
+F 0 "J3" H 3180 1942 50  0000 L CNN
+F 1 "Conn_01x02" H 3180 1851 50  0000 L CNN
+F 2 "Custom:BG300-02-A-L-A" H 3100 1950 50  0001 C CNN
+F 3 "~" H 3100 1950 50  0001 C CNN
+	1    3100 1950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2800 1950 2900 1950
+Wire Wire Line
+	2800 2050 2900 2050
+Wire Wire Line
+	2800 1950 2800 2000
+Wire Wire Line
+	2800 2000 2700 2000
+Connection ~ 2800 2000
+Wire Wire Line
+	2800 2000 2800 2050
+$Comp
+L Custom:MountingPad H10
+U 1 1 5D9AFB53
+P 4400 2800
+F 0 "H10" H 4200 2750 50  0000 L CNN
+F 1 "VBS" H 4150 2650 50  0000 L CNN
+F 2 "Custom:Mounting_Pad_Power" H 4400 2950 50  0001 C CNN
+F 3 "" H 4400 2950 50  0001 C CNN
+	1    4400 2800
+	1    0    0    -1  
+$EndComp
+Text Notes 4450 2500 0    50   ~ 0
+VBUS
+Wire Wire Line
+	4400 3100 4400 3150
+Text Label 4950 3150 0    50   ~ 0
+VBUS
+Text Label 2700 2000 2    50   ~ 0
+VBUS
+NoConn ~ 2850 2400
+Wire Wire Line
+	2850 2400 2900 2400
+$Comp
+L Connector_Generic:Conn_01x01 J1
+U 1 1 5D908506
+P 3100 2400
+F 0 "J1" H 3180 2442 50  0000 L CNN
+F 1 "Conn_01x01" H 3180 2351 50  0000 L CNN
+F 2 "Custom:Axis" H 3100 2400 50  0001 C CNN
+F 3 "~" H 3100 2400 50  0001 C CNN
+	1    3100 2400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 3150 4950 3150
+$EndSCHEMATC

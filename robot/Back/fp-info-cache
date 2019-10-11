@@ -1,4 +1,4 @@
-16335567640912101
+16337138973624808
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -42776,6 +42776,13 @@ Mounting_Pad_Signal
 0
 1
 1
+Custom
+SMD_2.54mm_2pin_Conn
+
+
+0
+2
+2
 Custom
 SSD1306_OLED
 
