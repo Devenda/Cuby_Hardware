@@ -1,7 +1,7 @@
 (export (version D)
   (design
-    (source C:\Users\tinus\Documents\Projects_on_GitHub\robothardware\robot\Bottom\Bottom.sch)
-    (date "11/10/2019 14:23:21")
+    (source C:\Users\tinus\Documents\Projects_on_GitHub\Cuby_Hardware\Bottom\Bottom.sch)
+    (date "03/12/2019 21:20:21")
     (tool "Eeschema (5.1.4)-1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -330,7 +330,13 @@
       (footprint Custom:Mounting_Pad_Power)
       (libsource (lib Custom) (part MountingPad) (description ""))
       (sheetpath (names /) (tstamps /))
-      (tstamp 5D9A8D04)))
+      (tstamp 5D9A8D04))
+    (comp (ref G1)
+      (value Graphic)
+      (footprint Print:d2)
+      (libsource (lib Custom) (part Graphic) (description ""))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 5DEDE762)))
   (libparts
     (libpart (lib Custom) (part GP2S60)
       (fields
@@ -341,6 +347,10 @@
         (pin (num 2) (name EM) (type power_in))
         (pin (num 3) (name CAT) (type power_in))
         (pin (num 4) (name AN) (type input))))
+    (libpart (lib Custom) (part Graphic)
+      (fields
+        (field (name Reference) G)
+        (field (name Value) Graphic)))
     (libpart (lib Custom) (part MountingPad)
       (fields
         (field (name Reference) H)

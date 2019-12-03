@@ -1198,4 +1198,15 @@ F 3 "" H 9550 4600 50  0001 C CNN
 	1    9550 4600
 	1    0    0    -1  
 $EndComp
+$Comp
+L Custom:Graphic G1
+U 1 1 5DEDE762
+P 2450 7200
+F 0 "G1" H 2528 7246 50  0000 L CNN
+F 1 "Graphic" H 2528 7155 50  0000 L CNN
+F 2 "Print:d2" H 2300 7350 50  0001 C CNN
+F 3 "" H 2300 7350 50  0001 C CNN
+	1    2450 7200
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

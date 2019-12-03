@@ -1138,4 +1138,19 @@ Text Label 3450 6250 1    50   ~ 0
 TOUCH1
 Text Label 3700 6250 1    50   ~ 0
 TOUCH2
+Text Label 3450 6700 0    50   ~ 0
+T1
+Text Label 3700 6700 0    50   ~ 0
+T2
+$Comp
+L Custom:Graphic G1
+U 1 1 5DEC1C54
+P 1700 4600
+F 0 "G1" H 1778 4646 50  0000 L CNN
+F 1 "Graphic" H 1778 4555 50  0000 L CNN
+F 2 "Print:d1" H 1550 4750 50  0001 C CNN
+F 3 "" H 1550 4750 50  0001 C CNN
+	1    1700 4600
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

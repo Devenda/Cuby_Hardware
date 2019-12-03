@@ -948,4 +948,15 @@ Text Label 5550 5950 1    50   ~ 0
 T1
 Text Label 5950 5950 1    50   ~ 0
 T2
+$Comp
+L Custom:Graphic G1
+U 1 1 5DED0901
+P 1700 7400
+F 0 "G1" H 1778 7446 50  0000 L CNN
+F 1 "Graphic" H 1778 7355 50  0000 L CNN
+F 2 "Print:d3" H 1550 7550 50  0001 C CNN
+F 3 "" H 1550 7550 50  0001 C CNN
+	1    1700 7400
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
