@@ -82,15 +82,7 @@ Wire Wire Line
 Wire Wire Line
 	10050 2850 9850 2850
 Wire Wire Line
-	10050 1650 9850 1650
-Wire Wire Line
-	10050 2150 9850 2150
-Wire Wire Line
-	10050 2350 9850 2350
-Wire Wire Line
 	9850 2750 10050 2750
-Wire Wire Line
-	9850 2650 10050 2650
 Wire Wire Line
 	9850 3050 10050 3050
 $Comp
@@ -327,25 +319,17 @@ Text Label 10050 3250 0    50   ~ 0
 LED2
 Text Label 10050 3150 0    50   ~ 0
 LED1
-Text Label 10050 1950 0    50   ~ 0
+Text Label 10050 2550 0    50   ~ 0
 OD_SCL
-Text Label 10050 2650 0    50   ~ 0
+Text Label 10050 1950 0    50   ~ 0
 OD_SDA
 Text Label 10050 3750 0    50   ~ 0
 OD_INTERRUPT
 Text Label 10050 2750 0    50   ~ 0
 OD_SHUT
-Text Label 10050 1650 0    50   ~ 0
-M2_AOUT2
-Text Label 10050 1850 0    50   ~ 0
-M2_BOUT1
-Text Label 10050 2250 0    50   ~ 0
-M1_BOUT1
-Text Label 10050 3350 0    50   ~ 0
-M1_AOUT2
-Text Label 10050 2350 0    50   ~ 0
-M2_AOUT1
 Text Label 10050 2150 0    50   ~ 0
+M1_AOUT2
+Text Label 10050 2250 0    50   ~ 0
 M1_AOUT1
 Text Label 8450 1750 2    50   ~ 0
 ED_IN2
@@ -355,11 +339,9 @@ Text Label 10050 2850 0    50   ~ 0
 OLED_~RES
 Text Label 10050 2950 0    50   ~ 0
 OLED_SCL
-Text Label 10050 2450 0    50   ~ 0
+Text Label 10050 1650 0    50   ~ 0
 M2_BOUT2
-Text Label 10050 2050 0    50   ~ 0
-M1_BOUT2
-Text Label 10050 2550 0    50   ~ 0
+Text Label 10050 2350 0    50   ~ 0
 M1_M2_~SLEEP
 Wire Wire Line
 	7000 1400 7000 1750
@@ -673,10 +655,6 @@ F 5 "SPX3819M5-L-3-3/TR" H 6300 1850 50  0001 C CNN "Manufacturer Nbr"
 	1    6300 1850
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	9850 3350 10050 3350
-Wire Wire Line
-	9850 2450 10050 2450
 $Comp
 L RF_Module:ESP32-WROOM-32 U10
 U 1 1 5D72A796
@@ -692,8 +670,6 @@ Wire Wire Line
 	8200 1450 8650 1450
 Wire Wire Line
 	9850 1950 10050 1950
-Wire Wire Line
-	10050 2550 9850 2550
 Wire Wire Line
 	9850 3750 10050 3750
 Wire Wire Line
@@ -714,10 +690,6 @@ Wire Wire Line
 	8450 1650 8650 1650
 Text Label 10050 3050 0    50   ~ 0
 OLED_SDA
-Wire Wire Line
-	9850 2050 10050 2050
-Wire Wire Line
-	10050 2250 9850 2250
 Wire Wire Line
 	10050 1850 9850 1850
 Wire Wire Line
@@ -788,28 +760,6 @@ OD_INTERRUPT
 Text Label 8650 5700 3    50   ~ 0
 OD_SHUT
 $Comp
-L Front-rescue:MountingPad-Custom H3
-U 1 1 5D86E4E3
-P 1300 6100
-F 0 "H3" H 1500 6050 50  0000 R CNN
-F 1 "M1B2" H 1400 6250 50  0000 R CNN
-F 2 "Custom:Mounting_Pad_Signal" H 1300 6250 50  0001 C CNN
-F 3 "" H 1300 6250 50  0001 C CNN
-	1    1300 6100
-	-1   0    0    1   
-$EndComp
-$Comp
-L Front-rescue:MountingPad-Custom H4
-U 1 1 5D86F28C
-P 1550 6100
-F 0 "H4" H 1750 6050 50  0000 R CNN
-F 1 "M1B1" H 1650 6250 50  0000 R CNN
-F 2 "Custom:Mounting_Pad_Signal" H 1550 6250 50  0001 C CNN
-F 3 "" H 1550 6250 50  0001 C CNN
-	1    1550 6100
-	-1   0    0    1   
-$EndComp
-$Comp
 L Front-rescue:MountingPad-Custom H5
 U 1 1 5D86F5DD
 P 1800 6100
@@ -829,28 +779,6 @@ F 1 "M1A1" H 2150 6250 50  0000 R CNN
 F 2 "Custom:Mounting_Pad_Signal" H 2050 6250 50  0001 C CNN
 F 3 "" H 2050 6250 50  0001 C CNN
 	1    2050 6100
-	-1   0    0    1   
-$EndComp
-$Comp
-L Front-rescue:MountingPad-Custom H7
-U 1 1 5D86FB12
-P 2300 6100
-F 0 "H7" H 2500 6050 50  0000 R CNN
-F 1 "M2A1" H 2400 6250 50  0000 R CNN
-F 2 "Custom:Mounting_Pad_Signal" H 2300 6250 50  0001 C CNN
-F 3 "" H 2300 6250 50  0001 C CNN
-	1    2300 6100
-	-1   0    0    1   
-$EndComp
-$Comp
-L Front-rescue:MountingPad-Custom H8
-U 1 1 5D86FE2A
-P 2550 6100
-F 0 "H8" H 2750 6050 50  0000 R CNN
-F 1 "M2A2" H 2650 6250 50  0000 R CNN
-F 2 "Custom:Mounting_Pad_Signal" H 2550 6250 50  0001 C CNN
-F 3 "" H 2550 6250 50  0001 C CNN
-	1    2550 6100
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -875,34 +803,18 @@ F 3 "" H 3050 6250 50  0001 C CNN
 	1    3050 6100
 	-1   0    0    1   
 $EndComp
-Text Label 1300 5700 1    50   ~ 0
-M1_BOUT2
-Text Label 1550 5700 1    50   ~ 0
-M1_BOUT1
 Text Label 1800 5700 1    50   ~ 0
 M1_AOUT2
 Text Label 2050 5700 1    50   ~ 0
 M1_AOUT1
-Text Label 2300 5700 1    50   ~ 0
-M2_AOUT1
-Text Label 2550 5700 1    50   ~ 0
-M2_AOUT2
 Text Label 2800 5700 1    50   ~ 0
 M2_BOUT1
 Text Label 3050 5700 1    50   ~ 0
 M2_BOUT2
 Wire Wire Line
-	1300 5700 1300 5800
-Wire Wire Line
-	1550 5700 1550 5800
-Wire Wire Line
 	1800 5700 1800 5800
 Wire Wire Line
 	2050 5700 2050 5800
-Wire Wire Line
-	2300 5700 2300 5800
-Wire Wire Line
-	2550 5700 2550 5800
 Wire Wire Line
 	2800 5700 2800 5800
 Wire Wire Line
@@ -1153,4 +1065,20 @@ F 3 "" H 1550 4750 50  0001 C CNN
 	1    1700 4600
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	9850 2250 10050 2250
+Wire Wire Line
+	10050 2150 9850 2150
+Text Label 10050 1850 0    50   ~ 0
+M2_BOUT1
+Wire Wire Line
+	10050 2350 9850 2350
+Wire Wire Line
+	9850 1650 10050 1650
+NoConn ~ 9850 3350
+NoConn ~ 9850 2450
+NoConn ~ 9850 2050
+Wire Wire Line
+	10050 2550 9850 2550
+NoConn ~ 9850 2650
 $EndSCHEMATC
